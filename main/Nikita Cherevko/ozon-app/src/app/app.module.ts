@@ -4,17 +4,15 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { UserCardComponent } from './header/user-card/user-card.component';
-import { ItemComponent } from './item/item.component';
-import { ColoryDirective } from './colory.directive';
+import { MainPageComponent } from './main-page/main-page.component';
+import { ProductListComponent } from './main-page/product-list/product-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    UserCardComponent,
-    ItemComponent,
-    ColoryDirective
+    MainPageComponent,
+    ProductListComponent,
   ],
   imports: [
     BrowserModule,
