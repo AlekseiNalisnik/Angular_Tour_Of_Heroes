@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ozon-app": {
+    "ng-auth": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,16 +13,15 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ozon-app",
+            "outputPath": "dist/ng-auth",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": true,
+            "aot": false,
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              "src/app/pics"
+              "src/assets"
             ],
             "styles": [
               "src/styles.css"
@@ -42,6 +41,7 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
+              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -50,11 +50,6 @@
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
                 }
               ]
             }
@@ -63,18 +58,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ozon-app:build"
+            "browserTarget": "ng-auth:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ozon-app:build:production"
+              "browserTarget": "ng-auth:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ozon-app:build"
+            "browserTarget": "ng-auth:build"
           }
         },
         "test": {
@@ -111,19 +106,19 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "ozon-app:serve"
+            "devServerTarget": "ng-auth:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ozon-app:serve:production"
+              "devServerTarget": "ng-auth:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "ozon-app",
+  "defaultProject": "ng-auth",
   "cli": {
-    "analytics": "752044c6-b35e-44f0-a7c3-6764a4dad90b"
+    "analytics": "11e36c6d-665f-43f1-bdf3-5f1ad8db3f41"
   }
 }

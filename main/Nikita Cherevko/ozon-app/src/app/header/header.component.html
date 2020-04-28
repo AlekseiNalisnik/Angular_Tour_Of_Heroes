@@ -1,14 +1,25 @@
-<div class="header-search">
-    <div>
-        <button>OZON</button>
+<div class="header">
+    <div class="header__main-picture">
+        <a routerLink="../product-list"><img src="../../assets/ozonPicture.png" class="ozonPicture"></a> 
     </div>
-    <div>
-        <input type="text">
+    <div class="header__search">
+        <input
+            class="header__search__line" 
+            type="text" 
+            placeholder="Искать на Ozon" />
+        <a class="header__search__button" href="#">
+            <img src="../../assets//Search.png" class="search-img">
+        </a>
     </div>
-    <div>
-        <button>PROFILE</button>
-    </div>
-    <div>
-        <button>CART</button>
+    <div class="header__links">
+        <div class="header__links__user">
+            <a routerLink="../profile"><img src="../../assets/Face.png" class="header__links__user__img"></a>
+            <div class="header__links__user__name">Андрей</div>
+        </div>
+        <div class="header__links__basket">
+            <a routerLink="../cart"><img src="../../assets/Cart.png" class="header__links__basket__img"></a>
+            <div class="header__links__counter">4</div>
+            <div class="header__links__basket__title">Корзина</div>
+        </div>
     </div>
 </div>
