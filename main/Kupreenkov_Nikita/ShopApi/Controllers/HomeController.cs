@@ -1,6 +1,6 @@
 using System;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ShopApi.Controllers
 {
@@ -8,10 +8,9 @@ namespace ShopApi.Controllers
     [ApiController]
     public class HomeController : ControllerBase
     {
-        [Authorize]
+        [Route("Index")]
         public IActionResult Index()
         {
-            Console.WriteLine("Login");
             return Content(User.Identity.Name);
         }
     }

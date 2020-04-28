@@ -1,12 +1,13 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 using ShopApi.Data;
 using ShopApi.Models.User;
 
@@ -27,14 +28,18 @@ namespace ShopApi
                 opt.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             
             services.AddIdentity<User, IdentityRole<long>>()
-                .AddEntityFrameworkStores<ShopDbContext>()
-                .AddDefaultTokenProviders();
-            
+                    .AddRoles<IdentityRole<long>>()
+                    .AddEntityFrameworkStores<ShopDbContext>()
+                    .AddDefaultTokenProviders();
+           
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options => //CookieAuthenticationOptions
-                {
-                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/api/Account/Login");
-                }); 
+                    .AddCookie(options =>
+                    {
+                        options.Cookie.Name = "UserLoginCookie";
+                        options.Cookie.Path = "/api";
+                        options.LoginPath = new PathString("/api/Account/Login");
+                        options.LogoutPath = new PathString("/api/Account/Logout");
+                    }); 
             
             services.AddControllers();
         }

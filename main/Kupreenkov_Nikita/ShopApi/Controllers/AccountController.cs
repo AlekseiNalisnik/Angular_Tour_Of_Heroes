@@ -1,11 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Collections.Generic;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 using ShopApi.Data;
 using ShopApi.Models.User;
 
@@ -22,7 +24,7 @@ namespace ShopApi.Controllers
             _context = context;
         }
         
-        [HttpGet]
+        [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> Login([FromForm]Login model)
         {
@@ -32,10 +34,7 @@ namespace ShopApi.Controllers
                 if (user != null)
                 {
                     await Authenticate(model.Email);
- 
-                    return Redirect(
-                        Url.Link("api", new {  Url = nameof(HomeController), controller = "Home", action = "Index" })
-                    );
+                    return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("", "Incorrect login or password.");
             }
@@ -56,14 +55,9 @@ namespace ShopApi.Controllers
                     await new UsersController(_context).PostUser(user);
                     await Authenticate(model.Email);
  
-                    
-                    return Redirect(
-                        Url.Link("api", new {  Url = nameof(HomeController), controller = "Home", action = "Index" })
-                    );
-
+                    return RedirectToAction("Index", "Home");
                 }
-                else
-                    ModelState.AddModelError("", "User already exists.");
+                ModelState.AddModelError("", "User already exists.");
             }
             return CreatedAtAction("Register", model);
         }
@@ -72,26 +66,28 @@ namespace ShopApi.Controllers
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
+                new Claim(ClaimTypes.Name, userName),
                 new Claim(ClaimTypes.Role, "Admin")
             };
             
             ClaimsIdentity id = new ClaimsIdentity(claims, 
-                "ApplicationCookie",
+                CookieAuthenticationDefaults.AuthenticationScheme,
                 ClaimsIdentity.DefaultNameClaimType, 
                 ClaimsIdentity.DefaultRoleClaimType);
             
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+            var authProperties = new AuthenticationProperties();
+            
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(id), 
+                authProperties);
         }
  
-        [HttpGet]
+        [HttpPost]
         [Route("Logout")]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Redirect(
-                Url.Link("DefaultApi", new { Url = nameof(HomeController), controller = "Home", action = "Index" })
-            );
+            return RedirectToAction("Login", "Account");
         }
     }
 }
