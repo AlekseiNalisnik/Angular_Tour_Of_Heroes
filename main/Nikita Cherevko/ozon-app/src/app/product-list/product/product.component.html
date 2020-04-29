@@ -1,0 +1,12 @@
+<div class="product-block" *ngFor = "let product of products">
+    <div class="product-block-img">
+        <img src="../../assets/duck.jpg" alt="ducko" routerLink = "../product-page">
+    </div>
+        <div class="product-value"> 
+            {{product.value}}
+        </div>
+        <div class="product-description">
+            {{product.description}}
+        </div>
+        <a class="go-cart-btn" routerLink = "../cart"> В корзину</a>
+</div>
