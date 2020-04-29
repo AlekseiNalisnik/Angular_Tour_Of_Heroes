@@ -1,0 +1,126 @@
+.auth {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+    width: 393px;
+    height: 440px;
+    background: #FFFFFF;
+    border: 1px solid #e6e6e6;
+}
+
+.reg {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+    width: 393px;
+    height: 540px;
+    background: #FFFFFF;
+    border: 1px solid #e6e6e6;
+}
+
+.auth h3 {
+    margin: 10% 15%;
+    margin-top: 20%;
+    padding: 0;
+    color: #000;
+    font-size: 25px;
+}
+
+.reg h3 {
+    margin: 10% 15%;
+    margin-top: 15%;
+    padding: 0;
+    color: #000;
+    font-size: 25px;    
+}
+
+.auth p, .reg p {
+    margin-top: 15px;
+    display: inline-block;
+    margin-left: 30%;  
+}
+
+.auth__toReg, .reg__toAuth {
+    margin-top: 15px;
+    margin-left: 2%; 
+    color: #07319D;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.auth__toReg:hover, .reg__toAuth:hover {
+    color: #0fc3f5;
+}
+
+.main_form {
+    text-align: center;
+}
+
+.main_form input, .main_form button {
+    padding: 10px;
+    width: 100%;
+    color: #fff;
+    font-size: 15px;
+    background: none;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #DDE2E8;
+    box-sizing: border-box;
+}
+
+.main_form input {
+    color: #000;
+}
+
+.auth__button, .reg__button {
+    margin-top: 20px;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    background: rgba(56,151,240,1);
+    transition: .3s;
+    width: 70%; 
+    margin: auto;
+}
+
+.auth__button:hover, .reg__button:hover {
+    background: #00329e;
+}
+
+.auth__email, .auth__password  {
+    width: 70%;
+    margin: 10% 15%;
+    height: 10%;
+}
+
+.reg__password, .reg__name, .reg__fullName, .reg__email {
+    width: 70%;
+    margin: 10% 15%;
+    height: 10%;
+}
+
+.auth__password input:focus, .auth__email input:focus, 
+.reg__password input:focus, .reg__name input:focus, 
+.reg__fullName input:focus, .reg__email input:focus {
+    border-bottom: 1px solid #0fc3f5;
+}
+
+
+
+
+
+
+
+
+.header__auth-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    background-color: rgba(0,0,0,0.5);
+}

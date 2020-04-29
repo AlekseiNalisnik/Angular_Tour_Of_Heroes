@@ -9,7 +9,7 @@
 
 .content-block {
     position: relative;
-    width: 1400px;
+    width: 80%;
     margin: 0 auto;
 }
 .product-block-wrapper {
@@ -485,4 +485,131 @@
 .cost {
     font-weight: bold;
     color: black;
+}
+
+
+
+
+
+
+
+
+
+
+/* Registration form */
+.auth { 
+    display: inline-block;
+    margin: 20% 0% 0 50%;
+    transform: translate(-50%, -40%);
+    width: 300px;
+    height: 300px;
+    background: #FFFFFF;
+    border: 1px solid #e6e6e6;
+}
+.auth__outer_block {
+    background-color: #D3D3D3;
+    height: 13302;
+}
+
+.reg {
+    display: inline-block;
+    margin-top: 20%;
+    margin-left: 50%;
+    transform: translate(-50%, -40%);
+    width: 600px;
+    height: 650px;
+    background: #FFFFFF;
+    border: 1px solid #e6e6e6;
+}
+
+.auth h3 {
+    margin: 10% 15%;
+    margin-top: 20%;
+    padding: 0;
+    color: #2F4F4F;
+    font-size: 25px;
+}
+
+.reg h3 {
+    margin-top: 40px;
+    margin-left: 90px;
+    padding: 0;
+    color: #2F4F4F;
+    font-size: 25px;    
+}
+
+.auth   p, .reg p {
+    margin-top: 15px;
+    display: inline-block;
+    margin-left: 220px;  
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+.auth__toReg, .reg__toAuth {
+    margin-top: 15px;
+    margin-left: 2%; 
+    color: #2F4F4F;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.auth__toReg:hover, .reg__toAuth:hover {
+    color: rgb(110, 204, 204);
+}
+.main_form {
+    text-align: center;
+}
+
+.main_form input, .main_form button {
+    padding: 10px;
+    width: 100%;
+    color: #fff;
+    font-size: 15px;
+    background: none;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #DDE2E8;
+    box-sizing: border-box;
+}
+
+.main_form input {
+    color: #000;
+}
+
+.auth__button, .reg__button {
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    background: #2F4F4F;
+    transition: .3s;
+    width: 70%; 
+    margin: auto;
+}
+.auth__button:hover, .reg__button:hover {
+    background: rgb(110, 204, 204);
+}
+
+.auth__email, .auth__password  {
+    width: 70%;
+    margin: 10% 15%;
+    height: 10%;
+    font-size: 20px;
+}
+
+.reg__password, .reg__name, .reg__fullName, .reg__email {
+    width: 70%;
+    margin: 10% 15%;
+    height: 10%;
+    font-size: 20px;
+}
+
+.auth__password input:focus, .auth__email input:focus, 
+.reg__password input:focus, .reg__name input:focus, 
+.reg__fullName input:focus, .reg__email input:focus {
+    border-bottom: 1px solid #0fc3f5;
+    font-size: 20px;
 }

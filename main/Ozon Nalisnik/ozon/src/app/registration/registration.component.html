@@ -1,0 +1,56 @@
+<div>
+    <div class="reg">
+        <p>Уже зарегистрированы?</p>
+        <a class="reg__toAuth" (click)="openAuth()">
+            Войдите
+        </a>
+        <h3>Регистрация</h3>
+        <form class="main_form" [formGroup]="registrationForm" (ngSubmit)="registrationSubmit()">
+            <div class="reg__fullName">
+                <input 
+                    class="clear_input"
+                    type="text" 
+                    name="fullName" 
+                    placeholder="Полное имя" 
+                    formControlName="name"
+                />
+            </div>
+            <div class="reg__name">
+                <input 
+                    class="clear_input"
+                    type="text" 
+                    name="name" 
+                    placeholder="Телефон"
+                    formControlName="phone"
+                />
+            </div>
+            <div class="reg__email">
+                <input 
+                    class="clear_input"
+                    type="email" 
+                    name="email" 
+                    placeholder="Email" 
+                    formControlName="email"
+                />
+            </div>
+            <div class="reg__password">
+                <input 
+                    class="clear_input"
+                    type="password" 
+                    name="password" 
+                    placeholder="Пароль"
+                    formControlName="password"
+                />
+            </div>
+            <div class="reg__button">
+            <button 
+                class="reg__button" 
+                type="submit" 
+                [disabled]="registrationForm.invalid"
+            >
+                Зарегистрироваться
+            </button>
+            </div>
+        </form>
+    </div> 
+</div>

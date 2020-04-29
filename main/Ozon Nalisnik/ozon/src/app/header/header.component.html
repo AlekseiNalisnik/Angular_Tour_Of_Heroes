@@ -1,0 +1,43 @@
+<div class="header">
+    <div class="header__main-picture" routerLink="/products">
+        <img src="../../assets/ozonPicture.png" class="ozonPicture"> 
+    </div>
+    <div class="header__search">
+        <input
+            class="header__search__line" 
+            type="text" 
+            placeholder="Искать на Ozon" />
+        <a class="header__search__button" href="#">
+            <img src="../../assets/Search.png" class="search-img">
+        </a>
+    </div>
+    <div class="header__links">
+        <!-- <a class="header__links__user" routerLink="/users"> -->
+        <a class="header__links__user" (click)="toggleToReg()">
+            <img src="../../assets/Face.png" class="header__links__user__img">
+            <div class="header__links__user__name">Андрей</div>
+        </a>
+        <a class="header__links__basket" routerLink="/basket">
+            <img src="../../assets/Cart.png" class="header__links__basket__img">
+            <div class="header__links__counter">4</div>
+            <div class="header__links__basket__title">Корзина</div>
+        </a>
+    </div>
+</div>
+
+<div *ngIf="toggleFlag" class="header__reg-wrapper" (click)="toggleToReg()">
+    <app-registration 
+        (click)="stayOnReg($event)" 
+        class="header__reg-main"
+        (toggleHeaderFlag)="toggleAuthFlag($event)"> 
+    </app-registration>
+</div>
+
+
+<div *ngIf="authFlag" class="header__reg-wrapper" (click)="toggleAuthFlag()">
+    <app-authorization 
+        class="header__reg-main"
+        (click)="stayOnReg($event)"
+        (toggleHeaderFlagFromAuthToReg)="toggleAuthFlag($event)"> 
+    </app-authorization>
+</div>
