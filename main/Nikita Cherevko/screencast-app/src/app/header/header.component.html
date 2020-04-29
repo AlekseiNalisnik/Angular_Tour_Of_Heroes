@@ -1,0 +1,7 @@
+<ul>
+    <li *ngFor="let user of users">
+        <app-user-card [user] = "user" (userSelected) = "selectedUser = user"></app-user-card>
+    </li>
+</ul>
+
+<h1>{{selectedUser?.name}}</h1>

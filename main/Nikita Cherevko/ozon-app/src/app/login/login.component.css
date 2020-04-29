@@ -1,0 +1,34 @@
+.registration__form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+.form__wrapper {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    padding: 40px;
+}
+.form__name {
+    color: #000;
+    font-size: 25px;
+    font-weight: bolder;
+    margin-bottom: 25px;
+}
+input {
+    height: 40px;
+    width: 250px;
+    margin-bottom: 20px;
+}
+input[type = submit] {
+    height: 50px;
+    width: 260px;
+    margin-bottom:0;
+}
+.submit__button {
+    background-color: #000ff0;
+    font-size: 18px;
+    font-weight: bolder;
+    color: #fff;
+}

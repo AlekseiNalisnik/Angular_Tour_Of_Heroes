@@ -113,7 +113,6 @@
     margin-right: 100px;
     width: 300px;
     margin-bottom: 30px;
-    
 }
 .profile-data-block {
     border-bottom: solid #caccc8 1px;
@@ -125,6 +124,20 @@
 .profile-data-block:last-child .links {
     color: red;
 }
+.profile-information-caption {
+    font-size: 11px;
+    line-height: 0.8;
+    font-weight: 100;
+    color: gray;
+}
+
+
+
+
+
+
+
+
 
 .header__search {
     width: 300px;
