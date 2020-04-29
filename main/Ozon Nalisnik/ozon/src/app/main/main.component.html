@@ -1,0 +1,14 @@
+<div class="content-block">
+    <div class="product-block-wrapper">
+        <div class="product-block" *ngFor="let product of products">
+            <a class="product-block-img" routerLink="/products/{{product.id}}">
+                <img src={{product.path}} alt={{product.alt}}>
+            </a>
+                <div class="product-cost">{{product.cost}} Р</div>
+                <div class="product-description">
+                    {{product.description}}
+                </div>
+                <a href="#" class="go-cart-btn">В корзину</a>
+        </div>
+    </div>
+</div>
