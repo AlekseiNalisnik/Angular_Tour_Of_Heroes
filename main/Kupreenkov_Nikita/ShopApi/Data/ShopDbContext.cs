@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ShopApi.Data.Config;
@@ -8,7 +7,7 @@ using ShopApi.Models.User;
 
 namespace ShopApi.Data
 {
-    public class ShopDbContext : IdentityDbContext<User, IdentityRole<long>, long>
+    public class ShopDbContext : IdentityDbContext<User, UserRole, long>
     {
         public ShopDbContext(DbContextOptions<ShopDbContext> options)
             : base(options)

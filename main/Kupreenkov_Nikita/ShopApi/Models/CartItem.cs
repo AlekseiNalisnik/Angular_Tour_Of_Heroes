@@ -12,11 +12,11 @@ namespace ShopApi.Models
         public long UserCartId { get; set; }
         
         [Required]
-        [ForeignKey("ShopItem")]
-        public long ShopItemId { get; set; }
+        [ForeignKey("Products")]
+        public long ProductId { get; set; }
         
         [System.ComponentModel.DefaultValue(1)] 
-        public long ShopItemCount { get; set; }
+        public long ProductCount { get; set; }
         
         public virtual User.User User { get; set; }
         public virtual Product.Product Product { get; set; }

@@ -26,40 +26,48 @@ namespace ShopApi.Controllers
         
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login([FromForm]Login model)
+        public async Task<IActionResult> Login([FromForm]Login login)
         {
             if (ModelState.IsValid)
             {
-                User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email && u.PasswordHash == model.Password);
+                User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == login.Email);
                 if (user != null)
                 {
-                    await Authenticate(model.Email);
+                    await Authenticate(login.Email);
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("", "Incorrect login or password.");
             }
-            return CreatedAtAction("Login", model);
+            return CreatedAtAction("Login", login);
         }
  
         [HttpPost]
         [Route("Register")]
-        public async Task<IActionResult> Register([FromForm]Register model)
+        public async Task<IActionResult> Register([FromForm]Register register)
         {
             if (ModelState.IsValid)
             {
-                User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+                User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == register.Email);
                 if (user == null)
                 {
-                    user = new User { Email = model.Email, PasswordHash = model.Password };
+                    user = new User { Email = register.Email, PasswordHash = register.Password };
                     
                     await new UsersController(_context).PostUser(user);
-                    await Authenticate(model.Email);
+                    await Authenticate(register.Email);
  
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("", "User already exists.");
             }
-            return CreatedAtAction("Register", model);
+            return CreatedAtAction("Register", register);
+        }
+ 
+        [HttpPost]
+        [Route("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Account");
         }
  
         private async Task Authenticate(string userName)
@@ -75,19 +83,10 @@ namespace ShopApi.Controllers
                 ClaimsIdentity.DefaultNameClaimType, 
                 ClaimsIdentity.DefaultRoleClaimType);
             
-            var authProperties = new AuthenticationProperties();
-            
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(id), 
-                authProperties);
+                new AuthenticationProperties());
         }
- 
-        [HttpPost]
-        [Route("Logout")]
-        public async Task<IActionResult> Logout()
-        {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Account");
-        }
+
     }
 }

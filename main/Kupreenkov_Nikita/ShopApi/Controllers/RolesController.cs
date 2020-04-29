@@ -1,9 +1,11 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
+
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
 using ShopApi.Models.User;
 
 namespace ShopApi.Controllers
@@ -12,18 +14,18 @@ namespace ShopApi.Controllers
     [ApiController]
     public class RolesController : ControllerBase
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<UserRole> _roleManager;
         private readonly UserManager<User> _userManager;
         
-        public RolesController(RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
+        public RolesController(RoleManager<UserRole> roleManager, UserManager<User> userManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
         }
         
         [HttpGet]
-        [Route("Index")]
-        public async Task<List<IdentityRole>> Index() => await _roleManager.Roles.ToListAsync();
+        [Route("Roles")]
+        public async Task<List<UserRole>> RoleList() => await _roleManager.Roles.ToListAsync();
         
         [HttpGet]
         [Route("Users")]
@@ -35,35 +37,33 @@ namespace ShopApi.Controllers
         {
             if (!string.IsNullOrEmpty(name))
             {
-                IdentityResult result = await _roleManager.CreateAsync(new IdentityRole(name));
+                IdentityResult result = await _roleManager.CreateAsync(new UserRole(name));
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("RoleList");
                 }
-                else
+                foreach (var error in result.Errors)
                 {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
+                    ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
             return Ok(name);
         }
          
-        [HttpPost]
-        [Route("Delete")]
+        [HttpDelete]
+        [Route("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            IdentityRole role = await _roleManager.FindByIdAsync(id);
+            UserRole role = await _roleManager.FindByIdAsync(id);
             if (role != null)
             {
                 IdentityResult result = await _roleManager.DeleteAsync(role);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("RoleList");
         }
  
  
+        [Route("{userId}")]
         public async Task<IActionResult> Edit(string userId)
         {
             User user = await _userManager.FindByIdAsync(userId);
@@ -85,6 +85,7 @@ namespace ShopApi.Controllers
         }
         
         [HttpPost]
+        [Route("{userId}")]
         public async Task<IActionResult> Edit(string userId, List<string> roles)
         {
             User user = await _userManager.FindByIdAsync(userId);
