@@ -14,6 +14,15 @@
                     placeholder="Полное имя" 
                     formControlName="name"
                 />
+                <div 
+                    class="registration-validation"
+                    *ngIf="registrationForm.get('name').invalid && 
+                           registrationForm.get('name').touched"
+                >
+                    <small *ngIf="registrationForm.get('name').errors.required">
+                        Поле Полное имя не может быть пустым
+                    </small>
+                </div>
             </div>
             <div class="reg__name">
                 <input 
@@ -23,6 +32,20 @@
                     placeholder="Телефон"
                     formControlName="phone"
                 />
+                <div 
+                    class="registration-validation"
+                    *ngIf="registrationForm.get('phone').invalid && 
+                        registrationForm.get('phone').touched"
+                >
+                    <small *ngIf="registrationForm.get('phone').errors?.pattern">
+                        Введите корректный номер телефона
+                    </small>
+
+                    <small *ngIf="registrationForm.get('phone').errors.required">
+                        <!-- {{registrationForm.get('phone').errors | json}} -->
+                        Поле Телефон не может быть пустым
+                    </small>
+                </div>
             </div>
             <div class="reg__email">
                 <input 
@@ -32,6 +55,19 @@
                     placeholder="Email" 
                     formControlName="email"
                 />
+                <div 
+                    class="registration-validation"
+                    *ngIf="registrationForm.get('email').invalid && 
+                        registrationForm.get('email').touched"
+                >
+                    <small *ngIf="registrationForm.get('email').errors.email">
+                        Введите корректный Email
+                    </small>
+
+                    <small *ngIf="registrationForm.get('email').errors.required">
+                        Поле Email не может быть пустым
+                    </small>
+                </div>
             </div>
             <div class="reg__password">
                 <input 
@@ -41,6 +77,21 @@
                     placeholder="Пароль"
                     formControlName="password"
                 />
+                <div 
+                    class="registration-validation"
+                    *ngIf="registrationForm.get('password').invalid && 
+                        registrationForm.get('password').touched"
+                >
+                    <small *ngIf="registrationForm.get('password').errors.required">
+                        Поле Пароль не может быть пустым
+                    </small>
+
+                    <small *ngIf="registrationForm.get('password').errors.minlength">
+                        Длина должна быть не менее 
+                        {{registrationForm.get('password').errors.minlength.requiredLength}} 
+                        символов
+                    </small>
+                </div>
             </div>
             <div class="reg__button">
             <button 
