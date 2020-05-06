@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
+import { UserService } from '../services/user.service';
+import { User } from '../interfaces/User';
+
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -13,7 +16,7 @@ export class RegistrationComponent implements OnInit {
   registrationForm: FormGroup;
   formData: Object;
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
     this.registrationForm = new FormGroup({
@@ -46,13 +49,22 @@ export class RegistrationComponent implements OnInit {
     event.stopPropagation();
   }
 
+  /* Добавление пользователя в БД */
+  addUser(userData: Object): void {
+    if(Object.keys(userData).length === 0) return;  // Проверка на пустоту объекта
+    
+    this.userService.addUser(userData as User)
+      .subscribe(userData => console.log('User - ', userData))
+  }
+
   /* При клике на регистрационную форму отправки данных выполняем: */
   registrationSubmit() {
     if(this.registrationForm.valid) {
       this.formData = { ...this.registrationForm.value };
 
-      console.log('Form Data: ', this.formData);
       this.openAuth();      // Сразу после отправки на форму, переходим к открытию авторизации
+
+      this.addUser(this.formData);
     }
   }
 }

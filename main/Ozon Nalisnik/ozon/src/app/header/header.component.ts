@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { RegistrationComponent } from '../registration/registration.component';
-import { Router } from '@angular/router';
+// import { RegistrationComponent } from '../registration/registration.component';
+// import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -20,8 +20,6 @@ export class HeaderComponent implements OnInit {
 
   toggleToReg() {
     this.toggleFlag = !this.toggleFlag;
-    console.log('this.authFlag - ', this.authFlag);
-    // this.authFlag = flagAuthFromReg;
   }
 
   stayOnReg(e) {
@@ -31,7 +29,5 @@ export class HeaderComponent implements OnInit {
   toggleAuthFlag(flagAuthFromReg?) {
     if(flagAuthFromReg) this.toggleToReg();
     this.authFlag = !this.authFlag;
-    console.log('this.authFlag 2 - ', this.authFlag);
-    console.log('flagAuthFromReg', flagAuthFromReg);
   }
 }
