@@ -14,6 +14,9 @@ import { ProfileComponent } from './profile/profile.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ProductComponent } from './product/product.component';
 import { AuthorizationComponent } from './authorization/authorization.component';
+import { MainProductComponent } from './main/main-product/main-product.component';
+import { BasketProductComponent } from './basket/basket-product/basket-product.component';
+import { BasketOrderPanelComponent } from './basket/basket-order-panel/basket-order-panel.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,10 @@ import { AuthorizationComponent } from './authorization/authorization.component'
     ProfileComponent,
     RegistrationComponent,
     ProductComponent,
-    AuthorizationComponent
+    AuthorizationComponent,
+    MainProductComponent,
+    BasketProductComponent,
+    BasketOrderPanelComponent
   ],
   imports: [
     BrowserModule,

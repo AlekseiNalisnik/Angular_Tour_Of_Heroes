@@ -1,0 +1,56 @@
+<div class="basket__list-item">
+    <div class="basket__button-line"  *ngIf="basketProducts.length">
+        <input 
+            type="checkbox" 
+            value="0" 
+            class="basket__button-line__checkbox"
+            (click)="checkAllProductsInBasket()"
+        > Выбрать всё
+        <button 
+            class="basket__button-line__delete-checked"
+            (click)="deleteCheckedProductsFromBasket()"
+        >
+            Удалить выбранные
+        </button>
+    </div>
+
+    <div class="basket__list-item__item" *ngFor="let product of basketProducts">
+        <div class="basket__list-item__item__picture">
+            <input type="checkbox" class="basket__list-item__item__checkbox">
+            <img src={{product.path}} class="picture" alt={{product.alt}}>
+
+            <div class="basket__list-item__item__info">
+                <div class="basket__list-item__item__description">
+                    {{product.description}}
+                </div>
+                <div class="basket__list-item__item__weight custom-pipe__gr">
+                    {{product.weight}}
+                </div>
+                <button 
+                    class="basket__list-item__item__button"
+                    (click)="deleteProductFromBasket(product)"
+                >
+                    Удалить
+                </button>
+            </div>
+        </div>
+
+        <div class="basket__list-item__item__cost">
+            {{product.cost}}
+        </div>
+        <div class="basket__list-item__item__quantity">
+            <select size="1" class="count-selector">
+                <option class="count-selector__option" disabled>Количество</option>
+                <option class="count-selector__option" selected value="1">1</option>
+                <option class="count-selector__option" value="2">2</option>
+                <option class="count-selector__option" value="3">3</option>
+                <option class="count-selector__option" value="4">4</option>
+                <option class="count-selector__option" value="5">5</option>
+            </select>
+            <div class="basket__list-item__item__sum-cost custom-pipe__cost">
+                {{product.cost}} P/шт.
+            </div>
+        </div>
+        <div class="horizontal-line"></div>
+    </div>
+</div>

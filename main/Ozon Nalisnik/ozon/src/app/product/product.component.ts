@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { InMemoryDataService } from '../services/in-memory-data.service';
+import { Product } from '../interfaces/product';
 
 @Component({
   selector: 'app-product',
@@ -7,9 +10,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductComponent implements OnInit {
 
-  constructor() { }
+  product: Product;
+
+  constructor(
+    private route: ActivatedRoute,
+    private inMemoryDataService: InMemoryDataService
+  ) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe((params: Params) => {
+      this.product = this.inMemoryDataService.getProductById(+params.id);
+    });
   }
 
 }

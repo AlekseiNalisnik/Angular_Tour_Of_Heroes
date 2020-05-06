@@ -1,1 +1,25 @@
-<p>product works!</p>
+<div class="content-block">
+    <div class="product-page__wrapper">
+        <div class="product__main__img">
+            <img src="../../assets/duck.jpg" alt={{product.alt}}>
+        </div>
+        <div class="product__main__side__wrapper">
+            <div class="product__main__side__name">{{product.description}}</div>
+            <div class="product__main__side__column__wrapper">
+                <div class="product__main__side__column__decription">
+                    <a href="">Перейти к описанию</a>
+                </div>
+                <div class="product__main__side__column__box">
+                    <div class="product__main__side__column__box__value">{{product.cost}}</div>
+                    <button routerLink="/basket">go cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="priduct-page__description__name">
+        Описание
+    </div>
+    <div class="product-page__description">
+        Тут должно быть описание для каждого ID своё, надо добавить!
+    </div>
+</div>

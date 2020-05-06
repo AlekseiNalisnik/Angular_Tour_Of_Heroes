@@ -39,18 +39,26 @@ export class InMemoryDataService implements InMemoryDbService {
         id: 12, 
         path: '../../assets/duck.jpg', 
         alt: 'Duck-pank', 
-        cost: 390, 
+        cost: 310, 
         description: 'Панки. Набор игрушек для ванной. Уточка панк и анархия.' 
       },
       { 
         id: 13, 
         path: '../../assets/duck.jpg', 
         alt: 'Duck-pank', 
-        cost: 390, 
+        cost: 450, 
         description: 'Панки. Набор игрушек для ванной. Уточка панк и анархия.' 
       },
+    ];
+    const basket = [
+
     ]
-    return { users, products };
+    return { users, products, basket };
+  }
+
+  getProductById(id: number) {
+    const dataFromDb = this.createDb();
+    return dataFromDb.products.find(post => post.id === id);
   }
 
   genId(users: User[]): number {
