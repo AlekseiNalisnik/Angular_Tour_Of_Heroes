@@ -10,7 +10,7 @@ using ShopApi.Data;
 namespace ShopApi.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    [Migration("20200426120015_init")]
+    [Migration("20200428104236_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,6 +47,22 @@ namespace ShopApi.Migrations
                         .HasName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            ConcurrencyStamp = "c4cbf3b3-ad9e-4513-adff-9cdf574c4c24",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            ConcurrencyStamp = "b0910122-1863-479d-bcaa-04604aad4417",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
@@ -129,6 +145,13 @@ namespace ShopApi.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1L,
+                            RoleId = 1L
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
@@ -202,6 +225,24 @@ namespace ShopApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Description = "Holy bear",
+                            Name = "Bear",
+                            Price = 0.0,
+                            Weight = 1000.0
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Description = "Tasty and cute sugar boys",
+                            Name = "GammyBear",
+                            Price = 10.5,
+                            Weight = 10.0
+                        });
                 });
 
             modelBuilder.Entity("ShopApi.Models.Product.ProductImage", b =>
@@ -304,6 +345,28 @@ namespace ShopApi.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            AccessFailedCount = 0,
+                            BirthDate = new DateTime(2000, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ConcurrencyStamp = "80ed4517-8c17-4422-a281-4891174450ce",
+                            Email = "Admin@Admin.com",
+                            EmailConfirmed = true,
+                            FirstName = "Master",
+                            LastName = "Admin",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "MASTERADMIN",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFNFx0VJxDxZLos6rr3eLgmppBg9CNC7mSLPSze1+C/GoKHj/w1dIpPEKF0fByULPQ==",
+                            PhoneNumber = "XXXXXXXXXXXXX",
+                            PhoneNumberConfirmed = true,
+                            SecurityStamp = "00000000-0000-0000-0000-000000000000",
+                            TwoFactorEnabled = false,
+                            UserName = "masteradmin"
+                        });
                 });
 
             modelBuilder.Entity("ShopApi.Models.UserCart", b =>

@@ -20,7 +20,7 @@ namespace API_Shop.Models
 
         // Фамилия
         [Column("firstname")]
-        public string FirsName { get; set; }
+        public string FirstName { get; set; }
 
         // Имя
         [Column("name")]

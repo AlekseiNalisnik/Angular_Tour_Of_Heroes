@@ -8,8 +8,8 @@ namespace ShopApi.Models.Product
         public long Id { get; set; }
         
         [Required]
-        [ForeignKey("ShopItem")]
-        public long ShopItemId { get; set; }
+        [ForeignKey("Product")]
+        public long ProductId { get; set; }
         
         [Required]
         public byte[] Image { get; set; }

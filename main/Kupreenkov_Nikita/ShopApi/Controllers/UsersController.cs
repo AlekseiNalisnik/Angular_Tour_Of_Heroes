@@ -1,16 +1,18 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ShopApi.Data;
 using ShopApi.Models.User;
+
+using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace ShopApi.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -23,10 +25,7 @@ namespace ShopApi.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<User>>> GetUser()
-        {
-            return await _context.Users.ToListAsync();
-        }
+        public async Task<ActionResult<IEnumerable<User>>> GetUser() => await _context.Users.ToListAsync();
 
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(long id)
