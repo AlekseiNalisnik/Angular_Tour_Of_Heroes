@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace ShopApi.Models.User
 {
-    public class User : IdentityUser<long>
+    public class User : IdentityUser<Guid>
     {
         
         public string FirstName { get; set; }
@@ -17,7 +17,7 @@ namespace ShopApi.Models.User
         
     }
     
-    public class UserRole : IdentityRole<long>
+    public class UserRole : IdentityRole<Guid>
     {
         public UserRole() : base() { }
         public UserRole(string roleName) : base(roleName) { }

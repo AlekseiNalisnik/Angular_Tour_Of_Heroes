@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using ShopApi.Models;
 
 namespace ShopApi.Controllers
 {
-    [Route("api/Users/{userid}/[controller]")]
+    [Route("api/[controller]/{userid}")]
     [ApiController]
     public class UserCartsController : ControllerBase
     {
@@ -19,37 +20,29 @@ namespace ShopApi.Controllers
             _context = context;
         }
 
-        // GET: api/Users/{userid}/UserCarts
         [HttpGet]
-        public async Task<IEnumerable<UserCart>> GetUserCart(int userid)
+        public async Task<IEnumerable<Cart>> GetUserCart(Guid userid)
         {
-            // return await _context.UserCarts.ToListAsync();
-            return await (from usercart in _context.UserCarts
-                        join user in _context.Users on usercart.UserId equals userid
-                        select usercart).ToListAsync();
+            return await (from uc in _context.Carts
+                        where uc.UserId == userid
+                        select uc).Include("CartItems")
+                                  .Include("Order")
+                                  .Include("User")
+                                  .Include("CartItems.Product").ToListAsync();
         }
 
-        // GET: api/Users/{userid}/UserCarts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserCart>> GetUserCart(long id)
+        public async Task<IEnumerable<Cart>> GetUserCart(Guid userid, Guid id)
         {
-            var userCart = await _context.UserCarts.FindAsync(id);
-
-            if (userCart == null)
-            {
-                return NotFound();
-            }
-
-            return userCart;
+            return GetUserCart(userid).Result.Where(uc => uc.Id == id);
         }
 
-        // PUT: api/Users/{userid}/UserCarts/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserCart(long id, UserCart userCart)
+        public async Task<IActionResult> PutUserCart(Guid id, Cart cart)
         {
-            if (id != userCart.Id) { return BadRequest(); }
+            if (id != cart.Id) { return BadRequest(); }
 
-            _context.Entry(userCart).State = EntityState.Modified;
+            _context.Entry(cart).State = EntityState.Modified;
 
             try
             {
@@ -64,35 +57,33 @@ namespace ShopApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Users/{userid}/UserCarts
         [HttpPost]
-        public async Task<ActionResult<UserCart>> PostUserCart([FromForm]UserCart userCart)
+        public async Task<ActionResult<Cart>> PostUserCart([FromForm]Cart cart)
         {
-            _context.UserCarts.Add(userCart);
+            _context.Carts.Add(cart);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserCart", new { id = userCart.Id }, userCart);
+            return CreatedAtAction("GetUserCart", new { id = cart.Id }, cart);
         }
 
-        // DELETE: api/Users/{userid}/UserCarts/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<UserCart>> DeleteUserCart(long id)
+        public async Task<ActionResult<Cart>> DeleteUserCart(Guid id)
         {
-            var userCart = await _context.UserCarts.FindAsync(id);
+            var userCart = await _context.Carts.FindAsync(id);
             if (userCart == null)
             {
                 return NotFound();
             }
 
-            _context.UserCarts.Remove(userCart);
+            _context.Carts.Remove(userCart);
             await _context.SaveChangesAsync();
 
             return userCart;
         }
 
-        private bool UserCartExists(long id)
+        private bool UserCartExists(Guid id)
         {
-            return _context.UserCarts.Any(e => e.Id == id);
+            return _context.Carts.Any(e => e.Id == id);
         }
     }
 }

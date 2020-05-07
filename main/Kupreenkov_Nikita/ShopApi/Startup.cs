@@ -11,10 +11,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Caching.Distributed;
-
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using ShopApi.Data;
 using ShopApi.Models.User;
+using StackExchange.Redis;
 
 namespace ShopApi
 {
@@ -29,6 +32,9 @@ namespace ShopApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSpaStaticFiles(options =>
+                   Configuration.Bind("AngularConfig", options));
+            
             services.AddDbContext<ShopDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             
@@ -39,16 +45,18 @@ namespace ShopApi
                     .AddEntityFrameworkStores<ShopDbContext>()
                     .AddDefaultTokenProviders();
 
-            services.AddStackExchangeRedisCache(options =>
-            {
-                options.Configuration = Configuration.GetConnectionString("Redis");
-                options.InstanceName = "ShopRedisCacheInstance";
-            });
-
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
-                    options => Configuration.Bind("CookieSettings", options));
-
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+                    Configuration.Bind("CookieSettings", options));
+            
+            // ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("localhost");
+            // services.AddDataProtection()
+            //     .PersistKeysToStackExchangeRedis(redis, "DataProtection-Keys");
+            
+            services.AddStackExchangeRedisCache(options =>
+                Configuration.Bind("RedisSettings", options));
+            services.AddSingleton<IDistributedCache, RedisCache>();
+            
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(10);
@@ -58,7 +66,10 @@ namespace ShopApi
                 options.Cookie.Name = "DefaultSessionCookie";
             });
             
-            services.AddControllers();
+            services.AddControllers()
+                    .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
         }
 
         public void Configure(IApplicationBuilder app, 
@@ -75,6 +86,11 @@ namespace ShopApi
                 cache.Set("cachedTimeUtc", encodedCurrentTimeUtc, options);
             });
             
+            if (!env.IsDevelopment())
+            {
+                app.UseSpaStaticFiles();
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

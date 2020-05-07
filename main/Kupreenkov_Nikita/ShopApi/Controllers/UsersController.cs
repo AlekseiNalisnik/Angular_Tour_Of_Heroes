@@ -1,9 +1,11 @@
+using System;
 using ShopApi.Data;
 using ShopApi.Models.User;
 
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
@@ -28,7 +30,7 @@ namespace ShopApi.Controllers
         public async Task<ActionResult<IEnumerable<User>>> GetUser() => await _context.Users.ToListAsync();
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(long id)
+        public async Task<ActionResult<User>> GetUser(Guid id)
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null) { return NotFound(); }
@@ -36,22 +38,18 @@ namespace ShopApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(long id, User user)
+        public async Task<IActionResult> PutUser(Guid id, User user)
         {
             if (id != user.Id) { return BadRequest(); }
 
             _context.Entry(user).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
+            try { await _context.SaveChangesAsync(); }
             catch (DbUpdateConcurrencyException)
             {
                 if (!UserExists(id)) { return NotFound(); }
-                else { throw; }
+                throw;
             }
-            
             return NoContent();
         }
 
@@ -64,7 +62,7 @@ namespace ShopApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> DeleteUser(long id)
+        public async Task<ActionResult<User>> DeleteUser(Guid id)
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null) { return NotFound(); }
@@ -75,7 +73,7 @@ namespace ShopApi.Controllers
             return user;
         }
         
-        private bool UserExists(long id)
+        private bool UserExists(Guid id)
         {
             return _context.Users.Any(e => e.Id == id);
         }

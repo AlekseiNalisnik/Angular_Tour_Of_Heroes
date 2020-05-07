@@ -1,3 +1,5 @@
+using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -5,20 +7,20 @@ namespace ShopApi.Models
 {
     public class CartItem
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         
         [Required]
-        [ForeignKey("User")]
-        public long UserCartId { get; set; }
+        [ForeignKey("Cart")]
+        public Guid CartId { get; set; }
         
         [Required]
-        [ForeignKey("Products")]
-        public long ProductId { get; set; }
+        [ForeignKey("Product")]
+        public Guid ProductId { get; set; }
         
-        [System.ComponentModel.DefaultValue(1)] 
-        public long ProductCount { get; set; }
+        [DefaultValue(1L)] 
+        public long Count { get; set; }
         
-        public virtual User.User User { get; set; }
-        public virtual Product.Product Product { get; set; }
+        public Cart Cart { get; set; }
+        public Product.Product Product { get; set; }
     }
 }

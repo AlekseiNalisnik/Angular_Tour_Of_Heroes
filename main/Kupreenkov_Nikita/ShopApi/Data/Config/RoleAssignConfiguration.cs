@@ -1,23 +1,28 @@
+using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ShopApi.Data.Config
 {
-     public class UserRolesAssignConfiguration : IEntityTypeConfiguration<IdentityUserRole<long>>
+     public class UserRolesAssignConfiguration : IEntityTypeConfiguration<IdentityUserRole<Guid>>
     {
-        private const long AdminUserId = 1;
-        private const long AdminRoleId = 1;
-
-        public void Configure(EntityTypeBuilder<IdentityUserRole<long>> builder)
+        public void Configure(EntityTypeBuilder<IdentityUserRole<Guid>> builder)
         {
-            IdentityUserRole<long> iur = new IdentityUserRole<long>
+            var adminIur = new IdentityUserRole<Guid>
             {
-                RoleId = AdminRoleId,
-                UserId = AdminUserId
+                RoleId = RoleConfiguration.AdminRoleId,
+                UserId = UsersConfiguration.AdminId
             };
 
-            builder.HasData(iur);
+            var userIur = new IdentityUserRole<Guid>
+            {
+                RoleId = RoleConfiguration.UserRoleId,
+                UserId = UsersConfiguration.UserId
+            };
+            
+            builder.HasData(adminIur);
+            builder.HasData(userIur);
         }
     }
 }

@@ -1,10 +1,12 @@
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ShopApi.Models.Product
 {
     public class Product
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         
         [Required]
         public string Name { get; set; }
@@ -17,5 +19,7 @@ namespace ShopApi.Models.Product
         public string Description { get; set; }
         
         public double Weight { get; set; }
+
+        public List<Image> Images { get; set; }
     }
 }

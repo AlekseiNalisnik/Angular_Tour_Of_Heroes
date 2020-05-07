@@ -1,29 +1,27 @@
-using Microsoft.AspNetCore.Identity;
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using ShopApi.Models.User;
 
 namespace ShopApi.Data.Config
 {
-  public class RoleConfiguration : IEntityTypeConfiguration<IdentityRole<long>>
-    {
-        private enum RolesId : long
-        {
-            AdminId = 1,
-            UserId
-        }
-        
-        public void Configure(EntityTypeBuilder<IdentityRole<long>> builder)
+  public class RoleConfiguration : IEntityTypeConfiguration<UserRole>
+  {
+      public static readonly Guid AdminRoleId = Guid.NewGuid();
+      public static readonly Guid UserRoleId = Guid.NewGuid();
+
+      public void Configure(EntityTypeBuilder<UserRole> builder)
         {
             builder.HasData(
-                new IdentityRole<long>
+                new UserRole
                 {
-                    Id = (long)RolesId.AdminId,
+                    Id = AdminRoleId,
                     Name = "Admin",
                     NormalizedName = "ADMIN"
                 },
-                new IdentityRole<long>
+                new UserRole
                 {
-                    Id = (long)RolesId.UserId,
+                    Id = UserRoleId,
                     Name = "User",
                     NormalizedName = "USER"
                 }

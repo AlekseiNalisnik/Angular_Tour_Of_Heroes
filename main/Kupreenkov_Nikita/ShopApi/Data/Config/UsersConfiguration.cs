@@ -8,15 +8,16 @@ using ShopApi.Models.User;
 
 namespace ShopApi.Data.Config
 {
- public class AdminConfiguration : IEntityTypeConfiguration<User>
+ public class UsersConfiguration : IEntityTypeConfiguration<User>
     {
-        private const long adminId = 1;
-        
+        public static readonly Guid AdminId = Guid.NewGuid();
+        public static readonly Guid UserId = Guid.NewGuid();
+
         public void Configure(EntityTypeBuilder<User> builder)
         {
             var admin = new User
             {
-                Id = adminId,
+                Id = AdminId,
                 UserName = "masteradmin",
                 NormalizedUserName = "MASTERADMIN",
                 FirstName = "Master",
@@ -29,14 +30,34 @@ namespace ShopApi.Data.Config
                 BirthDate = new DateTime(2000,1,30),
                 SecurityStamp = new Guid().ToString("D"),
             };
+
+            var user = new User
+            {
+                Id = UserId,
+                UserName = "standartuser",
+                NormalizedUserName = "STANDARTUSER",
+                FirstName = "Standart",
+                LastName = "User",
+                Email = "User@User.com",
+                NormalizedEmail = "USER@USER.COM",
+                PhoneNumber = "XXXXXXXXXXXXX",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                BirthDate = new DateTime(2000,1,30),
+                SecurityStamp = new Guid().ToString("D"),
+            };
+            
             admin.PasswordHash = PassGenerate(admin);
+            user.PasswordHash = PassGenerate(user);
+
             builder.HasData(admin);
+            builder.HasData(user);
         }
 
         public string PassGenerate(User user)
         {
             var passHash = new PasswordHasher<User>();
-            return passHash.HashPassword(user, "admin");
+            return passHash.HashPassword(user, "1234");
         }
     }
 }
