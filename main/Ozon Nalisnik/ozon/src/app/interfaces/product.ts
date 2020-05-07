@@ -4,4 +4,7 @@ export interface Product {
     alt: string;
     cost: number;
     description: string;
+    weight: number;
+    isSelected: boolean;
+    quantity: number;
 }

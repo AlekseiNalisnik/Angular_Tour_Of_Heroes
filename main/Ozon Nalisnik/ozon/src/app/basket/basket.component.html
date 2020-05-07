@@ -1,11 +1,14 @@
 <div class="basket">
     <div class="basket__title">
         <div class="basket__title__name">Корзина</div>
-        <sup class="basket__title__counter">4</sup>
+        <sup class="basket__title__counter">{{basketProducts.length}}</sup>
     </div> <br> <br>
 
     <div class="basket__basket-main">
-        <app-basket-product class="basket__list-item"></app-basket-product>
+        <app-basket-product 
+            class="basket__list-item"
+            (productsForOutput)="onBasketChange($event)"
+        > </app-basket-product>
         <app-basket-order-panel class="basket__order"></app-basket-order-panel>
     </div>
 </div>

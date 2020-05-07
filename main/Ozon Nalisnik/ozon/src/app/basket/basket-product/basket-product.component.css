@@ -123,8 +123,10 @@
     margin-left: 2%;
 }
 
-
-
+.select-wrapper {
+    width: 60px;
+    height: 40px;
+}
 
 
 

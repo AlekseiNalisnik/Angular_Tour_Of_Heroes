@@ -2,10 +2,10 @@
     <div class="basket__button-line"  *ngIf="basketProducts.length">
         <input 
             type="checkbox" 
-            value="0" 
             class="basket__button-line__checkbox"
-            (click)="checkAllProductsInBasket()"
-        > Выбрать всё
+            [(ngModel)]="masterSelected" 
+            (change)="checkUncheckAll()"
+        /> Выбрать всё
         <button 
             class="basket__button-line__delete-checked"
             (click)="deleteCheckedProductsFromBasket()"
@@ -16,7 +16,12 @@
 
     <div class="basket__list-item__item" *ngFor="let product of basketProducts">
         <div class="basket__list-item__item__picture">
-            <input type="checkbox" class="basket__list-item__item__checkbox">
+            <input 
+                type="checkbox"
+                class="basket__list-item__item__checkbox"
+                [(ngModel)]="product.isSelected" 
+                (change)="isAllSelected()"
+            />
             <img src={{product.path}} class="picture" alt={{product.alt}}>
 
             <div class="basket__list-item__item__info">
@@ -24,7 +29,7 @@
                     {{product.description}}
                 </div>
                 <div class="basket__list-item__item__weight custom-pipe__gr">
-                    {{product.weight}}
+                    {{product.weight}} гр
                 </div>
                 <button 
                     class="basket__list-item__item__button"
@@ -36,17 +41,28 @@
         </div>
 
         <div class="basket__list-item__item__cost">
-            {{product.cost}}
+            {{product.cost * product.quantity}}
         </div>
         <div class="basket__list-item__item__quantity">
-            <select size="1" class="count-selector">
+            <!-- <select size="1" class="count-selector" [(value)]="selectedValue">
                 <option class="count-selector__option" disabled>Количество</option>
                 <option class="count-selector__option" selected value="1">1</option>
                 <option class="count-selector__option" value="2">2</option>
                 <option class="count-selector__option" value="3">3</option>
                 <option class="count-selector__option" value="4">4</option>
                 <option class="count-selector__option" value="5">5</option>
-            </select>
+            </select> -->
+            <div>{{product.quantity}}</div>
+            <mat-form-field class="select-wrapper">
+                <mat-label>Количество</mat-label>
+                <mat-select class="count-selector" [(value)]="product.quantity">
+                    <mat-option class="count-selector__option" value="1">1</mat-option>
+                    <mat-option class="count-selector__option" value="2">2</mat-option>
+                    <mat-option class="count-selector__option" value="3">3</mat-option>
+                    <mat-option class="count-selector__option" value="4">4</mat-option>
+                    <mat-option class="count-selector__option" value="5">5</mat-option>
+                </mat-select>
+            </mat-form-field>
             <div class="basket__list-item__item__sum-cost custom-pipe__cost">
                 {{product.cost}} P/шт.
             </div>

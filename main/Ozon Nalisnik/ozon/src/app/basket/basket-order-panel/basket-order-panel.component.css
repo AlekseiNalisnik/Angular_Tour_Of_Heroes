@@ -70,3 +70,13 @@
     font-weight: bold;
     color: black;
 }
+
+.custom-pipe__gr {
+    font-size: 14px;
+    color: #b0aeae;
+}
+
+.custom-pipe__cost {
+    font-size: 11px;
+    color: #706f6f;
+}

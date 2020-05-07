@@ -9,8 +9,10 @@ import { ProductService } from '../../services/product.service';
   styleUrls: ['./basket-product.component.css']
 })
 export class BasketProductComponent implements OnInit {
-  // @Output() productsForOutput: EventEmitter<Product[]> = new EventEmitter<Product[]>();
+  @Output() productsForOutput: EventEmitter<Product[]> = new EventEmitter<Product[]>();
   basketProducts: Product[] = [];
+  masterSelected: boolean = false;
+  // selectedQuantityValue: string = 'AAAA';
 
   constructor(
     private productService: ProductService
@@ -18,12 +20,15 @@ export class BasketProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllBasketProducts();
-    // this.productsForOutput.emit(this.basketProducts);
+    this.productsForOutput.emit(this.basketProducts);
   }
 
   getAllBasketProducts(): void {
     this.productService.getBasketProducts()
-      .subscribe(products => this.basketProducts = products);
+      .subscribe(products => {
+        this.basketProducts = products;
+        this.productsForOutput.emit(this.basketProducts);
+      });
   }
 
   deleteProductFromBasket(product) {
@@ -34,15 +39,27 @@ export class BasketProductComponent implements OnInit {
         this.basketProducts = this.basketProducts.filter(
           product => product.id !== productId
         );
+        this.productsForOutput.emit(this.basketProducts);
       });
   }
 
   deleteCheckedProductsFromBasket() {
-
+    for(let i = 0; i < this.basketProducts.length; i++) {
+      if(this.basketProducts[i].isSelected == true) {
+        this.deleteProductFromBasket(this.basketProducts[i]);
+      }
+    }
   }
 
-  checkAllProductsInBasket() {
-    
+  checkUncheckAll() {
+    for(let i = 0; i < this.basketProducts.length; i++) {
+      this.basketProducts[i].isSelected = this.masterSelected;
+    }
   }
 
+  isAllSelected() {
+    this.masterSelected = this.basketProducts.every(function(product: any) {
+        return product.isSelected == true;
+    });
+  }
 }

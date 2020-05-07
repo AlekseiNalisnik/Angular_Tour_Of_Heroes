@@ -30,4 +30,5 @@ export class HeaderComponent implements OnInit {
     if(flagAuthFromReg) this.toggleToReg();
     this.authFlag = !this.authFlag;
   }
+
 }

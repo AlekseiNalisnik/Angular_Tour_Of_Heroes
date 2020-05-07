@@ -33,21 +33,30 @@ export class InMemoryDataService implements InMemoryDbService {
         path: '../../assets/duck.jpg', 
         alt: 'Duck-pank', 
         cost: 390, 
-        description: 'Панки. Набор игрушек для ванной. Уточка панк и анархия.' 
+        description: 'Панки. Набор игрушек для ванной. Уточка панк и анархия.',
+        weight: 150,
+        isSelected: false,
+        quantity: 1
       },
       { 
         id: 12, 
         path: '../../assets/duck.jpg', 
         alt: 'Duck-pank', 
         cost: 310, 
-        description: 'Панки. Набор игрушек для ванной. Уточка панк и анархия.' 
+        description: 'Панки. Набор игрушек для ванной. Уточка панк и анархия.',
+        weight: 50,
+        isSelected: false,
+        quantity: 1
       },
       { 
         id: 13, 
         path: '../../assets/duck.jpg', 
         alt: 'Duck-pank', 
         cost: 450, 
-        description: 'Панки. Набор игрушек для ванной. Уточка панк и анархия.' 
+        description: 'Панки. Набор игрушек для ванной. Уточка панк и анархия.',
+        weight: 100,
+        isSelected: false,
+        quantity: 1
       },
     ];
     const basket = [
