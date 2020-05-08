@@ -16,6 +16,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using AutoMapper;
+using System.Globalization;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
+
+
 using API_Shop_ref.Data;
 using API_Shop_ref.Models;
 using API_Shop_ref.Controllers;
@@ -42,6 +49,11 @@ namespace API_Shop_ref
             //регистрируем контекст БД
             services.AddDbContext<DBContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
+            //куки
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+                    Configuration.Bind("CookieSettings", options));
 
             services.AddDistributedMemoryCache();
 

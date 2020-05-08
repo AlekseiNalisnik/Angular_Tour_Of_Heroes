@@ -13,7 +13,7 @@ namespace API_Shop_ref.Models
     {
         [Column("id")]
         [Key] 
-        public int Id { get; set; }     // (?) [warning] скрывает наследуемый член "IdentityUser<string>.Id"
+        public int Id { get; set; }     //  [warning] унаследовать от поля  IdentityUser
 
         [Column("firstname")]     
         public string FirstName { get; set; }
@@ -28,7 +28,7 @@ namespace API_Shop_ref.Models
         public DateTime Birth { get; set; }
 
         [Column("email")]         
-        public string Email { get; set; }  // (?) [warning] скрывает наследуемый член "IdentityUser<string>.Email"   
+        public string Email { get; set; }  // [warning] унаследовать от поля  IdentityUser
 
         [Column("phone")]         
         public string Phone { get; set; }
