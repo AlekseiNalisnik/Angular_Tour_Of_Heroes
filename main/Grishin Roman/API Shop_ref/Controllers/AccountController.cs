@@ -31,7 +31,7 @@ namespace API_Shop_ref.Controllers
         {
             await _signInManager.SignOutAsync();
             return Ok();
-            // или вместо Ok:  RedirectToAction("Home");
+            
         }
 
         // POST: api/login 
@@ -46,7 +46,7 @@ namespace API_Shop_ref.Controllers
 
             if (result.Succeeded)
             {
-                // RedirectToAction("Home");
+                
                 return Ok();
             }
             return BadRequest(result);
@@ -66,7 +66,7 @@ namespace API_Shop_ref.Controllers
                 {
                     // установка куки
                     await _signInManager.SignInAsync(user, false);
-                    return Ok();   //RedirectToAction("Home");
+                    return Ok();   
                 }
                 else
                 {

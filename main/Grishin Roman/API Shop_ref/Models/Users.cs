@@ -9,12 +9,8 @@ using System.Threading.Tasks;
 namespace API_Shop_ref.Models
 {
     [Table("users")]
-    public class Users : IdentityUser
-    {
-        [Column("id")]
-        [Key] 
-        public int Id { get; set; }     //  [warning] унаследовать от поля  IdentityUser
-
+    public class Users : IdentityUser<int>
+    {// ! проверить совпадающие поля
         [Column("firstname")]     
         public string FirstName { get; set; }
 
@@ -27,11 +23,8 @@ namespace API_Shop_ref.Models
         [Column("birth")]         
         public DateTime Birth { get; set; }
 
-        [Column("email")]         
-        public string Email { get; set; }  // [warning] унаследовать от поля  IdentityUser
-
         [Column("phone")]         
-        public string Phone { get; set; }
+        public string Phone { get; set; }  //?
 
         [Column("gender")]        
         public string Gender { get; set; }

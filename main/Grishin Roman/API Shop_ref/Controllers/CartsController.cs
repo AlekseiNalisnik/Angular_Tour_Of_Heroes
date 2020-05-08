@@ -58,7 +58,7 @@ namespace API_Shop_ref.Controllers
 
         // DELETE: api/carts/{id} [Удаление карзины]
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Carts>> DeleteUserCart(Guid id)
+        public async Task<ActionResult<Carts>> DeleteUserCart(int id)
         {
             var Cart = await _context.Carts.FindAsync(id);
             if (Cart == null)
