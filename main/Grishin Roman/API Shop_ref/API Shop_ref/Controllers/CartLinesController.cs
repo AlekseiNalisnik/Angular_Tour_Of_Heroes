@@ -48,7 +48,7 @@ namespace API_Shop_ref.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCartLine(int id, CartLine cartLine)
         {
-            if (id != cartLine.ItemId)
+            if (id != cartLine.Id)
             {
                 return BadRequest();
             }
@@ -83,7 +83,7 @@ namespace API_Shop_ref.Controllers
             _context.CartLine.Add(cartLine);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCartLine", new { id = cartLine.ItemId }, cartLine);
+            return CreatedAtAction("GetCartLine", new { id = cartLine.Id }, cartLine);
         }
 
         // DELETE: api/CartLines/5
@@ -104,7 +104,7 @@ namespace API_Shop_ref.Controllers
 
         private bool CartLineExists(int id)
         {
-            return _context.CartLine.Any(e => e.ItemId == id);
+            return _context.CartLine.Any(e => e.Id == id);
         }
     }
 }

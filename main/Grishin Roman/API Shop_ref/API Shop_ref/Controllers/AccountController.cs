@@ -69,7 +69,7 @@ namespace API_Shop_ref.Controllers
             }
             return View(model);
         }
-
+        //---------------------------------------------------------------------------------
 
         [HttpGet] // нужен ли get запрос login ?
         public IActionResult Login(string returnUrl = null)
@@ -114,5 +114,4 @@ namespace API_Shop_ref.Controllers
             return RedirectToAction("Index", "Home");
         }
     }
-
 }
