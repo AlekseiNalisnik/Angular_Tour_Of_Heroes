@@ -1,7 +1,8 @@
 import { Directive, HostBinding, HostListener } from '@angular/core';
 
 @Directive({
-  selector: '[appColory]'
+  selector: '[appColory]',
+  exportAs: 'colory'
 })
 
 export class ColoryDirective {
@@ -9,12 +10,17 @@ export class ColoryDirective {
   @HostBinding('style.color') myColor: string;
 
   @HostListener('click', ['$event']) changeColor() {
-    this.myColor = '#' + Math.floor(Math.random() * 16234234).toString(16);
+    this.setRandomColor();
   }
 
 
   constructor() {
     this.myColor = 'red';
+  }
+
+  setRandomColor() {
+    this.myColor = '#' + Math.floor(Math.random() * 16234234).toString(16);
+
   }
 
 }

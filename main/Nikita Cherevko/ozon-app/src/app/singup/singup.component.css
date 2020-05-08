@@ -1,48 +1,30 @@
-.auth {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -40%);
-    width: 393px;
-    height: 440px;
-    background: #FFFFFF;
-    border: 1px solid #e6e6e6;
-}
-
+/* Private reg classes */
 .reg {
     position: absolute;
-    top: 50%;
+    top: 38.5%;
     left: 50%;
     transform: translate(-50%, -40%);
     width: 393px;
-    height: 540px;
+    height: 560px;
     background: #FFFFFF;
     border: 1px solid #e6e6e6;
-}
-
-.auth h3 {
-    margin: 10% 15%;
-    margin-top: 20%;
-    padding: 0;
-    color: #000;
-    font-size: 25px;
 }
 
 .reg h3 {
     margin: 10% 15%;
-    margin-top: 15%;
+    margin-top: 10%;
     padding: 0;
     color: #000;
     font-size: 25px;    
 }
 
-.auth p, .reg p {
+.reg p {
     margin-top: 15px;
     display: inline-block;
     margin-left: 30%;  
 }
 
-.auth__toReg, .reg__toAuth {
+.reg__toAuth {
     margin-top: 15px;
     margin-left: 2%; 
     color: #07319D;
@@ -50,7 +32,7 @@
     cursor: pointer;
 }
 
-.auth__toReg:hover, .reg__toAuth:hover {
+.reg__toAuth:hover {
     color: #0fc3f5;
 }
 
@@ -65,8 +47,7 @@
     font-size: 15px;
     background: none;
     outline: none;
-    border: none;
-    border-bottom: 1px solid #DDE2E8;
+    border: 1px solid #DDE2E8;
     box-sizing: border-box;
 }
 
@@ -74,11 +55,8 @@
     color: #000;
 }
 
-.auth__button, .reg__button {
-    margin-top: 20px;
-    color: #fff;
+.reg__button {
     font-weight: bold;
-    text-transform: uppercase;
     border: none;
     background: rgba(56,151,240,1);
     transition: .3s;
@@ -86,24 +64,45 @@
     margin: auto;
 }
 
-.auth__button:hover, .reg__button:hover {
-    background: #00329e;
-}
-
-.auth__email, .auth__password  {
-    width: 70%;
-    margin: 10% 15%;
-    height: 10%;
-}
-
 .reg__password, .reg__name, .reg__fullName, .reg__email {
     width: 70%;
     margin: 10% 15%;
-    height: 10%;
+    height: 50px;
 }
 
-.auth__password input:focus, .auth__email input:focus, 
 .reg__password input:focus, .reg__name input:focus, 
 .reg__fullName input:focus, .reg__email input:focus {
-    border-bottom: 1px solid #0fc3f5;
+    border: 1px solid #0fc3f5;
 }
+
+.header__auth-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    background-color: rgba(0,0,0,0.5);
+}
+
+
+
+
+/* Validation classes */
+input.ng-touched.ng-invalid {
+    /* border:solid red 0.5px; */
+    border:solid red 1px;
+}
+
+input.ng-touched.ng-valid {
+    /* border:solid green 0.5px; */
+    border:solid green 1px;
+}
+
+.singup-validation {
+    font-size: 15px;
+    color: red;
+    /* margin-left: 10px;
+    text-align: left; */
+}
+

@@ -1,0 +1,64 @@
+<div class="basket__list-item">
+    <div class="basket__button-line"  *ngIf="products?.length">
+        <input 
+            type="checkbox" 
+            class="basket__button-line__checkbox"
+            [(ngModel)]="masterSelected" 
+            (change)="checkUncheckAll()"
+        /> Выбрать всё
+        <button 
+            class="basket__button-line__delete-checked"
+            (click)="removeChecked()"
+        >
+            Удалить выбранные
+        </button>
+    </div>
+
+    <div class="basket__list-item__item" *ngFor="let product of products">
+        <div class="basket__list-item__item__picture">
+            <input 
+                type="checkbox"
+                class="basket__list-item__item__checkbox"
+                [(ngModel)]="product.isSelected" 
+                (change)="isAllSelected()"
+            />
+            <img src={{product.path}} class="picture" alt={{product.alt}}>
+
+            <div class="basket__list-item__item__info">
+                <div class="basket__list-item__item__description">
+                    {{product.description}}
+                </div>
+                <div class="basket__list-item__item__weight custom-pipe__gr">
+                    {{product.weight}} гр
+                </div>
+                <button 
+                    class="basket__list-item__item__button"
+                    (click)="removeProductFromCart(product)"
+                >
+                    Удалить
+                </button>
+            </div>
+        </div>
+
+        <div class="basket__list-item__item__cost">
+            {{product.value * product.quantity}}
+        </div>
+        <div class="basket__list-item__item__quantity">
+            <div>{{product.quantity}}</div>
+            <mat-form-field class="select-wrapper">
+                <mat-label>Количество</mat-label>
+                <mat-select class="count-selector" [(value)]="product.quantity">
+                    <mat-option class="count-selector__option" value="1">1</mat-option>
+                    <mat-option class="count-selector__option" value="2">2</mat-option>
+                    <mat-option class="count-selector__option" value="3">3</mat-option>
+                    <mat-option class="count-selector__option" value="4">4</mat-option>
+                    <mat-option class="count-selector__option" value="5">5</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div class="basket__list-item__item__sum-cost custom-pipe__cost">
+                {{product.value}} P/шт.
+            </div>
+        </div>
+        <div class="horizontal-line"></div>
+    </div>
+</div>

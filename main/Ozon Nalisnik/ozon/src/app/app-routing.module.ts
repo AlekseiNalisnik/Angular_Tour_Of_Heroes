@@ -25,9 +25,6 @@ const routes: Routes = [
   // { path: 'users/:usersId/carts', component: BasketComponent },
   { path: 'basket', component: BasketComponent },
 
-
-
-
   // { path: 'users:usersId/orders', component: OrderComponent },
   // { path: 'users:usersId/orders:ordersId', component: OrderDetailComponent },
 ];

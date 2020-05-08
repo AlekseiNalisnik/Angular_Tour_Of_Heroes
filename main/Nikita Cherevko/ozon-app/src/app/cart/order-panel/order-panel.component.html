@@ -1,0 +1,30 @@
+<div class="basket__order">
+    <div class="basket__order__button-wrapper">
+        <a class="order-button" (click) = "Reload()">
+            Перейти к оформлению
+        </a>
+        <div class="basket__order__button-wrapper__description custom-pipe__gr">
+            Доступные способы и время доставки можно выбрать при оформлении заказа
+        </div>
+    </div>
+    <div class="basket__order__total">
+        <div class="basket__order__total__item-basket">
+            Ваша корзина    
+            <div class="products custom-pipe__gr">
+                {{products?.length}} товара {{weightSum()}}
+            </div>
+        </div>
+        <div class="basket__order__total__products-cost custom-pipe__gr">
+            Товары ({{products?.length}})
+            <div class="cost">
+                {{valueSum()}} P
+            </div>
+        </div>
+        <div class="basket__order__total__end-cost">
+            Общая стоимость
+            <div class="end-cost">
+                {{valueSum()}} Р
+            </div>
+        </div>
+    </div>
+</div>

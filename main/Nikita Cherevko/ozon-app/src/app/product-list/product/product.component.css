@@ -43,4 +43,6 @@
     font-weight: 800;
     font-size: 12px;
     border-radius: 5px;
+
+    cursor: pointer;
 }
