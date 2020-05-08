@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
 
 using Newtonsoft.Json;
@@ -23,12 +25,24 @@ namespace ShopApi.Controllers
     {
         private readonly ShopDbContext _context;
         private readonly IDistributedCache _cache;
-        
         public AccountController(ShopDbContext context,
-            IDistributedCache cache)
+                                 IDistributedCache cache)
         {
             _context = context;
             _cache = cache;
+        }
+
+        private async Task MapCart()
+        {
+            var unAuthCart = JsonConvert.DeserializeObject<Dictionary<Guid, long>>(
+                 HttpContext.Session.GetString("cart") ?? "{}");
+            var pc = new ProductsController(_context, _cache);
+            pc.ControllerContext = ControllerContext;
+            
+            foreach (var (key, value) in unAuthCart)
+            {
+                await pc.AddToCart(key, value);
+            }
         }
         
         private IEnumerable<Claim> GenerateUserClaims(string userName)
@@ -42,6 +56,7 @@ namespace ShopApi.Controllers
             
             var claims = new List<Claim>
             {
+                new Claim(ClaimTypes.Sid, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.MobilePhone, user.PhoneNumber),
@@ -58,17 +73,21 @@ namespace ShopApi.Controllers
 
         private async Task Authenticate(IEnumerable<Claim> claims)
         {
-            ClaimsIdentity id = new ClaimsIdentity(claims, 
+            var id = new ClaimsIdentity(claims, 
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 ClaimsIdentity.DefaultNameClaimType, 
                 ClaimsIdentity.DefaultRoleClaimType);
-            
+
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(id), 
-                new AuthenticationProperties());
+                new AuthenticationProperties()).ContinueWith(t => MapCart(),
+                        TaskContinuationOptions.ExecuteSynchronously);
         }
+        
         [HttpPost]
         [Route("Login")]
+        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Login([FromForm]Login login)
         {
             if (ModelState.IsValid)
@@ -84,18 +103,6 @@ namespace ShopApi.Controllers
             return CreatedAtAction("Login", login);
         }
 
-        private async void MapCart(string userid)
-        {
-            var cart = JsonConvert.DeserializeObject<Dictionary<string, long>>(
-                 await _cache.GetStringAsync(HttpContext.Session.Id));
-            var pc = new ProductsController(_context, _cache);
-            
-            foreach (var item in cart)
-            {
-                
-            }
-        }
-        
         [HttpPost]
         [Route("Register")]
         public async Task<IActionResult> Register([FromForm]Register register)
@@ -105,11 +112,13 @@ namespace ShopApi.Controllers
                 User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == register.Email);
                 if (user == null)
                 {
-                    user = new User { Email = register.Email, PasswordHash = register.Password };
+                    _context.Users.Add(new User
+                    {
+                        Email = register.Email,
+                        PasswordHash = register.Password
+                    });
                     
-                    await new UsersController(_context).PostUser(user);
                     await Authenticate(GenerateUserClaims(register.Email));
- 
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("", "User already exists.");

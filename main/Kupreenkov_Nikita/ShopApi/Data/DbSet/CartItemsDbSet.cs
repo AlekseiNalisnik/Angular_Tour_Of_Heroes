@@ -6,6 +6,7 @@ namespace ShopApi.Data.DbSet
 {
     public class CartItemsDbSet : DbSet<CartItem>
     {
+        public CartItemsDbSet() : base() { }
         public override EntityEntry<CartItem> Add(CartItem entity)
         {
             var existed = Find(entity.Id);

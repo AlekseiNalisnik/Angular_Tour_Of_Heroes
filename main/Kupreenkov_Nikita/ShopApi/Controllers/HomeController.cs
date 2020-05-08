@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
 
 using Newtonsoft.Json;
@@ -13,6 +15,7 @@ namespace ShopApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [AllowAnonymous]
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class HomeController : ControllerBase
     {
@@ -28,12 +31,13 @@ namespace ShopApi.Controllers
         [Route("Index")]
         public IActionResult Index()
         {
-            var sessionCart = _cache.GetString(HttpContext.Session.Id);
             return Ok(new
             {
                 id = HttpContext.Session.Id, 
                 name = User.Identity.Name,
-                cart = JsonConvert.DeserializeObject<Dictionary<string, long>>(sessionCart)
+                auth = User.Identity.IsAuthenticated,
+                cart =  JsonConvert.DeserializeObject<Dictionary<Guid, long>>(
+                        HttpContext.Session.GetString("cart") ?? "{}")
             });
         }
     }

@@ -1,8 +1,9 @@
 using System;
+using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
@@ -11,9 +12,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
-
 using ShopApi.Data;
-using ShopApi.Data.DbSet;
 using ShopApi.Models;
 using ShopApi.Models.Product;
 
@@ -27,7 +26,7 @@ namespace ShopApi.Controllers
         private readonly IDistributedCache _cache;
         
         public ProductsController(ShopDbContext context, 
-            IDistributedCache cache)
+                                  IDistributedCache cache)
         {
             _context = context;
             _cache = cache;
@@ -49,103 +48,106 @@ namespace ShopApi.Controllers
 
             return product;
         }
-        
-        [HttpPut("[action]/{id}")]
-        [AllowAnonymous]
-        public async Task<ActionResult> PutCart(Dictionary<string, long> cart)
-        {
-            await _cache.SetStringAsync(HttpContext.Session.Id, 
-                JsonConvert.SerializeObject(cart));
-            return Ok();
-        }
-        
+
         private async
         Task<Product>
-        ActionWithAuthorizedCart(Guid id, 
-                                 Guid userid, 
-                                 Func<CartItem, 
-                                 EntityEntry<CartItem>> action, 
-                                 long count = 1)
+        EditCart(Guid id, 
+                 Action<CartItem, Product, Cart> atAuthAction, 
+                 Action<Product, Dictionary<Guid, long>> atUnAuthAction)
         {
-            var ucc = new UserCartsController(_context);
-            var cart = ucc.GetUserCart(userid).Result.First(c => c.OrderId == null);
             var product = await _context.Products.FindAsync(id);
-            action.Invoke(new CartItem
+
+            if (HttpContext.User.Identity.IsAuthenticated)
             {
-                CartId = cart.Id,
-                ProductId = product.Id,
-                Count = count
-            });
-            await _context.SaveChangesAsync();
+                var ucc = new UserCartsController(_context, _cache);
+                var userId = Guid.Parse(HttpContext.User.Claims
+                    .First(c => c.Type == ClaimTypes.Sid).Value);
+                
+                var cart = ucc.GetUserCart(userId)
+                              .Result.First(c => c.OrderId == null);
+                
+                var cartItem = _context.CartItems.FirstOrDefault(cI => 
+                    cI.ProductId == product.Id && cI.CartId == cart.Id);
+                
+                atAuthAction.Invoke(cartItem, product, cart);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                var cart = JsonConvert.DeserializeObject<Dictionary<Guid, long>>(
+                    HttpContext.Session.GetString("cart") ?? "{}");
+                
+                atUnAuthAction.Invoke(product, cart);
+                HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(cart));
+            }
+
             return product;
         }
         
-        [HttpPost("[action]/{id}")]
+        [HttpPost("[action]")]
         [AllowAnonymous]
-        public async Task<ActionResult<Product>> AddToCart(Guid id)
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+        public async Task<ActionResult<Product>> AddToCart([FromQuery]Guid id, [FromQuery]long count = 1)
         {
-            Dictionary<Guid, long> cart;
-            var product = await _context.Products.FindAsync(id);
-
-            try
+            return await EditCart(id, 
+            (CartItem cartItem, Product product, Cart cart) =>
             {
-                cart = JsonConvert.DeserializeObject<Dictionary<Guid, long>>(
-                    await _cache.GetStringAsync(HttpContext.Session.Id));
-
-                if (cart.ContainsKey(product.Id))
-                    cart[product.Id]++;
+                if (cartItem == null)
+                {
+                    _context.CartItems.Add(new CartItem
+                    {
+                        ProductId = product.Id,
+                        CartId = cart.Id,
+                        Count = count
+                    });
+                }
                 else
-                    cart.Add(product.Id, 1);
-            }
-            catch(ArgumentNullException)
+                {
+                    cartItem.Count += count;
+                    _context.CartItems.Update(cartItem);
+                }
+            },
+            (Product product, Dictionary<Guid, long> cart) =>
             {
-                HttpContext.Session.SetInt32("cart", 1);
-                cart = new Dictionary<Guid, long> { { product.Id, 1 } };
-            }
-
-            await _cache.SetStringAsync(HttpContext.Session.Id, 
-                JsonConvert.SerializeObject(cart));
-            
-            return product;
+                if (cart.ContainsKey(product.Id))
+                    cart[product.Id] += count;
+                else
+                    cart.Add(product.Id, count);
+            });
         }
 
-        [HttpDelete("[action]/{id}")]
+        [HttpDelete("[action]")]
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
         [AllowAnonymous]
-        public async Task<ActionResult<Product>> DeleteFromCart(Guid id)
+        public async Task<ActionResult<Product>> DeleteFromCart([FromQuery]Guid id, [FromQuery]long count = 1)
         {
-            Dictionary<Guid, long> cart;
-            
-            try
+            return await EditCart(id, 
+                (CartItem cartItem, 
+                Product product, 
+                Cart cart) =>
             {
-                cart = JsonConvert.DeserializeObject<Dictionary<Guid, long>>(
-                    await _cache.GetStringAsync(HttpContext.Session.Id));
-
-                if (cart.ContainsKey(id))
-                    cart.Remove(id);
-            }
-            catch (ArgumentNullException)
+                if (cartItem == null) return;
+                cartItem.Count -= count;
+                if (cartItem.Count < 1)
+                {
+                    _context.CartItems.Remove(cartItem);
+                    return;
+                }
+                _context.CartItems.Update(cartItem);
+            },
+            (Product product, Dictionary<Guid, long> cart) =>
             {
-                return NotFound();
-            }
-            
-            await _cache.SetStringAsync(HttpContext.Session.Id, 
-                JsonConvert.SerializeObject(cart));
-            
-            return Ok(await _context.Products.FindAsync(id));
+                if (cart.TryGetValue(product.Id, out var _count))
+                {
+                    _count -= count;
+                    if (_count < 1)
+                        cart.Remove(product.Id);
+                    else
+                        cart[product.Id] = _count;
+                }
+            });
         }
 
-        [HttpPost("[action]/{id}/{userId}")]
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
-        public async Task<ActionResult<Product>> AddToCart(Guid id, Guid userId)
-        {
-           return await ActionWithAuthorizedCart(id, userId, _context.CartItems.Add);
-        }
-        
-        [HttpDelete("[action]/{id}/{userId}")]
-        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
-        public async Task<ActionResult<Product>> DeleteFromCart(Guid id, Guid userId) =>
-            await ActionWithAuthorizedCart(id, userId, _context.CartItems.Remove);
-        
         [HttpPut("{id}")]
         [Authorize(Roles="Admin")]
         public async Task<IActionResult> Put(Guid id, Product product)

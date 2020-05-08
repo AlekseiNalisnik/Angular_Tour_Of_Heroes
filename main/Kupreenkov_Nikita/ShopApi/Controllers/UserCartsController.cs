@@ -1,40 +1,61 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 using ShopApi.Data;
 using ShopApi.Models;
 
 namespace ShopApi.Controllers
 {
-    [Route("api/[controller]/{userid}")]
+    [Route("api/[controller]")]
     [ApiController]
     public class UserCartsController : ControllerBase
     {
         private readonly ShopDbContext _context;
+        private readonly IDistributedCache _cache;
 
-        public UserCartsController(ShopDbContext context)
+        public UserCartsController(ShopDbContext context, IDistributedCache cache)
         {
             _context = context;
+            _cache = cache;
         }
 
+        [HttpGet("{userId}")]
+        [Authorize(Roles="Admin")]
+        public async Task<IEnumerable<Cart>> GetUserCart(Guid userId)
+        {
+            // return JsonConvert.DeserializeObject<Dictionary<Guid, long>>(
+            //     HttpContext.Session.GetString("cart") ?? "{}");
+            return await _context.Carts.Where(uc => uc.UserId == userId)
+                                       .Include("CartItems")
+                                       .Include("Order")
+                                       .Include("User")
+                                       .Include("CartItems.Product")
+                                       .ToListAsync();
+        }
+
+        [HttpGet("{userId}/{id}")]
+        public IEnumerable<Cart> GetUserCart(Guid userId, Guid id)
+        {
+            return GetUserCart(userId).Result.Where(uc => uc.Id == id);
+        }
+        
         [HttpGet]
-        public async Task<IEnumerable<Cart>> GetUserCart(Guid userid)
+        [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+        public async Task<IEnumerable<Cart>> GetUserCart()
         {
-            return await (from uc in _context.Carts
-                        where uc.UserId == userid
-                        select uc).Include("CartItems")
-                                  .Include("Order")
-                                  .Include("User")
-                                  .Include("CartItems.Product").ToListAsync();
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IEnumerable<Cart>> GetUserCart(Guid userid, Guid id)
-        {
-            return GetUserCart(userid).Result.Where(uc => uc.Id == id);
+            Guid id = Guid.Parse(HttpContext.User.Claims
+                .First(c => c.Type == ClaimTypes.Sid).Value);
+            return await GetUserCart(id);
         }
 
         [HttpPut("{id}")]

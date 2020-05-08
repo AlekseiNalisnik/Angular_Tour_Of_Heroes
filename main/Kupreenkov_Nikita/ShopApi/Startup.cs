@@ -12,9 +12,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
+using ShopApi.Controllers;
 using ShopApi.Data;
 using ShopApi.Models.User;
 using StackExchange.Redis;
@@ -65,27 +67,17 @@ namespace ShopApi
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 options.Cookie.Name = "DefaultSessionCookie";
             });
-            
+
             services.AddControllers()
                     .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
+            services.AddScoped<ProductsController>();
         }
 
         public void Configure(IApplicationBuilder app, 
-            IWebHostEnvironment env,
-            IHostApplicationLifetime lifetime, 
-            IDistributedCache cache)
+                              IWebHostEnvironment env)
         {
-            lifetime.ApplicationStarted.Register(() =>
-            {
-                var currentTimeUtc = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
-                byte[] encodedCurrentTimeUtc = Encoding.UTF8.GetBytes(currentTimeUtc);
-                var options = new DistributedCacheEntryOptions()
-                    .SetSlidingExpiration(TimeSpan.FromSeconds(20));
-                cache.Set("cachedTimeUtc", encodedCurrentTimeUtc, options);
-            });
-            
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
@@ -98,7 +90,10 @@ namespace ShopApi
             
             app.UseHttpsRedirection();
             app.UseCookiePolicy(new CookiePolicyOptions
-                { MinimumSameSitePolicy = SameSiteMode.Strict });
+            {
+                CheckConsentNeeded = context => false,
+                MinimumSameSitePolicy = SameSiteMode.Strict
+            });
 
             app.UseRouting();
             
