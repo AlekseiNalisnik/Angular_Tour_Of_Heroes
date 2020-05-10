@@ -10,6 +10,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 
 using ShopApi.Data;
+using ShopApi.Services;
 
 namespace ShopApi.Controllers
 {
@@ -21,11 +22,15 @@ namespace ShopApi.Controllers
     {
         private readonly ShopDbContext _context;
         private readonly IDistributedCache _cache;
+        private readonly ICartRepository _repository;
 
-        public HomeController(ShopDbContext context, IDistributedCache cache)
+        public HomeController(ShopDbContext context, 
+                              IDistributedCache cache,
+                              ICartRepository repository)
         {
             _context = context;
             _cache = cache;
+            _repository = repository;
         }
         
         [Route("Index")]
@@ -36,8 +41,7 @@ namespace ShopApi.Controllers
                 id = HttpContext.Session.Id, 
                 name = User.Identity.Name,
                 auth = User.Identity.IsAuthenticated,
-                cart =  JsonConvert.DeserializeObject<Dictionary<Guid, long>>(
-                        HttpContext.Session.GetString("cart") ?? "{}")
+                cart =  _repository.Get()
             });
         }
     }

@@ -34,15 +34,15 @@ namespace ShopApi.Controllers
 
         private async Task MapCart()
         {
-            var unAuthCart = JsonConvert.DeserializeObject<Dictionary<Guid, long>>(
-                 HttpContext.Session.GetString("cart") ?? "{}");
-            var pc = new ProductsController(_context, _cache);
-            pc.ControllerContext = ControllerContext;
-            
-            foreach (var (key, value) in unAuthCart)
-            {
-                await pc.AddToCart(key, value);
-            }
+            // var unAuthCart = JsonConvert.DeserializeObject<Dictionary<Guid, long>>(
+            //      HttpContext.Session.GetString("cart") ?? "{}");
+            // var pc = new ProductsController(_context, _cache);
+            // pc.ControllerContext = ControllerContext;
+            //
+            // foreach (var (key, value) in unAuthCart)
+            // {
+            //     await pc.AddToCart(key, value);
+            // }
         }
         
         private IEnumerable<Claim> GenerateUserClaims(string userName)

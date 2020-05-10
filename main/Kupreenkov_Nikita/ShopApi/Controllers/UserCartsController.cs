@@ -29,12 +29,19 @@ namespace ShopApi.Controllers
             _cache = cache;
         }
 
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<Cart>> GetAll()
+        {
+            return await _context.Carts.Include("CartItems")
+                                       .Include("Order")
+                                       .Include("User")
+                                       .Include("CartItems.Product").ToListAsync();
+        }
+
         [HttpGet("{userId}")]
         [Authorize(Roles="Admin")]
         public async Task<IEnumerable<Cart>> GetUserCart(Guid userId)
         {
-            // return JsonConvert.DeserializeObject<Dictionary<Guid, long>>(
-            //     HttpContext.Session.GetString("cart") ?? "{}");
             return await _context.Carts.Where(uc => uc.UserId == userId)
                                        .Include("CartItems")
                                        .Include("Order")

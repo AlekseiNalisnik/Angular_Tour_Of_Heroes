@@ -15,6 +15,8 @@ namespace ShopApi.Models.User
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime BirthDate { get; set; }
         
+        public Cart Cart { get; set; }
+        
     }
     
     public class UserRole : IdentityRole<Guid>

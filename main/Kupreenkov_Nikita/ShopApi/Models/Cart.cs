@@ -9,9 +9,8 @@ namespace ShopApi.Models
     {
         public Guid Id { get; set; }
         
-        [Required]
         [ForeignKey("User")]
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
         
         [ForeignKey("Order")]
         public Guid? OrderId { get; set; }

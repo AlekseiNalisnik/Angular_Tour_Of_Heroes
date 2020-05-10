@@ -1,9 +1,9 @@
 using System;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-
+using Microsoft.Extensions.Hosting;
 using ShopApi.Models;
-using ShopApi.Data.DbSet;
 using ShopApi.Models.User;
 using ShopApi.Data.Config;
 using ShopApi.Models.Product;
