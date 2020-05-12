@@ -1,4 +1,4 @@
-import {Product} from './product';
+import {Product} from './interfaces/product';
 
 export const Products: Product[] = [
     {id: 1, name: 'duck', value: 100, description: 'perfect duck from the perfects ducks', weight: 52, cathegory: 'common'},

@@ -1,84 +1,16 @@
 <div class="basket">
-    <div class="basket__title">
-        <div class="basket__title__name">Корзина</div>
-        <sup class="basket__title__counter">4</sup>
-    </div> <br> <br>
+  <div class="basket__title">
+    <div class="basket__title__name">Корзина</div>
+    <sup class="basket__title__counter">{{products.length}}</sup>
+  </div>
+  <br />
+  <br />
 
-    <div class="basket__basket-main">
-        <div class="basket__list-item">
-            <div class="basket__button-line">
-                <input type="checkbox" value="0" class="basket__button-line__checkbox"> Выбрать всё
-                <button class="basket__button-line__delete-checked">Удалить выбранные</button>
-            </div>
-
-            <div class="basket__list-item__item">
-                <div class="basket__list-item__item__picture">
-                    <input type="checkbox" value="3" class="basket__list-item__item__checkbox">
-                    <img src="../../assets/duck2.png" class="picture">
-
-                    <div class="basket__list-item__item__info">
-                        <div class="basket__list-item__item__description">
-                            Игрушка для ванной, сувенир "Уточка-прибаУточка"
-                        </div>
-                        <div class="basket__list-item__item__weight custom-pipe__gr">
-                            50гр
-                        </div>
-                        <button class="basket__list-item__item__button">
-                            Удалить
-                        </button>
-                    </div>
-                </div>
-
-                <div class="basket__list-item__item__cost">
-                    299 P
-                </div>
-                <div class="basket__list-item__item__quantity">
-                    <select size="1" multiple class="count-selector">
-                        <option class="count-selector__option" disabled>Количество</option>
-                        <option class="count-selector__option" selected value="1">1</option>
-                        <option class="count-selector__option" value="2">2</option>
-                        <option class="count-selector__option" value="3">3</option>
-                        <option class="count-selector__option" value="4">4</option>
-                        <option class="count-selector__option" value="5">5</option>
-                    </select>
-                    <div class="basket__list-item__item__sum-cost custom-pipe__cost">
-                        299 P/шт.
-                    </div>
-                </div>
-                <div class="horizontal-line"></div>
-            </div>
-
-        </div>
-
-        <div class="basket__order">
-            <div class="basket__order__button-wrapper">
-                <a class="order-button">
-                    Перейти к оформлению
-                </a>
-                <div class="basket__order__button-wrapper__description custom-pipe__gr">
-                    Доступные способы и время доставки можно выбрать при оформлении заказа
-                </div>
-            </div>
-            <div class="basket__order__total">
-                <div class="basket__order__total__item-basket">
-                    Ваша корзина
-                    <div class="products custom-pipe__gr">
-                        4 товара 205гр
-                    </div>
-                </div>
-                <div class="basket__order__total__products-cost custom-pipe__gr">
-                    Товары (4)
-                    <div class="cost">
-                        1978 P
-                    </div>
-                </div>
-                <div class="basket__order__total__end-cost">
-                    Общая стоимость
-                    <div class="end-cost">
-                        1 196 Р
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> 
+  <div class="basket__basket-main">
+    <app-cart-product
+      class="cart__list-item"
+      (outputProducts)="onBasketChange($event)"
+    ></app-cart-product>
+    <app-order-panel class="cart__order" [products] = "products"></app-order-panel>
+  </div>
 </div>

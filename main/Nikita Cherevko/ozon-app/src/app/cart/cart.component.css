@@ -242,3 +242,21 @@
     font-weight: bold;
     color: black;
 }
+
+.cart__list-item {
+    height: 90%;
+    width: 65%;
+    background-color: #fff;
+    margin-left: 7%;
+}
+
+.cart__order {
+    height: 100%;
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+    width: 25%;
+    background-color: #fff;
+    flex-direction: row;
+    margin-left: 2%;
+}

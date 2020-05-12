@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../user.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-header',
@@ -12,22 +14,18 @@ export class HeaderComponent implements OnInit {
 
   public myclass = 'red';
   public mycolor = 'red';
-  public user = {
-    name : 'Nik'
-  };
-  public users = [
-    {name: 'John'},
-    {name: 'Nik'},
-    {name: 'Lex'},
-    {name: 'Sux'},
-    {name: 'Ang'}
-  ];
+
+
+  public users;
   public selectedUser;
 
-  constructor() {
+  constructor(
+    private userService: UserService,
+    private http: HttpClient) {
    }
 
   ngOnInit(): void {
+    this.userService.getAll().subscribe(users => this.users = users);
   }
 
   changeColor(color) {

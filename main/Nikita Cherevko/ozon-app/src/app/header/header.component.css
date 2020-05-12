@@ -1,9 +1,14 @@
-
 /* HEADER */
+a {
+    text-decoration:none;
+    color: #000;
+}
+
 .header {
     display: flex;
     height: 60px;
-    justify-content: center;
+    align-items: center;
+    justify-content: center 
 }
 
 .header__main-picture {
@@ -11,19 +16,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 .header__search {
-    width: 50%;
+    width: 850px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .header__search__line {
+    width: 90%;
     height: 28px;
     padding-left: 5px;
-    width: 100%;
 }
 
 .header__search__button {
@@ -51,19 +57,22 @@
     width: 70px;
     align-items: center;
     position: relative;
+    cursor: pointer;
 }
 
 .header__links__user__img, .header__links__basket__img {
+    /* margin-top: 10px;
+    height: 25px; */
     height: 20px;
-    margin-top: 15px;
+    margin-top: 6%;
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
 
 .header__links__basket__img {
-    height: 20px;
-    margin-top: 15px;
+    /* height: 20px; */
+    /* margin-top: 15px; */
 }
 
 .header__links__user__name, .header__links__basket__title {
@@ -89,12 +98,24 @@
     left: 60%;
 }
 
-.ozonPicture {
-    display: inline;
+
+
+
+
+
+
+
+
+.header__reg-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    background-color: rgba(0,0,0,0.5);
 }
 
-.myClass {
-    background-color: blue;
-    color: white;
-    font-size: 100px;
+.header__reg-main {
+
 }
