@@ -1,15 +1,7 @@
-using System;
-using System.Collections.Generic;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Caching.Distributed;
 
-using Newtonsoft.Json;
-
-using ShopApi.Data;
 using ShopApi.Services;
 
 namespace ShopApi.Controllers
@@ -20,17 +12,11 @@ namespace ShopApi.Controllers
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class HomeController : ControllerBase
     {
-        private readonly ShopDbContext _context;
-        private readonly IDistributedCache _cache;
         private readonly ICartRepository _repository;
 
-        public HomeController(ShopDbContext context, 
-                              IDistributedCache cache,
-                              ICartRepository repository)
+        public HomeController(CartRepositoryFactory factory)
         {
-            _context = context;
-            _cache = cache;
-            _repository = repository;
+            _repository = factory.GetRepository();
         }
         
         [Route("Index")]

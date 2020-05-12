@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using ShopApi.Data;
 using ShopApi.Models;
 
@@ -17,10 +19,19 @@ namespace ShopApi.Services
 
         protected override async Task<Cart> CreateCart()
         {
-            Cart cart = new Cart();
-            Accessor.HttpContext.Session.SetString(CartSessionKey, cart.Id.ToString());
-            await Context.Carts.AddAsync(cart);
-            return cart;
+            var cartEntry = await Context.Carts.AddAsync(new Cart());
+            
+            Accessor.HttpContext.Session.SetString(CartSessionKey, cartEntry.Entity.Id.ToString());
+            return cartEntry.Entity;
+        }
+        
+        public override Cart Get()
+        {
+            Guid.TryParse(Accessor.HttpContext.Session.GetString(CartSessionKey), out var cartId);
+            return Context.Carts.Where(c => c.Id == cartId)
+                                .Include("CartItems")
+                                .Include("CartItems.Product")
+                                .FirstOrDefault();
         }
     }
 }

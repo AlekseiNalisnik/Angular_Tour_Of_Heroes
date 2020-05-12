@@ -7,15 +7,13 @@ using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Caching.Distributed;
 
-using Newtonsoft.Json;
 using ShopApi.Data;
 using ShopApi.Models.User;
+using ShopApi.Services;
 
 namespace ShopApi.Controllers
 {
@@ -24,39 +22,26 @@ namespace ShopApi.Controllers
     public class AccountController : ControllerBase
     {
         private readonly ShopDbContext _context;
-        private readonly IDistributedCache _cache;
-        public AccountController(ShopDbContext context,
-                                 IDistributedCache cache)
+        private readonly ICartRepository _repository;
+
+        public AccountController(ShopDbContext context, 
+                                 ICartRepository repository)
         {
             _context = context;
-            _cache = cache;
+            _repository = repository;
         }
 
-        private async Task MapCart()
+        private IEnumerable<Claim> GenerateUserClaims(User user)
         {
-            // var unAuthCart = JsonConvert.DeserializeObject<Dictionary<Guid, long>>(
-            //      HttpContext.Session.GetString("cart") ?? "{}");
-            // var pc = new ProductsController(_context, _cache);
-            // pc.ControllerContext = ControllerContext;
-            //
-            // foreach (var (key, value) in unAuthCart)
-            // {
-            //     await pc.AddToCart(key, value);
-            // }
-        }
-        
-        private IEnumerable<Claim> GenerateUserClaims(string userName)
-        {
-            var user = _context.Users.FirstOrDefault(u => u.Email == userName);
             var userRoles = from iur in _context.UserRoles
                 where iur.UserId == user.Id
                 from ur in _context.Roles 
                 where ur.Id == iur.RoleId
                 select ur;
-            
+
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Sid, user.Id.ToString()),
+                new Claim(ClaimTypes.Sid, user.Id.ToString(), nameof(Guid)),
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.MobilePhone, user.PhoneNumber),
@@ -80,8 +65,18 @@ namespace ShopApi.Controllers
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(id), 
-                new AuthenticationProperties()).ContinueWith(t => MapCart(),
-                        TaskContinuationOptions.ExecuteSynchronously);
+                new AuthenticationProperties());
+        }
+        
+        public async Task MapCart(User user)
+        {
+            var cart = _repository.Get();
+            var userCart = _context.Carts.First(c => c.OrderId == null && c.UserId == user.Id);
+            foreach (var item in cart.CartItems)
+            {
+                item.CartId = userCart.Id;
+                _context.CartItems.Update(item);
+            }
         }
         
         [HttpPost]
@@ -90,16 +85,16 @@ namespace ShopApi.Controllers
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Login([FromForm]Login login)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return CreatedAtAction("Login", login);
+            
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == login.Email);
+            if (user != null)
             {
-                User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == login.Email);
-                if (user != null)
-                {
-                    await Authenticate(GenerateUserClaims(login.Email));
-                    return RedirectToAction("Index", "Home");
-                }
-                ModelState.AddModelError("", "Incorrect login or password.");
+                await Authenticate(GenerateUserClaims(user));
+                await MapCart(user);
+                return RedirectToAction("Index", "Home");
             }
+            ModelState.AddModelError("", "Incorrect login or password.");
             return CreatedAtAction("Login", login);
         }
 
@@ -107,22 +102,21 @@ namespace ShopApi.Controllers
         [Route("Register")]
         public async Task<IActionResult> Register([FromForm]Register register)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return CreatedAtAction("Register", register);
+            
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == register.Email);
+            if (user == null)
             {
-                User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == register.Email);
-                if (user == null)
+                var userEntry = await _context.Users.AddAsync(new User
                 {
-                    _context.Users.Add(new User
-                    {
-                        Email = register.Email,
-                        PasswordHash = register.Password
-                    });
-                    
-                    await Authenticate(GenerateUserClaims(register.Email));
-                    return RedirectToAction("Index", "Home");
-                }
-                ModelState.AddModelError("", "User already exists.");
+                    Email = register.Email,
+                    PasswordHash = register.Password
+                });
+                
+                await Authenticate(GenerateUserClaims(userEntry.Entity));
+                return RedirectToAction("Index", "Home");
             }
+            ModelState.AddModelError("", "User already exists.");
             return CreatedAtAction("Register", register);
         }
  

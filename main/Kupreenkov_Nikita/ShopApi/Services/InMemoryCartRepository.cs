@@ -16,20 +16,17 @@ namespace ShopApi.Services
 {
     public class InMemoryCartRepository : ICartRepository
     {
-        private readonly ShopDbContext _context;
         private readonly IDistributedCache _cache;
         private readonly IHttpContextAccessor _accessor;
 
-        public InMemoryCartRepository(ShopDbContext context, 
-                                      IDistributedCache cache,
+        public InMemoryCartRepository(IDistributedCache cache,
                                       IHttpContextAccessor accessor)
         {
-            _context = context;
             _cache = cache;
             _accessor = accessor;
         }
 
-        public Cart Get(Guid id)
+        public Cart Get()
         {
             var cart = JsonConvert.DeserializeObject<Dictionary<Guid, long>>(
                 _accessor.HttpContext.Session.GetString("cart") ?? "{}");
@@ -42,24 +39,19 @@ namespace ShopApi.Services
             return res;
         }
 
-        public IEnumerable<Cart> Get()
+        private Dictionary<Guid, long> GetCartData(Product product)
         {
-            return _context.Carts.OrderBy(c => c.Cost).ToList();
+            return JsonConvert.DeserializeObject<Dictionary<Guid, long>>(
+                _accessor.HttpContext.Session.GetString("cart") ?? "{}");
         }
-    
-        public void Add(Cart cart)
+
+        public async Task Add(Cart cart)
         {
             if (cart == null)
             {
                 throw new ArgumentNullException(nameof(cart));
             }
             _accessor.HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(cart));
-        }
-
-        private Dictionary<Guid, long> GetCartData(Product product)
-        {
-            return JsonConvert.DeserializeObject<Dictionary<Guid, long>>(
-                _accessor.HttpContext.Session.GetString("cart") ?? "{}");
         }
 
         public async Task Add(Product product, long count = 1)
@@ -70,6 +62,11 @@ namespace ShopApi.Services
             else
                 cart.Add(product.Id, count);
             _accessor.HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(cart));
+        }
+
+        public async Task Delete(Cart cart)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task Delete(Product product, long count = 1)
@@ -83,16 +80,6 @@ namespace ShopApi.Services
                 else
                     cart[product.Id] = _count;
             }
-            _accessor.HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(cart));
-        }
-
-        public void Delete(Cart cart)
-        {
-            _accessor.HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(cart));
-        }
-
-        public void Update(Cart cart)
-        {
             _accessor.HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(cart));
         }
 

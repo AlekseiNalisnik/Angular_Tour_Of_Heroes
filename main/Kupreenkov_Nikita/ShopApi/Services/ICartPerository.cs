@@ -8,13 +8,11 @@ namespace ShopApi.Services
 {
     public interface ICartRepository
     {
-        public void Add(Cart cart);
+        public Task Add(Cart cart);
         public Task Add(Product product, long count = 1);
-        public void Delete(Cart cart);
+        public Task Delete(Cart cart);
         public Task Delete(Product product, long count = 1);
-        public Cart Get(Guid id);
-        public IEnumerable<Cart> Get();
-        public void Update(Cart cart);
+        public Cart Get();
     }
 
 }

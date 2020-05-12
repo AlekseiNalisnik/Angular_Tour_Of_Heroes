@@ -13,6 +13,7 @@ using ShopApi.Models.Product;
 namespace ShopApi.Controllers
 {
     [Route("api/[controller]")]
+    [AllowAnonymous]
     [ApiController]
     public class SearchController : ControllerBase
     {
@@ -27,10 +28,9 @@ namespace ShopApi.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public ActionResult<List<Product>> Get([FromQuery] string query)
         {
-            if (!String.IsNullOrEmpty(query))
+            if (!string.IsNullOrEmpty(query))
             {
                 return Ok(_context.Products.Where(p => p.Name.Contains(query)).ToList());
             }

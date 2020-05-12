@@ -3,6 +3,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using ShopApi.Data;
 using ShopApi.Models;
 
@@ -24,6 +25,14 @@ namespace ShopApi.Services
             var cart = new Cart { UserId = UserId };
             await Context.Carts.AddAsync(cart);
             return cart;
+        }
+
+        public override Cart Get()
+        {
+            return Context.Carts.Where(c => c.OrderId == null && c.UserId == UserId)
+                                .Include("CartItems")
+                                .Include("CartItems.Product")
+                                .FirstOrDefault();
         }
     }
 }

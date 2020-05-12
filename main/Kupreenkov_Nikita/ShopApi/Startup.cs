@@ -35,6 +35,7 @@ namespace ShopApi
             Configuration = configuration;
         }
 
+        private const string Origins = "ShopApiOrigins";
         public IConfiguration Configuration { get; }
 
         private void ConfigureCache(IServiceCollection services)
@@ -48,13 +49,14 @@ namespace ShopApi
         private void ConfigureRepositories(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
-            services.Configure<RepositoryConfiguration>(Configuration.GetSection("RepositoryConfiguration"));
+            services.Configure<RepositoryConfiguration>(Configuration.GetSection("RepositorySettings"));
             
             services.AddScoped<InMemoryCartRepository>();
-            services.AddScoped<AuthorizedDbCartRepository>();
             services.AddScoped<UnauthorizedDbCartRepository>();
-            services.AddScoped<ICartRepository, AuthorizedDbCartRepository>();
+            services.AddTransient<ICartRepository, AuthorizedDbCartRepository>();
+            
             services.AddScoped<CartRepositoryFactory>();
+            services.AddTransient<RepositoryMapper>();
         }
 
         private void ConfigureDb(IServiceCollection services)
@@ -81,8 +83,15 @@ namespace ShopApi
 
         private void ConfigureFrontend(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(Origins,builder =>
+                    {
+                        builder.WithOrigins("https://kupa-shop");
+                    });
+            });
             services.AddSpaStaticFiles(options =>
-                   Configuration.Bind("AngularConfig", options));
+                   Configuration.Bind("AngularSettings", options));
         }
 
         private void ConfigureSessions(IServiceCollection services)
@@ -115,6 +124,7 @@ namespace ShopApi
         public void Configure(IApplicationBuilder app, 
                               IWebHostEnvironment env)
         {
+            app.UseDefaultFiles();
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
@@ -124,6 +134,8 @@ namespace ShopApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            app.UseCors(Origins); 
             
             app.UseHttpsRedirection();
             app.UseCookiePolicy(new CookiePolicyOptions

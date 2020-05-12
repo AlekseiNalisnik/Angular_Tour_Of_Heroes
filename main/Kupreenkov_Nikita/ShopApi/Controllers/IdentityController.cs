@@ -5,19 +5,20 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
+using ShopApi.Models;
 using ShopApi.Models.User;
 
 namespace ShopApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RolesController : ControllerBase
+    public class IdentityController : ControllerBase
     {
         private readonly RoleManager<UserRole> _roleManager;
         private readonly UserManager<User> _userManager;
         
-        public RolesController(RoleManager<UserRole> roleManager, UserManager<User> userManager)
+        public IdentityController(RoleManager<UserRole> roleManager,
+                                  UserManager<User> userManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -57,7 +58,7 @@ namespace ShopApi.Controllers
             UserRole role = await _roleManager.FindByIdAsync(id);
             if (role != null)
             {
-                IdentityResult result = await _roleManager.DeleteAsync(role);
+                await _roleManager.DeleteAsync(role);
             }
             return RedirectToAction("RoleList");
         }
@@ -71,14 +72,14 @@ namespace ShopApi.Controllers
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
                 var allRoles = _roleManager.Roles.ToList();
-                // ChangeRoleViewModel model = new ChangeRoleViewModel
-                // {
-                //     UserId = user.Id,
-                //     UserEmail = user.Email,
-                //     UserRoles = userRoles,
-                //     AllRoles = allRoles
-                // };
-                return CreatedAtAction("UserList", new { id = user.Id }, user);
+                ChangeRole model = new ChangeRole
+                {
+                    UserId = user.Id,
+                    UserEmail = user.Email,
+                    UserRoles = userRoles,
+                    AllRoles = allRoles
+                };
+                return Ok(model);
             }
  
             return NotFound();

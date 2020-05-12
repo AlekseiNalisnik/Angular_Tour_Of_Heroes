@@ -12,7 +12,7 @@ namespace ShopApi.Data.Config
     public class ProductImageConfiguration : IEntityTypeConfiguration<Image>
     {
         private const string RootPath =
-            "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/Assets";
+            "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/Assets/";
 
         private const string BearImgPath = RootPath + "bear.jpeg";
         private const string DuckImgPath = RootPath + "duck.jpeg";

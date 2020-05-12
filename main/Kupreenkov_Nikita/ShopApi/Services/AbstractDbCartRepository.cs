@@ -2,7 +2,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -27,9 +26,13 @@ namespace ShopApi.Services
             Accessor = accessor;
         }
 
-        private (Cart?, CartItem?) GetCartData(Product product, Guid userId)
+        protected abstract Guid UserId { get; }
+        public abstract Cart Get();
+        protected abstract Task<Cart> CreateCart();
+
+        private (Cart?, CartItem?) GetCartData(Product product)
         {
-            var cart = Context.Carts.FirstOrDefault(c => c.OrderId == null && c.UserId == userId);
+            var cart = Get();
             CartItem? cartItem = null;
             
             if (cart != null)
@@ -40,9 +43,6 @@ namespace ShopApi.Services
 
             return (cart, cartItem);
         }
-
-        protected abstract Guid UserId { get; }
-        protected abstract Task<Cart> CreateCart();
 
         protected virtual async Task<CartItem> CreateCartItem(Product product, Cart cart)
         {
@@ -56,30 +56,63 @@ namespace ShopApi.Services
 
         protected virtual void UpdateCartItem(CartItem cartItem, long count)
         {
+            EntityState state;
+            
             cartItem.Count += count;
+            
             if (cartItem.Count < 1)
             {
-                Context.CartItems.Remove(cartItem);
+               state = EntityState.Deleted;
             }
+            else if (Context.CartItems.Any(c => c.Id == cartItem.Id))
+            {
+               state = EntityState.Modified;
+            }
+            else
+            {
+               state = EntityState.Added;
+            }
+            
+            Context.Entry(cartItem).State = state;
+        }
+
+        public async Task Add(Cart cart)
+        {
+            EntityState state;
+            if (Context.Carts.All(c => c.Id != cart.Id))
+            {
+                cart.UserId = UserId;
+                state = EntityState.Modified;
+            }
+            else
+            {
+                state = EntityState.Added;
+            }
+            Context.Entry(cart).State = state;
+            await Context.SaveChangesAsync();
         }
 
         public async Task Add(Product product, long count = 1)
         {
-            var (cart, cartItem) = GetCartData(product, UserId);
+            var (cart, cartItem) = GetCartData(product);
 
             cart ??= await CreateCart();
             cartItem ??= await CreateCartItem(product, cart);
             
             UpdateCartItem(cartItem, count);
-            
-            Context.Entry(cartItem).State = Context.CartItems.Any(c => c.Id == cartItem.Id)
-                ? EntityState.Modified : EntityState.Added;
+
+            await Context.SaveChangesAsync();
+        }
+
+        public async Task Delete(Cart cart)
+        {
+            Context.Carts.Remove(cart);
             await Context.SaveChangesAsync();
         }
 
         public async Task Delete(Product product, long count = 1)
         {
-            var (_, cartItem) = GetCartData(product, UserId);
+            var (_, cartItem) = GetCartData(product);
             
             if (cartItem == null) return;
             UpdateCartItem(cartItem, -count);
@@ -87,37 +120,5 @@ namespace ShopApi.Services
             await Context.SaveChangesAsync();
         }
 
-        public Cart Get(Guid id)
-        {
-            return Context.Carts.Find(id);
-        }
-
-        public IEnumerable<Cart> Get()
-        {
-            return Context.Carts.OrderBy(c => c.Cost).ToList();
-        }
-    
-        public void Add(Cart cart)
-        {
-            if (cart == null)
-            {
-                throw new ArgumentNullException(nameof(cart));
-            }
-            Context.Carts.Add(cart);
-            Context.SaveChanges();
-        }
-    
-        public void Delete(Cart cart)
-        {
-        
-            Context.Carts.Remove(cart);
-            Context.SaveChanges();
-        }
-
-        public void Update(Cart cart)
-        {
-            Context.Carts.Update(cart);
-            Context.SaveChanges();
-        }
     }
 }
