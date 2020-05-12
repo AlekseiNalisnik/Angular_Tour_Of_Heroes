@@ -1,4 +1,4 @@
-<div class="product-block" *ngFor="let product of products">
+<div class="product-block">
     <a class="product-block-img" [routerLink]="['/products', product.id]">
         <img src={{product.path}} alt={{product.alt}}>
     </a>
@@ -9,8 +9,8 @@
     <a 
         (click)="addProductToBasket(product)" 
         class="go-cart-btn"
+        [class.green]="backgroundSwitch"
     >
-    <!-- [ngStyle]="{ background: backgroundSwitch ? 'green' : '#0000FF' }" -->
         В корзину
     </a>
 </div>

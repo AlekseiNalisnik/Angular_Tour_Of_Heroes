@@ -1,3 +1,11 @@
 <div class="content-block">
-    <app-main-product class="product-block-wrapper"></app-main-product>
+    <div class="product-block-wrapper">
+        <app-main-product 
+            *ngFor="let product of products" 
+            [product]="product"
+            [basketProducts]="basketProducts"
+            (productsForOutput)="addProductToBasket($event)"
+        >
+        </app-main-product>
+    </div>
 </div>

@@ -14,6 +14,20 @@
                     placeholder="Email" 
                     formControlName="email"
                 />
+
+                <div 
+                    class="authorization-validation"
+                    *ngIf="authorizationForm.get('email').invalid && 
+                        authorizationForm.get('email').touched"
+                >
+                    <small *ngIf="authorizationForm.get('email').errors.email">
+                        Введите корректный Email
+                    </small>
+
+                    <small *ngIf="authorizationForm.get('email').errors.required">
+                        Поле Email не может быть пустым
+                    </small>
+                </div>
             </div>
             <div class="auth__password">
                 <input 
@@ -23,6 +37,16 @@
                     placeholder="Пароль"
                     formControlName="password"
                 />
+
+                <div 
+                    class="authorization-validation"
+                    *ngIf="authorizationForm.get('password').invalid && 
+                        authorizationForm.get('password').touched"
+                >
+                    <small *ngIf="authorizationForm.get('password').errors.required">
+                        Поле Пароль не может быть пустым
+                    </small>
+                </div>
             </div>
             <div class="auth__button">
                 <button 

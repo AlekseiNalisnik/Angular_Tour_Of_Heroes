@@ -1,35 +1,44 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Product } from '../../interfaces/product';
 import { ProductService } from '../../services/product.service';
-import { InMemoryDataService } from '../../services/in-memory-data.service';
-
+import { BasketLenghtService } from '../../services/basket-lenght.service';
 @Component({
   selector: 'app-main-product',
   templateUrl: './main-product.component.html',
   styleUrls: ['./main-product.component.css']
 })
 export class MainProductComponent implements OnInit {
-  products: Product[];
-  // backgroundSwitch: boolean = false;
+  backgroundSwitch: boolean = false;
+  @Input() basketProducts: Product[] = [];
+  @Input() product: Product;
+  @Output() productsForOutput: EventEmitter<Product> = new EventEmitter<Product>();
 
   constructor(
     private productService: ProductService,
-    private el: ElementRef
+    private basketLenghtService: BasketLenghtService
   ) { }
 
   ngOnInit(): void {
-    this.getAllProducts();
-    console.log(this.el.nativeElement);
+    this.backgroundSwitch = this.isProductInBasket(this.product);
+    console.log('this.backgroundSwitch - ', this.backgroundSwitch);
   }
 
-  getAllProducts(): void {
-    this.productService.getProducts()
-      .subscribe(products => this.products = products);
+  toggleFlag() {
+    this.backgroundSwitch = true;
   }
 
   addProductToBasket(product) {
-    this.productService.postProduct(product)
-      .subscribe(product => console.log('PRODUCT - ', product));
+    this.productsForOutput.emit(product);
+    this.toggleFlag();
+  }
+
+  isProductInBasket(product: Product): boolean {
+    for(let i = 0; i < this.basketProducts.length; i++) {
+      if(this.basketProducts[i].id === product.id) {
+        return true;
+      }
+    }
+    return false;
   }
 }

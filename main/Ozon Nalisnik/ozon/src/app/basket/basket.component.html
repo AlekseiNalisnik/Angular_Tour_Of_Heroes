@@ -5,10 +5,31 @@
     </div> <br> <br>
 
     <div class="basket__basket-main">
-        <app-basket-product 
-            class="basket__list-item"
-            (productsForOutput)="onBasketChange($event)"
-        > </app-basket-product>
-        <app-basket-order-panel class="basket__order"></app-basket-order-panel>
+        <div class="basket__list-item">
+            <div class="basket__button-line"  *ngIf="basketProducts.length">
+                <input 
+                    type="checkbox" 
+                    class="basket__button-line__checkbox"
+                    [(ngModel)]="masterSelected" 
+                    (change)="checkUncheckAll()"
+                /> Выбрать всё
+                <button 
+                    class="basket__button-line__delete-checked"
+                    (click)="deleteCheckedProductsFromBasket()"
+                >
+                    Удалить выбранные
+                </button>
+            </div>
+
+            <app-basket-product *ngFor="let product of basketProducts" 
+                [product]="product"
+                [masterSelected]="masterSelected"
+                (singleProductForOutput)="deleteProductFromBasket($event)"
+            > </app-basket-product>
+        </div>
+        <app-basket-order-panel 
+            class="basket__order"
+            [basketProducts]="basketProducts"
+        > </app-basket-order-panel>
     </div>
 </div>

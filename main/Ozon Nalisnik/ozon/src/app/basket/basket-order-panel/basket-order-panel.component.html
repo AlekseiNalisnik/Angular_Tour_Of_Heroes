@@ -11,19 +11,19 @@
         <div class="basket__order__total__item-basket">
             Ваша корзина    
             <div class="products custom-pipe__gr">
-                4 товара 205гр
+                {{basketProducts.length}} товара {{totalWeight}}гр
             </div>
         </div>
         <div class="basket__order__total__products-cost custom-pipe__gr">
-            Товары (4)
+            Товары ({{selectedProducts.length}})
             <div class="cost">
-                1978 P
+                {{totalCost}} P
             </div>
         </div>
         <div class="basket__order__total__end-cost">
             Общая стоимость
             <div class="end-cost">
-                1 196 Р
+                {{finalCost}} Р
             </div>
         </div>
     </div>

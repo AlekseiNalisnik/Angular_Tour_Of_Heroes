@@ -48,3 +48,29 @@
     flex-direction: row;
     margin-left: 2%;
 }
+
+
+/* Styles для верхней панельки с кнопками УДАЛИТЬ ВСЕ, ВЫДЕЛИТЬ ВСЁ */
+.basket__button-line {
+    height: 40px;
+    border-bottom: 3px solid #f2f4f7;
+    font-size: 14px;
+}
+
+.basket__button-line__checkbox {
+    margin-left: 2%;
+}
+
+.basket__button-line__delete-checked {
+    height: 100%;
+    color: #e02828;
+    /* font-size: 15px; */
+    margin-left: 15px;
+    font-size: 11px;
+    
+    padding: 0;
+    border: none;
+    font: inherit;
+    background-color: transparent;
+    cursor: pointer;
+}
