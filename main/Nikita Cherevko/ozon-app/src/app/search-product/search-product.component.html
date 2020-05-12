@@ -1,0 +1,16 @@
+<div class="header__search">
+    <input
+        #searchBox
+        (input) = "search(searchBox.value)"
+        class="header__search__line" 
+        type="text" 
+        placeholder="Искать на Ozon" />
+    <a class="header__search__button" href="#">
+        <img src="../../assets//Search.png" class="search-img">
+    </a>
+
+    <ul class="search-result">
+        <li *ngFor = "let product of products$ | async">
+        </li>
+    </ul>
+</div>

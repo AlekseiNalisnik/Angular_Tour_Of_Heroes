@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
 
   ngDoCheck(): void {
     this.products = this.observableService.lastProducts;
-     console.log('ngDoCheck - ', this.products);
+    //  console.log('ngDoCheck - ', this.products);
  }
 
   toggleToReg() {

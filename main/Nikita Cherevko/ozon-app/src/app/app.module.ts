@@ -25,6 +25,7 @@ import {Ng2PageScrollModule} from 'ng2-page-scroll';
 import { CartProductComponent } from './cart/cart-product/cart-product.component';
 import { OrderPanelComponent } from './cart/order-panel/order-panel.component';
 import { ObservableService } from './services/observable.service';
+import { SearchProductComponent } from './search-product/search-product.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { ObservableService } from './services/observable.service';
     SingupComponent,
     CartProductComponent,
     OrderPanelComponent,
+    SearchProductComponent,
   ],
   imports: [
     BrowserModule,

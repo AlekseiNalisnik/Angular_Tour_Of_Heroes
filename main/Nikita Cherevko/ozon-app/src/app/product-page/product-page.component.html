@@ -16,9 +16,16 @@
           >
             {{ product.value }}
           </div>
-          <button (click)="addProductToCart(product)" [style.background-color] = "backgroundSwitch == true ? 'green' : 'blue' ">
-            Добавить в корзину
-          </button>
+          <div class="button-wrapper">
+            <button class="go-cart" routerLink="/cart" >
+              В корзине {{this.product.quantity}} шт.
+              <br>
+              Перейти
+            </button>
+            <button class="add-to-cart" (click)="addProductToCart()" [style.background-color] = "backgroundSwitch == true ? 'green' : 'blue' ">
+              +1 шт.
+            </button>
+          </div>
         </div>
       </div>
     </div>

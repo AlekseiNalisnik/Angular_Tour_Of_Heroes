@@ -7,10 +7,10 @@ import { Product } from '../interfaces/product';
 })
 export class ObservableService {
 
-  lastProducts: Product[];
+  lastProducts: Product[] = [];
 
   
-  private  inventorySubject$ = new BehaviorSubject<Product[]>(this.lastProducts);
+  private inventorySubject$ = new BehaviorSubject<Product[]>(this.lastProducts);
 
   constructor() { }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 import { Product } from 'src/app/interfaces/product';
 import { ObservableService } from 'src/app/services/observable.service';
@@ -9,61 +9,38 @@ import { ObservableService } from 'src/app/services/observable.service';
   styleUrls: ['./cart-product.component.css'],
 })
 export class CartProductComponent implements OnInit {
-  @Output() outputProducts: EventEmitter<Product[]> = new EventEmitter<
-    Product[]
-  >();
+  @Output() singleProductForOutput: EventEmitter<Product> = new EventEmitter<Product>();
+  @Output() quantityOutput: EventEmitter<number> = new EventEmitter<number>();
+  @Input() product: Product;
+  @Input() masterSelected;
+  basketProducts: Product[] = [];
 
-  masterSelected = false;
-  products: Product[] = [];
-
-  constructor(
-    private productService: ProductService,
-    private observableService: ObservableService) {}
+  constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
-    this.getProducts();
-    this.outputProducts.emit(this.products);
-    console.log('Products recieved');
-    this.observableService.addToHeader(this.products)
+
   }
 
-  getProducts() {
-    this.productService.getCartProducts().subscribe((products) => {
-      this.products = products;
-      this.outputProducts.emit(this.products);
-      this.observableService.addToHeader(this.products);
-    });
-  }
-
-  removeProductFromCart(product) {
-    const productId = product.id;
-    this.productService.deleteCartProduct(product.id).subscribe(() => {
-      this.products = this.products.filter(
-        (product) => productId !== product.id
-      );
-      this.outputProducts.emit(this.products);
-      this.observableService.addToHeader(this.products);
-    });
-  }
-
-  removeChecked() {
-    for (const product of this.products) {
-      if (product.isSelected === true) {
-        this.removeProductFromCart(product);
-      }
-    }
-    this.observableService.addToHeader(this.products);
-  }
-
-  checkUncheckAll() {
-    for (const product of this.products) {
-      product.isSelected = this.masterSelected;
-    }
+  deleteProductFromCart(product) {
+    this.singleProductForOutput.emit(product);
   }
 
   isAllSelected() {
-    this.masterSelected = this.products.every(
-      (product) => product.isSelected === true
-    );
+    this.masterSelected = this.basketProducts.every(function(product: Product) {
+      return product.isSelected == true;
+    });
   }
+
+  changeQuantity(quantity) {
+    this.product.quantity = quantity;
+    this.singleProductForOutput.emit(this.product)
+    this.productService
+    .putCartProduct(this.product)
+    .subscribe((response) => {
+      console.log(response);
+    });
+
+    console.log(quantity, 'QUANTITY CHANGED')
+  }
+
 }

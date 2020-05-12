@@ -11,11 +11,11 @@
         <div class="basket__order__total__item-basket">
             Ваша корзина    
             <div class="products custom-pipe__gr">
-                {{products?.length}} товара {{weightSum()}}
+                {{quantitySum()}} товара {{weightSum()}} гр.
             </div>
         </div>
         <div class="basket__order__total__products-cost custom-pipe__gr">
-            Товары ({{products?.length}})
+            Товары ({{quantitySum()}})
             <div class="cost">
                 {{valueSum()}} P
             </div>

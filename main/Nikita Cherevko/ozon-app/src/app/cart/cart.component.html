@@ -1,16 +1,37 @@
 <div class="basket">
   <div class="basket__title">
-    <div class="basket__title__name">Корзина</div>
-    <sup class="basket__title__counter">{{products.length}}</sup>
-  </div>
-  <br />
-  <br />
+      <div class="basket__title__name">Корзина</div>
+      <sup class="basket__title__counter">{{products.length}}</sup>
+  </div> <br> <br>
 
   <div class="basket__basket-main">
-    <app-cart-product
-      class="cart__list-item"
-      (outputProducts)="onBasketChange($event)"
-    ></app-cart-product>
-    <app-order-panel class="cart__order" [products] = "products"></app-order-panel>
+      <div class="basket__list-item">
+          <div class="basket__button-line"  *ngIf="products.length">
+              <input 
+                  type="checkbox" 
+                  class="basket__button-line__checkbox"
+                  [(ngModel)]="masterSelected" 
+                  (change)="checkUncheckAll()"
+              /> Выбрать всё
+              <button 
+                  class="basket__button-line__delete-checked"
+                  (click)="deleteCheckedProductsFromCart()"
+              >
+                  Удалить выбранные
+              </button>
+          </div>
+
+          <app-cart-product *ngFor="let product of products" 
+              [product]="product"
+              [masterSelected]="masterSelected"
+              (singleProductForOutput)="deleteProductFromCart($event)"
+              (singleProductForOutput)="ChangeQuantity($event)"
+
+          > </app-cart-product>
+      </div>
+      <app-order-panel 
+          class="basket__order"
+          [products]="products"
+      > </app-order-panel>
   </div>
 </div>

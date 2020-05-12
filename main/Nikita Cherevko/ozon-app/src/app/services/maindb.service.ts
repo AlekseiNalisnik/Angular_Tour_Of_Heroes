@@ -41,7 +41,7 @@ export class MaindbService implements InMemoryWebApiModule{
         weight: 1032,
         cathegory: 'common',
         isSelected: false,
-        quantity: 1
+        quantity: 0
       },
       {
         id: 12,
@@ -53,7 +53,7 @@ export class MaindbService implements InMemoryWebApiModule{
         weight: 1032,
         cathegory: 'common',
         isSelected: false,
-        quantity: 1
+        quantity: 0
       },
       {
         id: 13,
@@ -65,7 +65,7 @@ export class MaindbService implements InMemoryWebApiModule{
         weight: 1032,
         cathegory: 'common',
         isSelected: false,
-        quantity: 1
+        quantity: 0
       },
     ];
 

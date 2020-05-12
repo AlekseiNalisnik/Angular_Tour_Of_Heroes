@@ -8,11 +8,13 @@ import { Product } from 'src/app/interfaces/product';
   styleUrls: ['./order-panel.component.css'],
 })
 export class OrderPanelComponent implements OnInit {
-
   @Input() products;
 
   productsWeight = 0;
+  productWeight = 0;
   productsSumValue = 0;
+  productSumValue = 0;
+  quantitySumValue = 0;
 
   constructor(private productService: ProductService) {}
 
@@ -25,7 +27,8 @@ export class OrderPanelComponent implements OnInit {
   weightSum() {
     this.productsWeight = 0;
     for (const product of this.products) {
-      this.productsWeight += product.weight;
+      this.productWeight = product.weight * product.quantity;
+      this.productsWeight += this.productWeight;
     }
     return this.productsWeight;
   }
@@ -33,7 +36,8 @@ export class OrderPanelComponent implements OnInit {
   valueSum() {
     this.productsSumValue = 0;
     for (const product of this.products) {
-      this.productsSumValue += product.value;
+      this.productSumValue = product.value * product.quantity;
+      this.productsSumValue += this.productSumValue;
     }
     return this.productsSumValue;
   }
@@ -42,4 +46,11 @@ export class OrderPanelComponent implements OnInit {
     location.reload();
   }
 
+  quantitySum() {
+    this.quantitySumValue = 0;
+    for (const product of this.products) {
+      this.quantitySumValue += product.quantity;
+    }
+    return this.quantitySumValue;
+  }
 }
