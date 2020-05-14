@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
 import { Product } from 'src/app/interfaces/product';
-import { ObservableService } from 'src/app/services/observable.service';
+import { CartProduct } from 'src/app/interfaces/cartProduct';
 
 @Component({
   selector: 'app-cart-product',
@@ -9,38 +9,34 @@ import { ObservableService } from 'src/app/services/observable.service';
   styleUrls: ['./cart-product.component.css'],
 })
 export class CartProductComponent implements OnInit {
-  @Output() singleProductForOutput: EventEmitter<Product> = new EventEmitter<Product>();
-  @Output() quantityOutput: EventEmitter<number> = new EventEmitter<number>();
-  @Input() product: Product;
+  @Output() singleProductForOutput: EventEmitter<Product> = new EventEmitter<
+    Product
+  >();
+  @Output() changeQuantityOutput: EventEmitter<Product> = new EventEmitter<Product>();
+  @Input() cartProduct: CartProduct;
   @Input() masterSelected;
-  basketProducts: Product[] = [];
+  cartProducts: CartProduct[] = [];
 
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService) {}
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   deleteProductFromCart(product) {
     this.singleProductForOutput.emit(product);
   }
 
   isAllSelected() {
-    this.masterSelected = this.basketProducts.every(function(product: Product) {
+    this.masterSelected = this.cartProducts.every(function (
+      product: CartProduct
+    ) {
       return product.isSelected == true;
     });
   }
 
   changeQuantity(quantity) {
-    this.product.quantity = quantity;
-    this.singleProductForOutput.emit(this.product)
-    this.productService
-    .putCartProduct(this.product)
-    .subscribe((response) => {
-      console.log(response);
-    });
+    this.cartProduct.quantity = quantity;
+    this.changeQuantityOutput.emit(this.cartProduct);
 
-    console.log(quantity, 'QUANTITY CHANGED')
+    console.log(quantity, 'QUANTITY CHANGED');
   }
-
 }

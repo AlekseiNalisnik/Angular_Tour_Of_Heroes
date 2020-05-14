@@ -1,7 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { ProductService } from '../../services/product.service';
-import { ObservableService } from 'src/app/services/observable.service';
 import { Product } from 'src/app/interfaces/product';
+import { CartProduct } from 'src/app/interfaces/cartProduct';
 
 @Component({
   selector: 'app-product',
@@ -9,34 +8,19 @@ import { Product } from 'src/app/interfaces/product';
   styleUrls: ['./product.component.css'],
 })
 export class ProductComponent implements OnInit {
-  @Input() cartProducts: Product[] = [];
-  @Input() product;
+  @Input() isProductInCart;
+  @Input() cartProduct:CartProduct;
   @Output() outputProducts: EventEmitter<Product> = new EventEmitter<Product>();
 
   backgroundColorSwitch = false;
 
-  constructor(
-    private productService: ProductService,
-    private observableService: ObservableService
-  ) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    this.backgroundColorSwitch = this.isProductInCart(this.product);
-    console.log('this.backgroundSwitch - ', this.backgroundColorSwitch);
+  ngOnInit(): void {}
+
+  addProductToCart(cartProduct) {
+    // console.log('this cart prodcuts', this.cartProducts);
+    this.cartProduct.quantity = 1;
+    this.outputProducts.emit(cartProduct);
   }
-
-  addProductToCart(product) {
-    this.outputProducts.emit(product);
-    this.backgroundColorSwitch = true;
-  }
-
-  isProductInCart(product: Product): boolean {
-    for(let i = 0; i < this.cartProducts.length; i++) {
-      if(this.cartProducts[i].id === product.id) {
-        return true;
-      }
-    }
-    return false;
-  }
-
 }

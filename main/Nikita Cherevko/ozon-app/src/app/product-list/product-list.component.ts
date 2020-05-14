@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ProductService } from '../services/product.service';
 import { Product } from '../interfaces/product';
-import { ObservableService } from '../services/observable.service';
+import { EventBusService } from '../services/event-bus.service';
+import { CartProduct } from '../interfaces/cartProduct';
 
 @Component({
   selector: 'app-product-list',
@@ -9,17 +10,24 @@ import { ObservableService } from '../services/observable.service';
   styleUrls: ['./product-list.component.css'],
 })
 export class ProductListComponent implements OnInit {
-  cartProducts: Product[] = [];
+  cartProducts: CartProduct[] = [];
   products: Product[];
   constructor(
     private productService: ProductService,
-    private observableService: ObservableService
-    ) {}
+    private eventBusService: EventBusService
+  ) {}
 
   ngOnInit(): void {
     this.getProducts();
-    this.cartProducts =  this.observableService.lastProducts;
-    console.log('cartProducts -', this.cartProducts)
+    this.getCartProduts();
+    // console.log('ng on init cartProducts -', this.cartProducts);
+  }
+
+  getCartProduts() {
+    this.productService.getCartProducts().subscribe((cartProducts) => {
+      this.cartProducts = cartProducts;
+      // console.log('ng on init cartProducts -', this.cartProducts);
+    });
   }
 
   getProducts(): void {
@@ -28,24 +36,23 @@ export class ProductListComponent implements OnInit {
       .subscribe((products) => (this.products = products));
   }
 
- AddProductToCart(product) {
-  this.productService.postCartProduct(product).subscribe((productAss) => {
-    if(productAss == null) {
-      console.log('Product == 0', product);
-      return;
-    }
-    else this.cartProducts.push(product);
-    this.observableService.addToHeader(this.cartProducts);
-  });
- }
-
- isProductInCart(product: Product): boolean {
-  for(let i = 0; i < this.cartProducts.length; i++) {
-    if(this.cartProducts[i].id === product.id) {
-      return false;
-    }
+  AddProductToCart(cartProduct) {
+    this.productService.postCartProduct(cartProduct).subscribe((productAss) => {
+      if (productAss == null) {
+        // console.log('Product == 0', product);
+        return;
+      } else this.cartProducts.push(cartProduct);
+      this.eventBusService.changeData(this.cartProducts);
+    });
   }
-  return true;
-}
 
+  isProductInCart(cartProduct): boolean {
+    for (let i = 0; i < this.cartProducts.length; i++) {
+      if (this.cartProducts[i].id === cartProduct.id) {
+        return true;
+      }
+    }
+    // console.log(this.cartProducts);
+    return false;
+  }
 }

@@ -1,12 +1,22 @@
 <div class="product-block">
-    <div class="product-block-img">
-        <img src={{product.path}} alt={{product.alt}} routerLink = "/product-page/{{product.id}}">
-    </div>
-        <div class="product-value"> 
-            {{product.value}}
-        </div>
-        <div class="product-description">
-            {{product.description}}
-        </div>
-        <a class="go-cart-btn" (click)="addProductToCart(product)" [style.background-color] = "backgroundColorSwitch ? 'green' : 'blue'" > В корзину</a>
+  <div class="product-block-img">
+    <img
+      src="{{ cartProduct.path }}"
+      alt="{{ cartProduct.alt }}"
+      routerLink="/product-page/{{ cartProduct.id }}"
+    />
+  </div>
+  <div class="product-value">
+    {{ cartProduct.value }}
+  </div>
+  <div class="product-description">
+    {{ cartProduct.description }}
+  </div>
+  <a
+    class="go-cart-btn"
+    (click)="addProductToCart(cartProduct)"
+    [style.background-color]="isProductInCart ? 'green' : 'blue'"
+  >
+    В корзину</a
+  >
 </div>

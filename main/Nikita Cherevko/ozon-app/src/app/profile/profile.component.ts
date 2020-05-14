@@ -14,7 +14,7 @@ export class ProfileComponent implements OnInit {
   user: User;
   constructor(
     private userService: UserService,
-    private mainDb: MaindbService,
+    // private mainDb: MaindbService,
     private route: ActivatedRoute
   ) {}
 

@@ -1,12 +1,12 @@
 <div class="basket">
   <div class="basket__title">
       <div class="basket__title__name">Корзина</div>
-      <sup class="basket__title__counter">{{products.length}}</sup>
+      <sup class="basket__title__counter">{{cartProducts.length}}</sup>
   </div> <br> <br>
 
   <div class="basket__basket-main">
       <div class="basket__list-item">
-          <div class="basket__button-line"  *ngIf="products.length">
+          <div class="basket__button-line"  *ngIf="cartProducts.length">
               <input 
                   type="checkbox" 
                   class="basket__button-line__checkbox"
@@ -21,17 +21,17 @@
               </button>
           </div>
 
-          <app-cart-product *ngFor="let product of products" 
-              [product]="product"
+          <app-cart-product *ngFor="let cartProduct of cartProducts" 
+              [cartProduct]="cartProduct"
               [masterSelected]="masterSelected"
               (singleProductForOutput)="deleteProductFromCart($event)"
-              (singleProductForOutput)="ChangeQuantity($event)"
+              (changeQuantityOutput)="ChangeQuantity($event)"
 
           > </app-cart-product>
       </div>
       <app-order-panel 
           class="basket__order"
-          [products]="products"
+          [cartProducts]="cartProducts"
       > </app-order-panel>
   </div>
 </div>

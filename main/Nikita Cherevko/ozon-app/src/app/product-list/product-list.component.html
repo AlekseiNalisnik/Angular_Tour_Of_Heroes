@@ -1,10 +1,12 @@
 <div class="content-block">
   <div class="product-block-wrapper">
-    <app-product
-      *ngFor="let product of products"
-      [product]="product"
-      [cartProducts] = "cartProducts"
-      (outputProducts)="AddProductToCart($event)"
-    ></app-product>
+    <ng-container *ngFor="let product of products">
+      <app-product
+        [isProductInCart]="isProductInCart(product)"
+        [cartProduct]="product"
+        (outputProducts)="AddProductToCart($event)"
+      >
+      </app-product>
+    </ng-container>
   </div>
 </div>

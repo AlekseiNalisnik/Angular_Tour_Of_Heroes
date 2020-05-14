@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Product } from '../interfaces/product';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
+import { CartProduct } from '../interfaces/cartProduct';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +20,8 @@ export class ProductService {
     return this.http.get<Product[]>(this.productsUrl);
   }
 
-  getCartProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.cartUrl);
+  getCartProducts(): Observable<CartProduct[]> {
+    return this.http.get<CartProduct[]>(this.cartUrl);
   }
 
   deleteCartProduct(id: number): Observable<Product> {
@@ -32,7 +33,7 @@ export class ProductService {
   }
 
   putCartProduct(product: Product): Observable<Product> {
-    console.log(product)
+    console.log(product);
     return this.http.put<Product>(this.cartUrl, product);
   }
 
@@ -53,5 +54,17 @@ export class ProductService {
 
       return of(result as T);
     };
+  }
+
+  getCartProductById(id: string) {
+    return this.http.get(this.cartUrl, {
+      params: new HttpParams().set('id', id),
+    });
+  }
+
+  getProductById(id: string) {
+    return this.http.get(this.productsUrl, {
+      params: new HttpParams().set('id', id),
+    });
   }
 }

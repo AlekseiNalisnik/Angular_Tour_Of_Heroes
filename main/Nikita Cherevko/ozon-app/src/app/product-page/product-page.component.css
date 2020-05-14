@@ -31,6 +31,7 @@
     border-bottom: solid gray 1px;
     padding-bottom: 10px;
     margin-bottom: 30px;
+    height: 26px;
 }
 .product__main__side__column__decription a{
     line-height: 2;

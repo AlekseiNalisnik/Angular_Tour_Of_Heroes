@@ -74,11 +74,6 @@ export class MaindbService implements InMemoryWebApiModule{
     return { users, products, cart};
   }
 
-  getProductById(id: number) {
-    const dataFromDb = this.createDb();
-    return dataFromDb.products.find(post => post.id === id);
-  }
-
   getUserById(id: number) {
     const dataFromDb = this.createDb();
     return dataFromDb.users.find(post => post.id === id);

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../interfaces/product';
 import { ProductService } from '../services/product.service';
-import { ObservableService } from '../services/observable.service';
+import { EventBusService } from '../services/event-bus.service';
+import { CartProduct } from '../interfaces/cartProduct';
 
 @Component({
   selector: 'app-cart',
@@ -10,52 +11,53 @@ import { ObservableService } from '../services/observable.service';
 })
 export class CartComponent implements OnInit {
   products: Product[] = [];
+  cartProducts: CartProduct[] = [];
   masterSelected: boolean = false;
 
   constructor(
     private productService: ProductService,
-    private observableService: ObservableService
+    private eventBusService: EventBusService
   ) {}
 
   ngOnInit(): void {
     this.getCartProducts();
   }
 
-  onBasketChange(basketProducts) {
-    this.products = basketProducts;
-  }
+  // onCartChange(cartProducts) {
+  //   this.products = cartProducts;
+  // }
 
   getCartProducts(): void {
-    this.productService.getCartProducts().subscribe((products) => {
-      this.products = products;
-      this.observableService.addToHeader(this.products);
+    this.productService.getCartProducts().subscribe((cartProducts) => {
+      this.cartProducts = cartProducts;
+      this.eventBusService.changeData(this.cartProducts);
     });
   }
 
   deleteProductFromCart(product) {
     const productId = product.id;
     this.productService.deleteCartProduct(productId).subscribe(() => {
-      this.products = this.products.filter(
+      this.cartProducts = this.cartProducts.filter(
         (product) => product.id !== productId
       );
-      this.observableService.addToHeader(this.products);
+      this.eventBusService.changeData(this.cartProducts);
     });
   }
 
   deleteCheckedProductsFromCart() {
-    for (let i = 0; i < this.products.length; i++) {
-      if (this.products[i].isSelected == true) {
-        this.deleteProductFromCart(this.products[i]);
+    for (let i = 0; i < this.cartProducts.length; i++) {
+      if (this.cartProducts[i].isSelected == true) {
+        this.deleteProductFromCart(this.cartProducts[i]);
       }
     }
-    this.observableService.addToHeader(this.products);
+    this.eventBusService.changeData(this.cartProducts);
   }
 
   checkUncheckAll() {
-    for (let i = 0; i < this.products.length; i++) {
-      this.products[i].isSelected = this.masterSelected;
+    for (let i = 0; i < this.cartProducts.length; i++) {
+      this.cartProducts[i].isSelected = this.masterSelected;
     }
-    this.observableService.addToHeader(this.products);
+    this.eventBusService.changeData(this.cartProducts);
   }
 
   changeMasterSelected(masterSelected) {

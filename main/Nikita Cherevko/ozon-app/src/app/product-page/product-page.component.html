@@ -4,7 +4,7 @@
       <img src="../../assets/duck.jpg" alt="big duck" />
     </div>
     <div class="product__main__side__wrapper">
-      <div class="product__main__side__name">{{ product.name }}</div>
+      <div class="product__main__side__name">{{ product?.name }}</div>
       <div class="product__main__side__column__wrapper">
         <div class="product__main__side__column__decription">
           <a pageScroll href="#test">Перейти к описанию</a>
@@ -14,11 +14,11 @@
             class="product__main__side__column__box__value"
             [class.background-color]="buttonColor"
           >
-            {{ product.value }}
+            {{ product?.value }}
           </div>
           <div class="button-wrapper">
             <button class="go-cart" routerLink="/cart" >
-              В корзине {{this.product.quantity}} шт.
+              В корзине {{this.cartProduct?.quantity}} шт.
               <br>
               Перейти
             </button>
@@ -34,6 +34,6 @@
     Описание
   </div>
   <div class="product-page__description">
-    {{ product.description }}
+    {{ product?.description }}
   </div>
 </div>

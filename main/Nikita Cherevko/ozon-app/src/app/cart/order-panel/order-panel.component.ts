@@ -8,7 +8,7 @@ import { Product } from 'src/app/interfaces/product';
   styleUrls: ['./order-panel.component.css'],
 })
 export class OrderPanelComponent implements OnInit {
-  @Input() products;
+  @Input() cartProducts;
 
   productsWeight = 0;
   productWeight = 0;
@@ -19,14 +19,14 @@ export class OrderPanelComponent implements OnInit {
   constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
-    this.productService
-      .getCartProducts()
-      .subscribe((products) => (this.products = products));
+    // this.productService
+    //   .getCartProducts()
+    //   .subscribe((products) => (this.cartProducts = products));
   }
 
   weightSum() {
     this.productsWeight = 0;
-    for (const product of this.products) {
+    for (const product of this.cartProducts) {
       this.productWeight = product.weight * product.quantity;
       this.productsWeight += this.productWeight;
     }
@@ -35,7 +35,7 @@ export class OrderPanelComponent implements OnInit {
 
   valueSum() {
     this.productsSumValue = 0;
-    for (const product of this.products) {
+    for (const product of this.cartProducts) {
       this.productSumValue = product.value * product.quantity;
       this.productsSumValue += this.productSumValue;
     }
@@ -48,7 +48,7 @@ export class OrderPanelComponent implements OnInit {
 
   quantitySum() {
     this.quantitySumValue = 0;
-    for (const product of this.products) {
+    for (const product of this.cartProducts) {
       this.quantitySumValue += product.quantity;
     }
     return this.quantitySumValue;

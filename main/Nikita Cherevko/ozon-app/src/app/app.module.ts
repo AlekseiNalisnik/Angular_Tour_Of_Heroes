@@ -24,7 +24,7 @@ import { MaindbService } from './services/maindb.service';
 import {Ng2PageScrollModule} from 'ng2-page-scroll';
 import { CartProductComponent } from './cart/cart-product/cart-product.component';
 import { OrderPanelComponent } from './cart/order-panel/order-panel.component';
-import { ObservableService } from './services/observable.service';
+import { EventBusService } from './services/event-bus.service';
 import { SearchProductComponent } from './search-product/search-product.component';
 
 
@@ -56,7 +56,7 @@ import { SearchProductComponent } from './search-product/search-product.componen
     BrowserAnimationsModule,
     MatSelectModule
   ],
-  providers: [ProductService, UserService, AuthService, ObservableService],
+  providers: [ProductService, UserService, AuthService, EventBusService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
