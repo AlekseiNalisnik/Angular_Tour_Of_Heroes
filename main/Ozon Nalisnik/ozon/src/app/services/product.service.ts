@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 import { Product } from '../interfaces/product';
-import { HttpClient } from '@angular/common/http';
+import { BasketProduct } from '../interfaces/basketProduct';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -17,15 +18,31 @@ export class ProductService {
     return this.http.get<Product[]>(this.productsUrl);
   }
 
-  getBasketProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.basketUrl);
+  getProductById(id: string){
+    return this.http.get(this.productsUrl, {
+      params: new HttpParams().set(`id`, id)
+    });
   }
 
-  postProduct(product): Observable<Product> {
-    return this.http.post<Product>(this.basketUrl, product);
+  getBasketProducts(): Observable<BasketProduct[]> {
+    return this.http.get<BasketProduct[]>(this.basketUrl);
   }
 
-  deleteBasketProduct(productId: number): Observable<Product> {
-    return this.http.delete<Product>(this.basketUrl + `/${productId}`);
+  postProduct(basketProduct: BasketProduct): Observable<BasketProduct> {
+    return this.http.post<BasketProduct>(this.basketUrl, basketProduct);
+  }
+
+  deleteBasketProduct(basketProductId: number): Observable<BasketProduct> {
+    return this.http.delete<BasketProduct>(this.basketUrl + `/${basketProductId}`);
+  }
+
+  updateBasketProduct(basketProduct: BasketProduct): Observable<BasketProduct> {
+    return this.http.put<BasketProduct>(this.basketUrl, basketProduct);
+  }
+
+  getBasketProductById(id: string){
+    return this.http.get(this.basketUrl, {
+      params: new HttpParams().set(`id`, id)
+    });
   }
 }

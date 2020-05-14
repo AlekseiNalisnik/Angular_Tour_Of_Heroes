@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Product } from '../../interfaces/product';
+import { BasketProduct } from '../../interfaces/basketProduct';
 
 @Component({
   selector: 'app-basket-order-panel',
@@ -8,8 +8,8 @@ import { Product } from '../../interfaces/product';
   styleUrls: ['./basket-order-panel.component.css']
 })
 export class BasketOrderPanelComponent implements OnInit {
-  @Input() basketProducts: Product[] = [];
-  selectedProducts: Product[] = [];
+  @Input() basketProducts: BasketProduct[] = [];
+  selectedProducts: BasketProduct[] = [];
   totalWeight: number = 0;
   totalCost: number = 0;
   finalCost: number = 0;
@@ -20,10 +20,8 @@ export class BasketOrderPanelComponent implements OnInit {
   ngOnInit(): void {
 
   }
-  
 
-  // Можно найти ХУК и получше...
-  ngDoCheck(): void {
+  getTotalValuesIfProducsInBasket() {
     // ПРОВЕРКА на наличие товара в корзине(Если его нет в корзине, он не может быть выбран)
     if(this.compareArraysStructure(this.basketProducts, this.selectedProducts) === false) {
       this.selectedProducts = [];
@@ -51,6 +49,11 @@ export class BasketOrderPanelComponent implements OnInit {
 
     // Получаем изменившиеся цены всех продуктов и цены с учётом процента
     this.getTotalAndFinalCosts();
+  }
+
+  // Можно найти ХУК и получше...
+  ngDoCheck(): void {
+    this.getTotalValuesIfProducsInBasket();
   }
 
   compareArraysStructure(arr, subarr): boolean {

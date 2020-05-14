@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { Product } from '../interfaces/product';
+// import { Product } from '../interfaces/product';
+import { BasketProduct } from '../interfaces/basketProduct';
 import { ProductService } from '../services/product.service';
-import { BasketLenghtService } from '../services/basket-lenght.service';
+import { EventBusService } from '../services/event-bus.service';
+// import { BasketOrderPanelComponent } from './basket-order-panel/basket-order-panel.component';
 
 @Component({
   selector: 'app-basket',
@@ -10,12 +12,13 @@ import { BasketLenghtService } from '../services/basket-lenght.service';
   styleUrls: ['./basket.component.css']
 })
 export class BasketComponent implements OnInit {
-  basketProducts: Product[] = [];
+  basketProducts: BasketProduct[] = [];
   masterSelected: boolean = false;
+  // @ViewChild(BasketOrderPanelComponent) basketOrderPanelComponent: BasketOrderPanelComponent;
 
   constructor(
     private productService: ProductService,
-    private basketLenghtService: BasketLenghtService
+    private eventBusService: EventBusService
   ) { }
 
   ngOnInit(): void {
@@ -30,7 +33,7 @@ export class BasketComponent implements OnInit {
     this.productService.getBasketProducts()
       .subscribe(products => {
         this.basketProducts = products;
-        this.basketLenghtService.addToInventory(this.basketProducts);
+        this.eventBusService.changeData(this.basketProducts);
       });
   }
 
@@ -41,7 +44,8 @@ export class BasketComponent implements OnInit {
       this.basketProducts = this.basketProducts.filter(
         product => product.id !== productId
       );
-      this.basketLenghtService.addToInventory(this.basketProducts);
+      // this.basketOrderPanelComponent.getTotalValuesIfProducsInBasket();
+      this.eventBusService.changeData(this.basketProducts);
     });
   }
 
@@ -51,18 +55,25 @@ export class BasketComponent implements OnInit {
         this.deleteProductFromBasket(this.basketProducts[i]);
       }
     }
-    this.basketLenghtService.addToInventory(this.basketProducts);
+    // this.basketOrderPanelComponent.getTotalValuesIfProducsInBasket();
+    this.eventBusService.changeData(this.basketProducts);
   }
 
   checkUncheckAll() {
     for(let i = 0; i < this.basketProducts.length; i++) {
       this.basketProducts[i].isSelected = this.masterSelected;
     }
-    this.basketLenghtService.addToInventory(this.basketProducts);
+    // this.basketOrderPanelComponent.getTotalValuesIfProducsInBasket();
+    this.eventBusService.changeData(this.basketProducts);
   }
 
   changeMasterSelected(masterSelected) {
-    console.log('masterSelected - ', masterSelected);
     this.masterSelected = masterSelected;
+    // this.basketOrderPanelComponent.getTotalValuesIfProducsInBasket();
+  }
+
+  putProductQuantityToBasket(product) {
+    this.productService.updateBasketProduct(product)
+    .subscribe(res => console.log('RES PUT - ', res));
   }
 }

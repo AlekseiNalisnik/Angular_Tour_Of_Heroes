@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 import { Product } from '../../interfaces/product';
-import { ProductService } from '../../services/product.service';
-import { BasketLenghtService } from '../../services/basket-lenght.service';
+import { BasketProduct } from '../../interfaces/basketProduct';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-basket-product',
@@ -10,24 +10,32 @@ import { BasketLenghtService } from '../../services/basket-lenght.service';
   styleUrls: ['./basket-product.component.css']
 })
 export class BasketProductComponent implements OnInit {
-  @Output() singleProductForOutput: EventEmitter<Product> = new EventEmitter<Product>();
-  @Input() product: Product;
+  @Output() deleteBasketProductForOutput: EventEmitter<BasketProduct> = new EventEmitter<BasketProduct>();
+  @Output() changedProductQuantityForOutput: EventEmitter<BasketProduct> = new EventEmitter<BasketProduct>();
+  @Input() basketProduct: BasketProduct;
   @Input() masterSelected;
-  basketProducts: Product[] = [];
+  basketProducts: BasketProduct[] = [];
 
-  constructor() { }
+  constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
 
   }
 
-  deleteProductFromBasket(product) {
-    this.singleProductForOutput.emit(product);
+  deleteProductFromBasket(basketProduct) {
+    this.deleteBasketProductForOutput.emit(basketProduct);
   }
 
   isAllSelected() {
-    this.masterSelected = this.basketProducts.every(function(product: Product) {
-      return product.isSelected == true;
-    });
+    this.masterSelected = this.basketProducts.every(
+      function(basketProduct: BasketProduct) {
+        return basketProduct.isSelected == true;
+      }
+    );
+  }
+
+  changeBasketProductQuantity(quantity) {
+    this.basketProduct.quantity = quantity;
+    this.changedProductQuantityForOutput.emit(this.basketProduct);
   }
 }

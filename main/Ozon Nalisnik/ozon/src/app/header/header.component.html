@@ -3,10 +3,30 @@
         <img src="../../assets/ozonPicture.png" class="ozonPicture"> 
     </div>
     <div class="header__search">
+        <div class="border-wrapper"></div>
         <input
+            (click)="openDropDown()"
+            (ngModelChange)="openDropDown()"
             class="header__search__line" 
             type="text" 
-            placeholder="Искать на Ozon" />
+            placeholder="Искать на Ozon"
+            [(ngModel)]="searchProduct"
+        />
+
+        <div 
+            clickOutside (clickOutside)="closeDropDown()"
+            *ngIf="showDropDown" 
+            class="header__search__dropdown"
+        >
+            <div
+                (click)="selectBaskeProduct(basketProduct)"
+                class="header__search__dropdown__state" 
+                *ngFor="let basketProduct of basketProducts | SearchProduct:searchProduct"
+            >
+                {{basketProduct.description}}
+            </div>
+        </div>
+
         <a class="header__search__button" href="#">
             <img src="../../assets/Search.png" class="search-img">
         </a>

@@ -22,9 +22,10 @@
             </div>
 
             <app-basket-product *ngFor="let product of basketProducts" 
-                [product]="product"
+                [basketProduct]="product"
                 [masterSelected]="masterSelected"
-                (singleProductForOutput)="deleteProductFromBasket($event)"
+                (deleteBasketProductForOutput)="deleteProductFromBasket($event)"
+                (changedProductQuantityForOutput)="putProductQuantityToBasket($event)"
             > </app-basket-product>
         </div>
         <app-basket-order-panel 

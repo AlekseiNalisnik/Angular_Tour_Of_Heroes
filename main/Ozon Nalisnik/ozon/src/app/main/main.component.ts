@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Product } from '../interfaces/product';
+import { BasketProduct } from '../interfaces/basketProduct';
 import { ProductService } from '../services/product.service';
-import { BasketLenghtService } from '../services/basket-lenght.service';
+import { EventBusService } from '../services/event-bus.service';
 
 @Component({
   selector: 'app-main',
@@ -11,15 +12,16 @@ import { BasketLenghtService } from '../services/basket-lenght.service';
 })
 export class MainComponent implements OnInit {
   products: Product[] = [];
-  basketProducts: Product[] = this.basketLenghtService.basketProducts;
+  basketProducts: BasketProduct[] = [];
 
   constructor(
     private productService: ProductService,
-    private basketLenghtService: BasketLenghtService
+    private eventBusService: EventBusService
   ) { }
 
   ngOnInit(): void {
     this.getAllProducts();
+    this.getAllBasketProducts();
   }
 
   getAllProducts(): void {
@@ -29,22 +31,31 @@ export class MainComponent implements OnInit {
       });
   }
 
-  addProductToBasket(product) {
-    this.productService.postProduct(product)
-    .subscribe(() => {
-      if(this.isProductInBasket(product) === true) {
-        this.basketProducts.push(product);
-      };
-      this.basketLenghtService.addToInventory(this.basketProducts);
+  getAllBasketProducts(): void {
+    this.productService.getBasketProducts()
+    .subscribe(basketProducts => {
+      this.basketProducts = basketProducts;
     });
   }
 
-  isProductInBasket(product: Product): boolean {
+  addProductToBasket(product) {
+    this.productService.postProduct(product)
+      .subscribe((p) => {
+        if(p === null) {
+          return;
+        } else {
+          this.basketProducts.push(product);
+        }
+        this.eventBusService.changeData(this.basketProducts);
+      });
+  }
+
+  isProductInBasket(product): boolean {
     for(let i = 0; i < this.basketProducts.length; i++) {
       if(this.basketProducts[i].id === product.id) {
-        return false;
+        return true;
       }
     }
-    return true;
+    return false;
   }
 }

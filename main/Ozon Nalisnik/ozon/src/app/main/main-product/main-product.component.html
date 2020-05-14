@@ -1,15 +1,15 @@
 <div class="product-block">
-    <a class="product-block-img" [routerLink]="['/products', product.id]">
-        <img src={{product.path}} alt={{product.alt}}>
+    <a class="product-block-img" [routerLink]="['/products', basketProduct.id]">
+        <img src={{basketProduct.path}} alt={{basketProduct.alt}}>
     </a>
-    <div class="product-cost">{{product.cost}} Р</div>
+    <div class="product-cost">{{basketProduct.cost}} Р</div>
     <div class="product-description">
-        {{product.description}}
+        {{basketProduct.description}}
     </div>
     <a 
-        (click)="addProductToBasket(product)" 
+        (click)="addProductToBasket(basketProduct)" 
         class="go-cart-btn"
-        [class.green]="backgroundSwitch"
+        [style.background-color]="isProductInBasket ? 'green' : 'blue'"
     >
         В корзину
     </a>
