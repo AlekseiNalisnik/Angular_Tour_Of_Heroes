@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Shop.API.Models;
 using Shop.API.ViewModels.Product;
 using Shop.API.Services;
+using Shop.API.ViewModels.Item;
 using Shop.API.ViewModels.Order;
 
 namespace Shop.API.Controllers
@@ -214,7 +215,7 @@ namespace Shop.API.Controllers
 
         [HttpPut("{productId}/updatequantity")]
         [Authorize]
-        public async Task<IActionResult> ChangeProductQuantity(int productId, [FromBody] int value)
+        public async Task<IActionResult> ChangeProductQuantity(int productId, [FromBody] ItemUpdateModel model)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return NotFound();
@@ -222,21 +223,17 @@ namespace Shop.API.Controllers
             var cart = _orderRepository.GetCartByUserId(user.Id);
             if (cart == null) return NotFound();
 
-            var product = _productRepository.GetProduct(productId);
-            if (product == null) return NotFound();
-            
             var cartItem = _itemRepository.GetItem(cart.Id, productId);
             if (cartItem == null) return NotFound();
             
             // Изменить количество товара на value.
-            cartItem.ProductQuantity = value;
+            cartItem.ProductQuantity = model.ProductQuantity;
             
-            // Следует ли заменять айтем в коллекции??
-            _orderRepository.UpdateOrder(cart);
-            _orderRepository.Save();
+            _itemRepository.UpdateItem(cartItem);
+            await _itemRepository.Save();
             
-            var orderToReturn = _mapper.Map<OrderModel>(cart);
-            return Ok(orderToReturn);
+            // var orderToReturn = _mapper.Map<OrderModel>(cart);
+            return NoContent();
         }
         
         #region Helpers

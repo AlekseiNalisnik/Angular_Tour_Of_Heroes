@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace Shop.API.Models
 {
@@ -13,6 +14,8 @@ namespace Shop.API.Models
         public string LastName { get; set; }
         public string MiddleName { get; set; }
         public string Status { get; set; } = SHOPPINGCART;
+        public float TotalPrice => OrderProducts.Sum(op => op.TotalPrice);
+        public float TotalWeight => OrderProducts.Sum(op => op.TotalWeight);
         
         public string AppUserId { get; set; }
         public AppUser AppUser { get; set; }
