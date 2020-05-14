@@ -13,10 +13,7 @@ namespace API_Shop_ref.Controllers
     [Route("api/orders")]
     [ApiController]
     public class OrdersController : ControllerBase
-    {/// <summary>
-     /// Добавить: привязка к корзине - запись в ордер
-     /// 
-     /// </summary>
+    {
         private readonly DBContext _context;
 
         public OrdersController(DBContext context)
@@ -25,17 +22,29 @@ namespace API_Shop_ref.Controllers
 
         }
        
+        // сохраняем заказ
         [HttpPost]
-        public async Task<ActionResult<Orders>> Сheckout([FromBody]Orders orders)
+        public async Task<ActionResult<Orders>> Сheckout([FromQuery]int UserId)
         {
-            _context.Orders.Add(orders);
-            await _context.SaveChangesAsync();
+            var cart = await _context.Carts.FindAsync(UserId); // находим корзину user
 
-            return CreatedAtAction("Сheckout", new { id = orders.Id }, orders);
+            decimal total = decimal.Zero;
+
+            total = (from CartLine in _context.CartLine
+
+                     where CartLine.CartId == cart.Id
+
+                     select CartLine.Count * CartLine.Product.Price).Sum();
+
+            var order = new Orders { CartId = cart.Id, Time = DateTime.Now, Cost = total }; 
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();  // сохраняем в БД       
+
+            return order;
         }
 
 
-        
+        // получаем заказ
         [HttpGet("{id}")]
         public async Task<ActionResult<Orders>> GetOrder(int id)
         {
@@ -44,7 +53,6 @@ namespace API_Shop_ref.Controllers
 
             return orders;
         }
-
 
     }
 }
