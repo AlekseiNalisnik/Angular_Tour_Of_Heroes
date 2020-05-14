@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Shop.API.Data;
@@ -9,9 +10,10 @@ using Shop.API.Data;
 namespace Shop.API.Data.Migrations.AppData
 {
     [DbContext(typeof(AppDataDbContext))]
-    partial class AppDataDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200512082722_Add_Order_Photo_And_Relations")]
+    partial class Add_Order_Photo_And_Relations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

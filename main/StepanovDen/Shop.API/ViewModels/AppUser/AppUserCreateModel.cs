@@ -7,11 +7,11 @@ namespace Shop.API.ViewModels.AppUser
 {
     public class AppUserCreateModel
     {
-        // [Required(ErrorMessage = "Не указано имя.")]
-        // public string FirstName { get; set; }
+        [Required(ErrorMessage = "Не указано имя.")]
+        public string FirstName { get; set; }
 
-        // [Required(ErrorMessage = "Не указана фамилия.")]
-        // public string LastName { get; set; }
+        [Required(ErrorMessage = "Не указана фамилия.")]
+        public string LastName { get; set; }
         
         [Required(ErrorMessage = "Не указан %username%")]
         public string UserName { get; set; }

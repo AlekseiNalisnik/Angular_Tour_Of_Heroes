@@ -7,15 +7,6 @@ using Shop.API.Models;
 
 namespace Shop.API.Services
 {
-    public interface IProductRepository
-    {
-        void AddProduct(Product product);
-        void DeleteProduct(Product product);
-        Product GetProduct(int productId);
-        IEnumerable<Product> GetAllProducts();
-        void UpdateProduct(Product product);
-    }
-
     public class ProductRepository : IProductRepository
     {
         private readonly AppDataDbContext _dataContext;

@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Shop.API.Models;
 using Shop.API.ViewModels.AppUser;
 using Shop.API.Profiles;
@@ -27,11 +29,13 @@ namespace Shop.API.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<AccountController> _logger;
 
         public AccountController(UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             IMapper mapper,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            ILogger<AccountController> logger)
         {
             _signInManager = signInManager ??
                 throw new ArgumentNullException(nameof(signInManager));
@@ -41,39 +45,52 @@ namespace Shop.API.Controllers
                 throw new ArgumentNullException(nameof(mapper));
             _configuration = configuration ??
                 throw new ArgumentNullException(nameof(configuration));
+            _logger = logger ??
+                      throw new ArgumentNullException(nameof(logger));
         }
 
         [HttpPost("login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] AppUserLoginModel model)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var user = await _userManager.FindByEmailAsync(model.Email);
 
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-            if (user == null) return NotFound();
+            if (user == null)
+            {
+                _logger.LogInformation("User is not found.");
+                return NotFound();
+            }
 
-            // Из соображений безопасности следует выйти, чтобы потом войти вновь.
-            // await _signInManager.SignOutAsync();
             var result = await _signInManager.PasswordSignInAsync(
-                // Вероятно, ошибка кроется именно тут. Я нашёл пользователя только для того, чтобы получить его UserName.
-                // UserName необходим для входа в систему.
-                userName: user.UserName, 
-                password: model.Password, 
-                isPersistent: false, 
+                userName: user.UserName,
+                password: model.Password,
+                isPersistent: model.RememberMe,
                 lockoutOnFailure: false);
 
-            if (result.Succeeded)
-            {
-                // Подумать над содержательным выводом ошибки.
-                return Ok(); 
-            }
-            return BadRequest(result);
+            if (!result.Succeeded) return BadRequest("Some shit happens here");
+            // var identity = new ClaimsIdentity(GetUserClaims(user), CookieAuthenticationDefaults.AuthenticationScheme);
+            //
+            // var principal = new ClaimsPrincipal(identity);
+            //
+            // _signInManager.PasswordSignInAsync();
+            // await HttpContext.SignInAsync(
+            //     // Какую схему использую для входа пользователей. В этом случае это Cookie.
+            //     CookieAuthenticationDefaults.AuthenticationScheme,
+            //     principal,
+            //     new AuthenticationProperties { IsPersistent = model.RememberMe }
+            // );
+            // _logger.LogInformation("{1} {2} logged in", user.FirstName, user.LastName);
+            var userToReturn = _mapper.Map<AppUserModel>(user);
+            return Ok(userToReturn); 
+            
         }
 
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Ok();
         }
         
@@ -82,29 +99,35 @@ namespace Shop.API.Controllers
         public async Task<IActionResult> Register([FromBody] AppUserCreateModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            
+
             var user = _mapper.Map<AppUser>(model);
 
-            var result = await _userManager.CreateAsync(user, model.Password);
+            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
 
-            // if (!result.Succeeded) 
-            // {
-            //     foreach (var error in result.Errors)
-            //     {
-            //         ModelState.TryAddModelError(error.Code, error.Description);
-            //     }
- 
-            //     return BadRequest(model);
-            // }
-            
-            // await _userManager.AddToRoleAsync(user, "Visitor");
-
-            return Ok();
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                }
+                return BadRequest(model);
+            }
+            var userToReturn = _mapper.Map<AppUserModel>(user);
+            return Ok(userToReturn);
         }
 
         #region Helpers
 
-
+        private IEnumerable<Claim> GetUserClaims(AppUser user)
+        {
+            return new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim("IsAdmin", user.IsAdmin.ToString())
+            };
+        }
+        
         #endregion
     }
 }

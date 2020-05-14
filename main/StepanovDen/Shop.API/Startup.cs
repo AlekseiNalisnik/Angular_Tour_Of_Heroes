@@ -20,6 +20,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Shop.API.Data;
 using Shop.API.Models;
 using Shop.API.Services;
@@ -61,6 +62,8 @@ namespace Shop.API
 
             // Подключение репозиториев.
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
 
             // Подключение AutoMapper.
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -70,15 +73,22 @@ namespace Shop.API
             services.AddMemoryCache();
             services.AddSession();
 
-            services.AddAuthentication();
+            services.AddAuthentication(o => { 
+                o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie();
+            
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminOnly", policy => policy.RequireClaim("IsAdmin", "true"));
+            });
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseSession();
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseCors("TestOrigins");
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>

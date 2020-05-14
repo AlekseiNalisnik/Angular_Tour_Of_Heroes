@@ -12,5 +12,7 @@ namespace Shop.API.ViewModels.AppUser
         
         [Required(ErrorMessage = "Пароль должен быть указан")]
         public string Password { get; set; }
+
+        public bool RememberMe { get; set; }
     }
 }
