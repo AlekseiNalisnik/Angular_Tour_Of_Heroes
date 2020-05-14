@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
-import { Product } from 'src/app/interfaces/product';
+import { CartProduct } from 'src/app/interfaces/cartProduct';
 
 @Component({
   selector: 'app-order-panel',
@@ -8,7 +8,7 @@ import { Product } from 'src/app/interfaces/product';
   styleUrls: ['./order-panel.component.css'],
 })
 export class OrderPanelComponent implements OnInit {
-  @Input() cartProducts;
+  @Input() cartProducts: CartProduct[];
 
   productsWeight = 0;
   productWeight = 0;
@@ -49,7 +49,7 @@ export class OrderPanelComponent implements OnInit {
   quantitySum() {
     this.quantitySumValue = 0;
     for (const product of this.cartProducts) {
-      this.quantitySumValue += product.quantity;
+      this.quantitySumValue += +product.quantity;
     }
     return this.quantitySumValue;
   }
