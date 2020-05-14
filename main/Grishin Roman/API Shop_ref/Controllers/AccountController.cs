@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using API_Shop_ref.Models;
 using API_Shop_ref.ViewModels;
+using System.Collections.Generic;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace API_Shop_ref.Controllers
 {
@@ -13,15 +17,15 @@ namespace API_Shop_ref.Controllers
         /// <summary>
         /// POST: api/logout
         /// POST: api/login 
-        /// POST: api/register
+        /// POST: api/register       
         /// </summary>
         private readonly UserManager<Users> _userManager;
-        private readonly SignInManager<Users> _signInManager;
+        private readonly SignInManager<Users> _signInManager;     
 
         public AccountController(UserManager<Users> userManager, SignInManager<Users> signInManager)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
+            _signInManager = signInManager;           
         }
 
         // POST: api/logout 
@@ -42,7 +46,7 @@ namespace API_Shop_ref.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var result =
-                    await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
 
             if (result.Succeeded)
             {
@@ -51,6 +55,7 @@ namespace API_Shop_ref.Controllers
             }
             return BadRequest(result);
         }
+
 
         // POST: api/register 
         [HttpPost]
@@ -66,6 +71,7 @@ namespace API_Shop_ref.Controllers
                 {
                     // установка куки
                     await _signInManager.SignInAsync(user, false);
+                    await Authenticate(model.Email); 
                     return Ok();   
                 }
                 else
@@ -75,5 +81,20 @@ namespace API_Shop_ref.Controllers
                 
             }
         }
+
+        private async Task Authenticate(string userName)
+        {
+            // создаем один claim
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+            };
+            // создаем объект ClaimsIdentity
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            // установка аутентификационных куки
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+        }
+
+
     }
 }

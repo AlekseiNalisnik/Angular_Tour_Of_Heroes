@@ -133,7 +133,6 @@ namespace API_Shop_ref.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
@@ -148,7 +147,6 @@ namespace API_Shop_ref.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
-                        .HasColumnName("email")
                         .HasColumnType("text");
 
                     b.Property<bool>("EmailConfirmed")
@@ -172,10 +170,6 @@ namespace API_Shop_ref.Migrations
                         .HasColumnName("middlename")
                         .HasColumnType("text");
 
-                    b.Property<string>("Name")
-                        .HasColumnName("name")
-                        .HasColumnType("text");
-
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("text");
 
@@ -183,10 +177,6 @@ namespace API_Shop_ref.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Phone")
-                        .HasColumnName("phone")
                         .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")

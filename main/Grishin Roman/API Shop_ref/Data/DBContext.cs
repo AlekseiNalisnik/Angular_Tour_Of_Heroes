@@ -18,7 +18,7 @@ namespace API_Shop_ref.Data
         public DbSet<API_Shop_ref.Models.Orders> Orders { get; set; }
         public DbSet<API_Shop_ref.Models.Carts> Carts { get; set; }
         public DbSet<API_Shop_ref.Models.CartLine> CartLine { get; set; }
-        public DBContext() { } //
+       // public DBContext() { } //
         public DBContext(DbContextOptions<DBContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -29,10 +29,11 @@ namespace API_Shop_ref.Migrations
                 name: "users",
                 columns: table => new
                 {
-                    id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserName = table.Column<string>(nullable: true),
                     NormalizedUserName = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
                     NormalizedEmail = table.Column<string>(nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
                     PasswordHash = table.Column<string>(nullable: true),
@@ -45,16 +46,13 @@ namespace API_Shop_ref.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     firstname = table.Column<string>(nullable: true),
-                    name = table.Column<string>(nullable: true),
                     middlename = table.Column<string>(nullable: true),
                     birth = table.Column<DateTime>(nullable: false),
-                    email = table.Column<string>(nullable: true),
-                    phone = table.Column<string>(nullable: true),
                     gender = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_users", x => x.id);
+                    table.PrimaryKey("PK_users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -73,7 +71,7 @@ namespace API_Shop_ref.Migrations
                         name: "FK_carts_users_userid",
                         column: x => x.userid,
                         principalTable: "users",
-                        principalColumn: "id",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 

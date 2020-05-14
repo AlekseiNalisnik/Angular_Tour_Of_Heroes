@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using API_Shop_ref.Models;
 using API_Shop_ref.Data;
+
 
 namespace API_Shop_ref.Controllers
 {
@@ -23,22 +23,20 @@ namespace API_Shop_ref.Controllers
      /// </summary>
 
         private readonly DBContext _context;
-
+        
         public ProductsController(DBContext context)
         {
             _context = context;
         
         }
         // GET: api/products [Просмотр товаров]
-        [HttpGet]
-        [AllowAnonymous]
+        [HttpGet]        
         public async Task<ActionResult<IEnumerable<Products>>> GetProducts()
         {
             return await _context.Products.ToListAsync();
         }
         // GET: api/products/{id} [Просмотр товара id]
-        [HttpGet("{id}")]
-        [AllowAnonymous]
+        [HttpGet("{id}")]        
         public async Task<ActionResult<Products>> GetProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);

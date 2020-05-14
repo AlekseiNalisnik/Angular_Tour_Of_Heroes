@@ -17,7 +17,7 @@ namespace API_Shop_ref.Controllers
         ///  PUT: api/users/{id} [Изменение информации о пользователе id]
         ///  DELETE: api/users/{id} [Удаление пользователя из базы id]
         ///  POST: api/users [Добавление пользователя в базу]
-        /// ДОБАВИТЬ: " ? "
+        /// ДОБАВИТЬ: " ограничение доступа к управлению записью - только админ "
         /// </summary>
         private readonly DBContext _context;
 

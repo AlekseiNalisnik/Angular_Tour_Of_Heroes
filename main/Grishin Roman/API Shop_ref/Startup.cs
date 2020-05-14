@@ -42,29 +42,44 @@ namespace API_Shop_ref
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // подкулючаем Identity
-            services.AddIdentity<Users, IdentityRole>()
-                .AddEntityFrameworkStores<DBContext>();
 
             //регистрируем контекст БД
             services.AddDbContext<DBContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
+
+             // подключаем Identity             
+            services.AddIdentity<Users, UserRole>()  // используем UserRole вместо IdentityRole
+                    .AddRoles<UserRole>()
+                    .AddUserManager<UserManager<Users>>()
+                    .AddRoleManager<RoleManager<UserRole>>()
+                    .AddEntityFrameworkStores<DBContext>()
+                   .AddDefaultTokenProviders();
+
+            
+
             //куки
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                     Configuration.Bind("CookieSettings", options));
-
+                    
             services.AddDistributedMemoryCache();
+            
+            //сессии
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = "Session";
+                options.IdleTimeout = TimeSpan.FromSeconds(1200);
+                options.Cookie.IsEssential = true;
+            });
 
-            services.AddControllers();
+            services.AddControllers();           
 
-            services.AddSession();
-
-            services.AddAuthentication();
+           
+         //   services.AddAuthorization();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
