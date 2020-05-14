@@ -14,8 +14,7 @@ namespace ShopApi.Data.Config
             builder.HasData(new Cart
             { 
                 Id = StdUserCartId,
-                UserId = UsersConfiguration.UserId,
-                Cost = 300
+                UserId = UsersConfiguration.UserId
             });
         }
     }

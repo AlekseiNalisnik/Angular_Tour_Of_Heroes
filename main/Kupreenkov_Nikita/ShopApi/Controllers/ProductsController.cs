@@ -108,7 +108,7 @@ namespace ShopApi.Controllers
         public async Task<ActionResult<Product>> Delete(Guid id)
         {
             var shopItem = await _context.Products.FindAsync(id);
-            if (shopItem == null) { return NotFound(); }
+            if (shopItem == null) return NotFound();
 
             _context.Products.Remove(shopItem);
             await _context.SaveChangesAsync();

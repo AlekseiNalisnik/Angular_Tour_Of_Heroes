@@ -1,11 +1,3 @@
-using System;
-using System.Text;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,18 +5,15 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using ShopApi.Data;
-using ShopApi.Models.User;
-using ShopApi.Properties;
 using ShopApi.Services;
+using ShopApi.Properties;
+using ShopApi.Models.User;
 
 namespace ShopApi
 {
@@ -36,6 +25,7 @@ namespace ShopApi
         }
 
         private const string Origins = "ShopApiOrigins";
+        
         public IConfiguration Configuration { get; }
 
         private void ConfigureCache(IServiceCollection services)
@@ -87,7 +77,10 @@ namespace ShopApi
             {
                 options.AddPolicy(Origins,builder =>
                     {
-                        builder.WithOrigins("https://kupa-shop");
+                        builder.WithOrigins("http://kupa-shop", 
+                                            "http://localhost:5000", 
+                                            "https://localhost:5001").AllowAnyHeader()
+                                                                     .AllowCredentials();
                     });
             });
             services.AddSpaStaticFiles(options =>
@@ -134,9 +127,11 @@ namespace ShopApi
             {
                 app.UseDeveloperExceptionPage();
             }
-            
-            app.UseCors(Origins); 
-            
+            else
+            {
+                app.UseHsts();
+            }
+
             app.UseHttpsRedirection();
             app.UseCookiePolicy(new CookiePolicyOptions
             {
@@ -146,6 +141,8 @@ namespace ShopApi
 
             app.UseRouting();
             
+            app.UseCors(Origins); 
+            
             app.UseAuthentication();
             app.UseAuthorization();
             
@@ -153,7 +150,7 @@ namespace ShopApi
             
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllers().RequireCors(Origins);
             });
         }
     }

@@ -18,7 +18,7 @@ namespace ShopApi.Data.Config
             { 
                 Id = BearId,
                 Name = "Bear",
-                Price = 0.0,
+                Price = 150f,
                 Description = "Holy bear",
                 Weight = 1
             });

@@ -16,9 +16,12 @@ namespace ShopApi.Models
         [Required]
         [ForeignKey("Product")]
         public Guid ProductId { get; set; }
+
+        [DefaultValue(1L)]
+        public long Count { get; set; } = 1L;
         
-        [DefaultValue(1L)] 
-        public long Count { get; set; }
+        [NotMapped]
+        public double Cost => Product.Price * Count;
         
         public Cart Cart { get; set; }
         public Product.Product Product { get; set; }

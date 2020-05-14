@@ -68,21 +68,19 @@ namespace ShopApi.Controllers
         public async Task<IActionResult> Edit(string userId)
         {
             User user = await _userManager.FindByIdAsync(userId);
-            if(user!=null)
+            if (user == null) return NotFound();
+            
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var allRoles = _roleManager.Roles.ToList();
+            ChangeRole model = new ChangeRole
             {
-                var userRoles = await _userManager.GetRolesAsync(user);
-                var allRoles = _roleManager.Roles.ToList();
-                ChangeRole model = new ChangeRole
-                {
-                    UserId = user.Id,
-                    UserEmail = user.Email,
-                    UserRoles = userRoles,
-                    AllRoles = allRoles
-                };
-                return Ok(model);
-            }
- 
-            return NotFound();
+                UserId = user.Id,
+                UserEmail = user.Email,
+                UserRoles = userRoles,
+                AllRoles = allRoles
+            };
+            return Ok(model);
+
         }
         
         [HttpPost]
@@ -90,20 +88,18 @@ namespace ShopApi.Controllers
         public async Task<IActionResult> Edit(string userId, List<string> roles)
         {
             User user = await _userManager.FindByIdAsync(userId);
-            if(user!=null)
-            {
-                var userRoles = await _userManager.GetRolesAsync(user);
-                var allRoles = _roleManager.Roles.ToList();
-                var addedRoles = roles.Except(userRoles);
-                var removedRoles = userRoles.Except(roles);
+            if (user == null) return NotFound();
+            
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var allRoles = _roleManager.Roles.ToList();
+            var addedRoles = roles.Except(userRoles);
+            var removedRoles = userRoles.Except(roles);
  
-                await _userManager.AddToRolesAsync(user, addedRoles);
-                await _userManager.RemoveFromRolesAsync(user, removedRoles);
+            await _userManager.AddToRolesAsync(user, addedRoles);
+            await _userManager.RemoveFromRolesAsync(user, removedRoles);
  
-                return RedirectToAction("UserList");
-            }
- 
-            return NotFound();
+            return RedirectToAction("UserList");
+
         }
     }
 }

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
-
+using Microsoft.AspNetCore.Cors;
 using ShopApi.Services;
 
 namespace ShopApi.Controllers
@@ -10,6 +10,7 @@ namespace ShopApi.Controllers
     [Route("api/[controller]")]
     [AllowAnonymous]
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    [EnableCors("ShopApiOrigins")]
     public class HomeController : ControllerBase
     {
         private readonly ICartRepository _repository;

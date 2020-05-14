@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 using ShopApi.Data;
+using ShopApi.Models;
 using ShopApi.Models.User;
 using ShopApi.Services;
 
@@ -42,6 +43,7 @@ namespace ShopApi.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Sid, user.Id.ToString(), nameof(Guid)),
+                new Claim(ClaimTypes.Sid, _repository.Get().Id.ToString(), nameof(Cart)),
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.MobilePhone, user.PhoneNumber),
@@ -67,23 +69,12 @@ namespace ShopApi.Controllers
                 new ClaimsPrincipal(id), 
                 new AuthenticationProperties());
         }
-        
-        public async Task MapCart(User user)
-        {
-            var cart = _repository.Get();
-            var userCart = _context.Carts.First(c => c.OrderId == null && c.UserId == user.Id);
-            foreach (var item in cart.CartItems)
-            {
-                item.CartId = userCart.Id;
-                _context.CartItems.Update(item);
-            }
-        }
-        
-        [HttpPost]
-        [Route("Login")]
+
+        [HttpPost("Login")]
         [AllowAnonymous]
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> Login([FromForm]Login login)
+        public async Task<IActionResult> Login([FromForm] Login login, 
+                                               [FromServices] RepositoryMapper mapper)
         {
             if (!ModelState.IsValid) return CreatedAtAction("Login", login);
             
@@ -91,15 +82,14 @@ namespace ShopApi.Controllers
             if (user != null)
             {
                 await Authenticate(GenerateUserClaims(user));
-                await MapCart(user);
+                // await mapper.Map();
                 return RedirectToAction("Index", "Home");
             }
             ModelState.AddModelError("", "Incorrect login or password.");
             return CreatedAtAction("Login", login);
         }
 
-        [HttpPost]
-        [Route("Register")]
+        [HttpPost("Register")]
         public async Task<IActionResult> Register([FromForm]Register register)
         {
             if (!ModelState.IsValid) return CreatedAtAction("Register", register);
@@ -120,8 +110,7 @@ namespace ShopApi.Controllers
             return CreatedAtAction("Register", register);
         }
  
-        [HttpPost]
-        [Route("Logout")]
+        [HttpPost("Logout")]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
