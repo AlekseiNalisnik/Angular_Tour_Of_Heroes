@@ -8,24 +8,28 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { ProductListComponent } from './product-list/product-list.component';
-import { ProfileComponent } from './profile/profile.component';
-import { CartComponent } from './cart/cart.component';
-import {ProductService} from './services/product.service';
-import {UserService} from './services/user.service';
-import { LoginComponent } from './login/login.component';
-import { ProductPageComponent } from './product-page/product-page.component';
-import { ProductComponent } from './product-list/product/product.component';
-import { SingupComponent } from './singup/singup.component';
+import { HeaderComponent } from './components/header/header.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import {ProductService} from './shared/services/product.service';
+import {UserService} from './shared/services/user.service';
+import { LoginComponent } from './components/login/login.component';
+import { ProductPageComponent } from './components/product-page/product-page.component';
+import { SingupComponent } from './components/singup/singup.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { AuthService } from './services/auth.service';
-import { MaindbService } from './services/maindb.service';
+import { AuthService } from './shared/services/auth.service';
+import { MaindbService } from './shared/services/maindb.service';
 import {Ng2PageScrollModule} from 'ng2-page-scroll';
-import { CartProductComponent } from './cart/cart-product/cart-product.component';
-import { OrderPanelComponent } from './cart/order-panel/order-panel.component';
-import { EventBusService } from './services/event-bus.service';
-import { SearchProductComponent } from './search-product/search-product.component';
+import { EventBusService } from './shared/services/event-bus.service';
+import { SearchProductComponent } from './components/search-product/search-product.component';
+
+import { SearchProductPipe } from './shared/pipes/search-product.pipe';
+import { ClickOutsideDirective } from './shared/directives/dropdown.directive';
+// import { SearchListComponent } from './components/search-list/search-list.component';
+import { ProductListComponent } from './components/product-list/product-list.component';
+import { CartComponent } from './components/cart/cart.component';
+import { ProductComponent } from './components/product-list/product/product.component';
+import { CartProductComponent } from './components/cart/cart-product/cart-product.component';
+import { OrderPanelComponent } from './components/cart/order-panel/order-panel.component';
 
 
 @NgModule({
@@ -42,6 +46,9 @@ import { SearchProductComponent } from './search-product/search-product.componen
     CartProductComponent,
     OrderPanelComponent,
     SearchProductComponent,
+    SearchProductPipe,
+    ClickOutsideDirective,
+    // SearchListComponent
   ],
   imports: [
     BrowserModule,

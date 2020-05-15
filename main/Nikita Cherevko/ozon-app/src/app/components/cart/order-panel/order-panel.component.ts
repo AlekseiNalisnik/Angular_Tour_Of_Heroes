@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ProductService } from 'src/app/services/product.service';
-import { CartProduct } from 'src/app/interfaces/cartProduct';
+import { CartProduct } from 'src/app/shared/interfaces/cartProduct';
+import { ProductService } from 'src/app/shared/services/product.service';
 
 @Component({
   selector: 'app-order-panel',

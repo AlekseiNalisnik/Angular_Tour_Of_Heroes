@@ -1,6 +1,6 @@
 /* HEADER */
 a {
-  text-decoration: none;
+  text-decoration:none;
   color: #000;
 }
 
@@ -8,7 +8,7 @@ a {
   display: flex;
   height: 60px;
   align-items: center;
-  justify-content: center;
+  justify-content: center 
 }
 
 .header__main-picture {
@@ -17,6 +17,37 @@ a {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.header__search {
+  width: 850px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.header__search__line {
+  width: 90%;
+  height: 30px;
+  padding-left: 5px;
+  /* position: absolute; */
+  /* z-index: 15; */
+  /* border: 1px solid red; */
+  /* padding-top: 20px; */
+}
+
+.header__search__button {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* position: absolute; */
+  right: 10%;
+}
+
+.search-img {
+  height: 40px;
 }
 
 .ozonPicture {
@@ -28,8 +59,7 @@ a {
   display: flex;
 }
 
-.header__links__user,
-.header__links__basket {
+.header__links__user, .header__links__basket {
   height: 100%;
   width: 70px;
   align-items: center;
@@ -37,10 +67,9 @@ a {
   cursor: pointer;
 }
 
-.header__links__user__img,
-.header__links__basket__img {
+.header__links__user__img, .header__links__basket__img {
   /* margin-top: 10px;
-    height: 25px; */
+  height: 25px; */
   height: 20px;
   margin-top: 6%;
   display: block;
@@ -48,13 +77,8 @@ a {
   margin-right: auto;
 }
 
-.header__links__basket__img {
-  /* height: 20px; */
-  /* margin-top: 15px; */
-}
 
-.header__links__user__name,
-.header__links__basket__title {
+.header__links__user__name, .header__links__basket__title {
   font-size: 10px;
   text-align: center;
 }
@@ -76,6 +100,7 @@ a {
   top: 13%;
   left: 60%;
 }
+
 .header__reg-wrapper {
   position: fixed;
   top: 0;
@@ -83,8 +108,5 @@ a {
   height: 100%;
   width: 100%;
   z-index: 10;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.header__reg-main {
+  background-color: rgba(0,0,0,0.5);
 }

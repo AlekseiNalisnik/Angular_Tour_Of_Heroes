@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { Product } from 'src/app/interfaces/product';
-import { CartProduct } from 'src/app/interfaces/cartProduct';
+import { Product } from 'src/app/shared/interfaces/product';
+import { CartProduct } from 'src/app/shared/interfaces/cartProduct';
 
 @Component({
   selector: 'app-product',

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { ProductService } from '../services/product.service';
-import { Product } from '../interfaces/product';
-import { EventBusService } from '../services/event-bus.service';
-import { CartProduct } from '../interfaces/cartProduct';
+import { ProductService } from '../../shared/services/product.service';
+import { Product } from '../../shared/interfaces/product';
+import { EventBusService } from '../../shared/services/event-bus.service';
+import { CartProduct } from '../../shared/interfaces/cartProduct';
 // import { EventBusService } from '../services/event-bus.service';
 
 @Component({

@@ -67,4 +67,11 @@ export class ProductService {
       params: new HttpParams().set('id', id),
     });
   }
+
+  getProductsByName(name: string):Observable<Product[]> {
+    return this.http.get<Product[]>(this.productsUrl, {
+      params: new HttpParams().set('name', name),
+    });
+  }
+
 }

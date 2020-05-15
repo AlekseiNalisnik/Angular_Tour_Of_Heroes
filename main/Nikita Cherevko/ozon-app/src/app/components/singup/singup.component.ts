@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { User } from '../interfaces/user';
-import { AuthService } from '../services/auth.service';
+import { User } from '../../shared/interfaces/user';
+import { AuthService } from '../../shared/services/auth.service';
 import { Route } from '@angular/compiler/src/core';
 import { Router } from '@angular/router';
 

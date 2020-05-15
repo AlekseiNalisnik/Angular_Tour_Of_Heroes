@@ -1,0 +1,48 @@
+.header__search {
+    width: 850px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.header__search__line {
+    width: 90%;
+    height: 28px;
+    padding-left: 5px;
+}
+
+.header__search__button {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-img {
+    height: 30px;
+}
+
+
+/* Styles for SEARCH */
+.header__search__dropdown {
+    position: absolute;
+    z-index: 1;
+    width: 91%;
+    right: 8%;
+    /* height: 200px; */
+    max-height: 300px;
+    background: #F6F6F6;
+    overflow-y: auto;
+    top: 100%;
+}
+
+.header__search__dropdown__state {
+    padding: 10px;
+    font-family: sans-serif;
+    color: #A550BC;
+}
+
+.header__search__dropdown__state:hover {
+    background: #C2C2C2;
+}
