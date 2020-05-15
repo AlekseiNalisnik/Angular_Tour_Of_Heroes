@@ -1,0 +1,35 @@
+<div class="header__search">
+  <div class="border-wrapper"></div>
+  <input
+    (click)="openDropDown()"
+    (ngModelChange)="openDropDown()"
+    class="header__search__line"
+    type="text"
+    placeholder="Искать на Ozon"
+    [(ngModel)]="searchProduct"
+  />
+
+  <div
+    clickOutside
+    (clickOutside)="closeDropDown()"
+    *ngIf="showDropDown"
+    class="header__search__dropdown"
+  >
+    <div
+      (click)="selectProduct(product)"
+      class="header__search__dropdown__state"
+      *ngFor="let product of products | SearchProduct: searchProduct"
+    >
+      {{ product.name }}
+    </div>
+  </div>
+
+  <a 
+  class="header__search__button" 
+  href="#"
+  [routerLink]="['product-list']"
+  [queryParams]="{'text': searchProduct}"
+  >
+    <img src="../../assets/Search.png" class="search-img" />
+  </a>
+</div>

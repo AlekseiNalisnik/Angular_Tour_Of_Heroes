@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {ProductListComponent} from './product-list/product-list.component';
-import { CartComponent } from './cart/cart.component';
-import { ProfileComponent } from './profile/profile.component';
-import {LoginComponent} from './login/login.component';
-import {ProductPageComponent} from './product-page/product-page.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import {LoginComponent} from './components/login/login.component';
+import {ProductPageComponent} from './components/product-page/product-page.component';
+import { ProductListComponent } from './components/product-list/product-list.component';
+import { CartComponent } from './components/cart/cart.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'product-list', pathMatch: 'full' },
@@ -12,7 +12,7 @@ const routes: Routes = [
   {path: 'cart', component: CartComponent},
   {path: 'profile/:id', component: ProfileComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'product-page/:id', component: ProductPageComponent}
+  {path: 'product-page/:id', component: ProductPageComponent},
 ];
 
 @NgModule({
