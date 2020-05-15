@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../shared/services/user.service';
 import { User } from '../../shared/interfaces/user';
-import { MaindbService } from '../../shared/services/maindb.service';
+
 import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({

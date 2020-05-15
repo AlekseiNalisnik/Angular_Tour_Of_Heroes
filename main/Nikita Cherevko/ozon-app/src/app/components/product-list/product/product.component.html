@@ -1,13 +1,13 @@
 <div class="product-block">
   <div class="product-block-img">
     <img
-      src="{{ cartProduct.path }}"
+      src="{{ cartProduct.images[0].imagePath}}"
       alt="{{ cartProduct.alt }}"
       routerLink="/product-page/{{ cartProduct.id }}"
     />
   </div>
   <div class="product-value">
-    {{ cartProduct.value }}
+    {{ cartProduct.price }}
   </div>
   <div class="product-description">
     {{ cartProduct.name }}

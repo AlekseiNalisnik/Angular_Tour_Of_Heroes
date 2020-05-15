@@ -8,6 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
 import { HeaderComponent } from './components/header/header.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import {ProductService} from './shared/services/product.service';
@@ -17,7 +18,7 @@ import { ProductPageComponent } from './components/product-page/product-page.com
 import { SingupComponent } from './components/singup/singup.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AuthService } from './shared/services/auth.service';
-import { MaindbService } from './shared/services/maindb.service';
+// import { MaindbService } from './shared/services/maindb.service';
 import {Ng2PageScrollModule} from 'ng2-page-scroll';
 import { EventBusService } from './shared/services/event-bus.service';
 import { SearchProductComponent } from './components/search-product/search-product.component';
@@ -37,7 +38,7 @@ import { OrderPanelComponent } from './components/cart/order-panel/order-panel.c
     AppComponent,
     HeaderComponent,
     ProductListComponent,
-    ProfileComponent,
+    // ProfileComponent,
     CartComponent,
     LoginComponent,
     ProductPageComponent,
@@ -57,9 +58,9 @@ import { OrderPanelComponent } from './components/cart/order-panel/order-panel.c
     ReactiveFormsModule,
     HttpClientModule,
     Ng2PageScrollModule,
-    HttpClientInMemoryWebApiModule.forRoot(
-      MaindbService, { dataEncapsulation: false }
-    ),
+    // HttpClientInMemoryWebApiModule.forRoot(
+    //   MaindbService, { dataEncapsulation: false }
+    // ),
     BrowserAnimationsModule,
     MatSelectModule
   ],

@@ -68,7 +68,8 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "ozon-app:build:production"
+              "browserTarget": "ozon-app:build:production",
+              "proxyConfig": "src/proxy.conf.json"
             }
           }
         },

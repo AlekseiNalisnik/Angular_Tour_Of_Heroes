@@ -18,6 +18,10 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  // ngDoCheck() {
+  //   console.log(this.cartProduct.images[0].imagePath);
+  // }
+
   addProductToCart(cartProduct) {
     // console.log('this cart prodcuts', this.cartProducts);
     this.cartProduct.quantity = 1;
