@@ -79,7 +79,9 @@ namespace ShopApi
                     {
                         builder.WithOrigins("http://kupa-shop", 
                                             "http://localhost:5000", 
-                                            "https://localhost:5001").AllowAnyHeader()
+                                            "https://localhost:5001",
+                                            "https://172.23.113.139:5001",
+                                            "http://172.23.113.139:5000").AllowAnyHeader()
                                                                      .AllowCredentials();
                     });
             });
@@ -104,14 +106,6 @@ namespace ShopApi
             ConfigureRepositories(services);
             ConfigureSessions(services);
             ConfigureControllers(services);
-            
-            // var privateConfMethods = GetType().GetMethods(BindingFlags.NonPublic |
-            //                                               BindingFlags.Instance |
-            //                                               BindingFlags.DeclaredOnly);
-            // foreach (var method in privateConfMethods)
-            // {
-            //     method.Invoke(this, new object[]{ services });
-            // }
         }
 
         public void Configure(IApplicationBuilder app, 
