@@ -2,10 +2,10 @@ export class Product {
     id: number;
     name: string;
     description: string;
-    value: number;
+    price: number;
     weight: number;
     cathegory: string;
-    path: string;
+    images: any;
     alt: string;
 }
 

@@ -11,8 +11,8 @@ import { CartProduct } from '../interfaces/cartProduct';
 export class ProductService {
   products: Product[];
 
-  private productsUrl = 'api/products';
-  private cartUrl = 'api/cart';
+  private productsUrl = '/api/products';
+  private cartUrl = '/api/cart';
 
   constructor(private http: HttpClient) {}
 

@@ -26,14 +26,18 @@ export class ProductListComponent implements OnInit {
   getCartProduts() {
     this.productService.getCartProducts().subscribe((cartProducts) => {
       this.cartProducts = cartProducts;
-      // console.log('ng on init cartProducts -', this.cartProducts);
+      // console.log('ng on init cartProducts -', cartProducts);
     });
   }
 
   getProducts(): void {
     this.productService
       .getProducts()
-      .subscribe((products) => (this.products = products));
+      .subscribe((products) => {
+        (this.products = products);
+        console.log('ng on init cartProducts -', products);
+      });
+
   }
 
   AddProductToCart(cartProduct) {

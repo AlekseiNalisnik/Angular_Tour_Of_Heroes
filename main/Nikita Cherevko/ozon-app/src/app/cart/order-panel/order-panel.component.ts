@@ -36,7 +36,7 @@ export class OrderPanelComponent implements OnInit {
   valueSum() {
     this.productsSumValue = 0;
     for (const product of this.cartProducts) {
-      this.productSumValue = product.value * product.quantity;
+      this.productSumValue = product.price * product.quantity;
       this.productsSumValue += this.productSumValue;
     }
     return this.productsSumValue;
