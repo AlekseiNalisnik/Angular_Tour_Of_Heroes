@@ -6,7 +6,6 @@ import { BasketComponent } from './components/basket/basket.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ProductComponent } from './components/product/product.component';
-import { SearchComponent } from './components/search/search.component';
 
 // import { OrderComponent } from './order/order.component';
 // import { OrderDetailComponent } from './order-detail/order-detail.component';
@@ -29,7 +28,6 @@ const routes: Routes = [
   // { path: 'users:usersId/orders', component: OrderComponent },
   // { path: 'users:usersId/orders:ordersId', component: OrderDetailComponent },
 
-  { path: 'search', component: SearchComponent },
 ];
 
 @NgModule({

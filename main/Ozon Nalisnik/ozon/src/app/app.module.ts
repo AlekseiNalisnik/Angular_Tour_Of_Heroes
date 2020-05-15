@@ -25,7 +25,7 @@ import { ProductComponent } from './components/product/product.component';
 import { AuthorizationComponent } from './components/authorization/authorization.component';
 import { MainProductComponent } from './components/main/main-product/main-product.component';
 import { BasketProductComponent } from './components/basket/basket-product/basket-product.component';
-import { SearchComponent } from './components/search/search.component';
+// import { SearchComponent } from './components/search/search.component';
 import { BasketOrderPanelComponent } from './components/basket/basket-order-panel/basket-order-panel.component';
 
 import { InMemoryDataService }  from './shared/services/in-memory-data.service';
@@ -47,7 +47,7 @@ import { ClickOutsideDirective } from './shared/directives/dropdown.directive';
     BasketOrderPanelComponent,
     SearchProductPipe,
     ClickOutsideDirective,
-    SearchComponent
+    // SearchComponent
   ],
   imports: [
     BrowserModule,

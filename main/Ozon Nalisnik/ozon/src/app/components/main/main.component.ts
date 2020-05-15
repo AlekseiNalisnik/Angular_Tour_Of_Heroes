@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 
 import { Product } from '../../shared/interfaces/product';
 import { BasketProduct } from '../../shared/interfaces/basketProduct';
@@ -11,17 +12,24 @@ import { EventBusService } from '../../shared/services/event-bus.service';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+  searchedProducts: Product[] = [];
   products: Product[] = [];
   basketProducts: BasketProduct[] = [];
+  text: string;
+  currentUrl: string = '';
 
   constructor(
+    private route: ActivatedRoute,
     private productService: ProductService,
-    private eventBusService: EventBusService
+    private eventBusService: EventBusService,
+    private tractor: Router
   ) { }
 
   ngOnInit(): void {
     this.getAllProducts();
+    this.getQueryParameters();
     this.getAllBasketProducts();
+    this.changeSearchedStateByTrackingUrl();
   }
 
   getAllProducts(): void {
@@ -57,5 +65,34 @@ export class MainComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  changeSearchedStateByTrackingUrl() {
+    this.tractor.events.subscribe(exTractor => {
+      if(exTractor instanceof NavigationEnd){
+        this.currentUrl = exTractor.url;
+        this.getSearchedProducts();
+      }
+    })
+  }
+
+  getQueryParameters() {
+    this.route.queryParams.subscribe(
+      (queryParam: any) => {
+          this.text = queryParam['text'];
+      }
+    );
+  }
+
+  getSearchedProducts() {
+    this.productService.getProductByName(this.text)
+    .subscribe(res => {
+      this.searchedProducts = res;
+      if(this.currentUrl.includes('text')) {
+        this.products = this.searchedProducts;
+      } else {
+        this.getAllProducts();
+      }
+    });
   }
 }
