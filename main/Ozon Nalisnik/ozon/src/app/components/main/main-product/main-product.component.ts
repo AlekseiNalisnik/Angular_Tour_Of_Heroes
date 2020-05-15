@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { Product } from '../../interfaces/product';
-import { BasketProduct } from '../../interfaces/basketProduct';
+import { Product } from '../../../shared/interfaces/product';
+import { BasketProduct } from '../../../shared/interfaces/basketProduct';
 @Component({
   selector: 'app-main-product',
   templateUrl: './main-product.component.html',

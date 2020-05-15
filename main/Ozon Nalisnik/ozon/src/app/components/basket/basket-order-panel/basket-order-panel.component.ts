@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { BasketProduct } from '../../interfaces/basketProduct';
+import { BasketProduct } from '../../../shared/interfaces/basketProduct';
 
 @Component({
   selector: 'app-basket-order-panel',

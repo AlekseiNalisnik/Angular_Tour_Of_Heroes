@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { BasketProduct } from '../interfaces/basketProduct';
-import { Product } from '../interfaces/product';
-import { ProductService } from '../services/product.service';
-import { EventBusService } from '../services/event-bus.service';
+import { BasketProduct } from '../../shared/interfaces/basketProduct';
+import { Product } from '../../shared/interfaces/product';
+import { ProductService } from '../../shared/services/product.service';
+import { EventBusService } from '../../shared/services/event-bus.service';
 
 @Component({
   selector: 'app-product',

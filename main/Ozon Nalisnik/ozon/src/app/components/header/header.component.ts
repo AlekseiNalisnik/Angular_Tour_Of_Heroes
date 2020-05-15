@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 // import { Product } from '../interfaces/product';
-import { BasketProduct } from '../shared/interfaces/basketProduct';
-import { EventBusService } from '../services/event-bus.service';
+import { BasketProduct } from '../../shared/interfaces/basketProduct';
+import { EventBusService } from '../../shared/services/event-bus.service';
 
 @Component({
   selector: 'app-header',

@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
-import { Product } from '../../interfaces/product';
-import { BasketProduct } from '../../interfaces/basketProduct';
-import { ProductService } from 'src/app/services/product.service';
+import { Product } from '../../../shared/interfaces/product';
+import { BasketProduct } from '../../../shared/interfaces/basketProduct';
+import { ProductService } from '../../../shared/services/product.service';
 
 @Component({
   selector: 'app-basket-product',

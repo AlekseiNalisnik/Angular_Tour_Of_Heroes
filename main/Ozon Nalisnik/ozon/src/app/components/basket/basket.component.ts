@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-// import { Product } from '../interfaces/product';
-import { BasketProduct } from '../interfaces/basketProduct';
-import { ProductService } from '../services/product.service';
-import { EventBusService } from '../services/event-bus.service';
+// import { Product } from '../../shared/interfaces/product';
+import { BasketProduct } from '../../shared/interfaces/basketProduct';
+import { ProductService } from '../../shared/services/product.service';
+import { EventBusService } from '../../shared/services/event-bus.service';
 // import { BasketOrderPanelComponent } from './basket-order-panel/basket-order-panel.component';
 
 @Component({

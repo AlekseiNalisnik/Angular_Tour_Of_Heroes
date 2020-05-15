@@ -27,7 +27,12 @@
             </div>
         </div>
 
-        <a class="header__search__button" href="#">
+        <a 
+            class="header__search__button" 
+            href="#"
+            [routerLink]="['search']"
+            [queryParams]="{'text': searchProduct}"
+        >
             <img src="../../assets/Search.png" class="search-img">
         </a>
     </div>
