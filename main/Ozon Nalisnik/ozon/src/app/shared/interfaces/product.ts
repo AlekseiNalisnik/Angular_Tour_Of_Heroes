@@ -1,8 +1,9 @@
 export interface Product {
     id: number;
-    path: string;
+    name: string;
     alt: string;
-    cost: number;
+    price: number;
     description: string;
     weight: number;
+    images: [{imagePath}];
 }

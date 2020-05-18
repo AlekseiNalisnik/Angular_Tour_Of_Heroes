@@ -67,6 +67,14 @@ a {
     cursor: pointer;
 }
 
+
+.header__links__user__profile {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 15;
+}
+
 .header__links__user__img, .header__links__basket__img {
     /* margin-top: 10px;
     height: 25px; */

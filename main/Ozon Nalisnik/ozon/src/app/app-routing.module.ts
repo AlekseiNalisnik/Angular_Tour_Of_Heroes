@@ -13,11 +13,9 @@ import { ProductComponent } from './components/product/product.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/products', pathMatch: 'full' },
-  { path: 'products', component: MainComponent, children: [
-    { path: 'users', component: RegistrationComponent }
-  ] },
+  { path: 'products', component: MainComponent },
   { path: 'products/:id', component: ProductComponent },
-  { path: 'users', component: RegistrationComponent },
+  // { path: 'users', component: RegistrationComponent },
 
   // { path: 'users/:usersId', component: ProfileComponent },
   { path: 'userProfile', component: ProfileComponent },
