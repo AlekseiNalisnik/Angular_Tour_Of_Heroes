@@ -5,15 +5,21 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
-
-using ShopApi.Data;
-using ShopApi.Services;
+using ShopApi.Domain.Interfaces;
+using ShopApi.Domain.Services;
+using ShopApi.Domain.UseCases;
 using ShopApi.Properties;
-using ShopApi.Models.User;
+using ShopApi.Domain.UseCases.CartAggregate;
+using ShopApi.Infrastructure.Models;
+using ShopApi.Infrastructure.Services;
+using ShopApi.Infrastructure.Contexts;
+using ShopApi.Infrastructure.Interfaces;
+using ShopApi.Infrastructure.Repositories;
+using ShopApi.Infrastructure.Repositories.CartAggregate;
 
 namespace ShopApi
 {
@@ -40,11 +46,13 @@ namespace ShopApi
         {
             services.AddHttpContextAccessor();
             services.Configure<RepositoryConfiguration>(Configuration.GetSection("RepositorySettings"));
+
+            services.AddScoped<UnauthorizedCartUseCase>();
+            services.AddScoped<AuthorizedCartUseCase>();
+            services.AddScoped<CartUseCaseFactory>();
             
             services.AddScoped<InMemoryCartRepository>();
-            services.AddScoped<UnauthorizedDbCartRepository>();
-            services.AddTransient<ICartRepository, AuthorizedDbCartRepository>();
-            
+            services.AddScoped<DbCartRepository>();
             services.AddScoped<CartRepositoryFactory>();
             services.AddTransient<RepositoryMapper>();
         }
@@ -71,20 +79,25 @@ namespace ShopApi
                     });
         }
 
-        private void ConfigureFrontend(IServiceCollection services)
+        private void ConfigureCors(IServiceCollection services)
         {
             services.AddCors(options =>
             {
-                options.AddPolicy(Origins,builder =>
-                    {
-                        builder.WithOrigins("http://kupa-shop", 
-                                            "http://localhost:5000", 
-                                            "https://localhost:5001",
-                                            "https://172.23.113.139:5001",
-                                            "http://172.23.113.139:5000").AllowAnyHeader()
-                                                                     .AllowCredentials();
-                    });
+                options.AddPolicy(Origins, builder =>
+                {
+                    builder.WithOrigins("http://shop",
+                            "http://localhost:5000",
+                            "https://localhost:5001",
+                            "https://172.23.113.139:5001",
+                            "http://172.23.113.139:5000").AllowAnyHeader()
+                                                         .AllowAnyMethod()                        
+                                                         .AllowCredentials();
+                });
             });
+        }
+
+        private void ConfigureFrontend(IServiceCollection services)
+        {
             services.AddSpaStaticFiles(options =>
                    Configuration.Bind("AngularSettings", options));
         }
@@ -100,6 +113,7 @@ namespace ShopApi
 
         public void ConfigureServices(IServiceCollection services)
         {
+            ConfigureCors(services);
             ConfigureFrontend(services);
             ConfigureDb(services);
             ConfigureCache(services);
@@ -144,7 +158,7 @@ namespace ShopApi
             
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers().RequireCors(Origins);
+                endpoints.MapControllers();
             });
         }
     }

@@ -8,13 +8,14 @@
 
 - [Users](#Users)
 
+- [Search](#Search)
+
 - [Cart](#Cart)
 
 - [Orders](#Orders)
 
 - [Products](#Products)
 
-        
 ----
 
 ## <a name="API"></a> /API
@@ -35,6 +36,12 @@
 |Action                           |Rights  |Verb      |URI
 |---------------------------------|--------|----------|-----------
 |Просмотреть список пользователей |*admin* |**GET**   |
+
+## <a name="Search"></a> /Search
+
+|Action                           |Rights  |Verb      |URI
+|---------------------------------|--------|----------|-----------
+|Search query                     |*anon*  |**GET**   |?query={query_string}
 
 ## <a name="Cart"></a> /Cart
 
