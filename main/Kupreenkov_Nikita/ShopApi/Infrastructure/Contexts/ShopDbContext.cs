@@ -1,26 +1,33 @@
 using System;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 using ShopApi.Infrastructure.Config;
 using ShopApi.Infrastructure.Entities;
+using ShopApi.Infrastructure.Contexts.Config;
 using ShopApi.Infrastructure.Entities.CartAggregate;
 using ShopApi.Infrastructure.Entities.ProductAggregate;
-using ShopApi.Infrastructure.Models;
 
 namespace ShopApi.Infrastructure.Contexts
 {
     public class ShopDbContext : IdentityDbContext<User, UserRole, Guid>
     {
-        public ShopDbContext(DbContextOptions<ShopDbContext> options)
+        private readonly IWebHostEnvironment _environment;
+        public ShopDbContext(DbContextOptions<ShopDbContext> options, 
+                             IWebHostEnvironment environment)
             : base(options)
-        { }
+        {
+            _environment = environment;
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
-            modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductImageConfiguration(_environment));
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new UsersConfiguration());
             modelBuilder.ApplyConfiguration(new UserCartsConfiguration());

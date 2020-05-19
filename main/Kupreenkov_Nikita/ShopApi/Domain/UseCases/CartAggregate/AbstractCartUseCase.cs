@@ -5,9 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 
+using ShopApi.Domain.Interfaces;
 using ShopApi.Infrastructure.Contexts;
+using ShopApi.Infrastructure.Services;
 using ShopApi.Infrastructure.Interfaces;
 using ShopApi.Infrastructure.Entities.CartAggregate;
 using ShopApi.Infrastructure.Entities.ProductAggregate;
@@ -15,9 +16,8 @@ using ShopApi.Infrastructure.Entities.ProductAggregate;
 namespace ShopApi.Domain.UseCases.CartAggregate
 {
 
-    public abstract class AbstractCartUseCase
+    public abstract class AbstractCartUseCase : ICartUseCase
     {
-        protected const string CartSessionKey = "cart";
 
         protected readonly ShopDbContext Context;
         protected readonly ICartRepository Repository;
@@ -25,17 +25,16 @@ namespace ShopApi.Domain.UseCases.CartAggregate
 
         protected AbstractCartUseCase(ShopDbContext context,
                                       IHttpContextAccessor accessor,
-                                      ICartRepository repository)
+                                      CartRepositoryFactory factory)
         {
             Context = context;
             Accessor = accessor;
-            Repository = repository;
+            Repository = factory.Get();
         }
 
+        protected abstract Guid UserId { get; }
         public abstract Cart Get();
         protected abstract Task<Cart> CreateCart();
-
-        protected abstract Guid UserId { get; }
 
         private (Cart?, CartItem?) GetCartData(Product product)
         {
@@ -51,70 +50,20 @@ namespace ShopApi.Domain.UseCases.CartAggregate
             return (cart, cartItem);
         }
 
-        protected virtual async Task<CartItem> CreateCartItem(Product product, Cart cart)
-        {
-            return new CartItem
-            {
-                Id = Guid.NewGuid(),
-                ProductId = product.Id,
-                CartId = cart.Id
-            };
-        }
-
-        protected virtual void UpdateCartItem(CartItem cartItem, long count)
-        {
-            EntityState state;
-            
-            cartItem.Count += count;
-            
-            if (cartItem.Count < 1)
-            {
-               state = EntityState.Deleted;
-            }
-            else if (Context.CartItems.Any(c => c.Id == cartItem.Id))
-            {
-               state = EntityState.Modified;
-            }
-            else
-            {
-               state = EntityState.Added;
-            }
-            
-            Context.Entry(cartItem).State = state;
-        }
-
-        public async Task Add(Cart cart)
-        {
-            EntityState state;
-            if (Context.Carts.All(c => c.Id != cart.Id))
-            {
-                cart.UserId = UserId;
-                state = EntityState.Modified;
-            }
-            else
-            {
-                state = EntityState.Added;
-            }
-            Context.Entry(cart).State = state;
-            await Context.SaveChangesAsync();
-        }
-
         public async Task Add(Product product, long count = 1)
         {
             var (cart, cartItem) = GetCartData(product);
 
             cart ??= await CreateCart();
-            cartItem ??= await CreateCartItem(product, cart);
+            cartItem ??= new CartItem
+                 {
+                     Id = Guid.NewGuid(),
+                     ProductId = product.Id,
+                     CartId = cart.Id
+                 };
             
-            UpdateCartItem(cartItem, count);
-
-            await Context.SaveChangesAsync();
-        }
-
-        public async Task Delete(Cart cart)
-        {
-            Context.Carts.Remove(cart);
-            await Context.SaveChangesAsync();
+            cartItem.Count += count;
+            await Repository.Update(cartItem);
         }
 
         public async Task Delete(Product product, long count = 1)
@@ -122,9 +71,9 @@ namespace ShopApi.Domain.UseCases.CartAggregate
             var (_, cartItem) = GetCartData(product);
             
             if (cartItem == null) return;
-            UpdateCartItem(cartItem, -count);
             
-            await Context.SaveChangesAsync();
+            cartItem.Count -= count;
+            await Repository.Update(cartItem);
         }
 
     }

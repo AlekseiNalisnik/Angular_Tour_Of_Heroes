@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShopApi.Infrastructure.Contexts;
-using ShopApi.Infrastructure.Models;
+using ShopApi.Infrastructure.Entities;
 
 namespace ShopApi.Presentation.Controllers
 {

@@ -1,11 +1,9 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ShopApi.Infrastructure.Entities;
 using ShopApi.Infrastructure.Entities.ProductAggregate;
-using ShopApi.Infrastructure.Models;
 
-namespace ShopApi.Infrastructure.Config
+namespace ShopApi.Infrastructure.Contexts.Config
 {
     public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {

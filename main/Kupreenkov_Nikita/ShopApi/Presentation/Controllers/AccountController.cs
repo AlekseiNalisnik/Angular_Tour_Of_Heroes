@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShopApi.Domain.Dto;
+using ShopApi.Domain.Interfaces;
+using ShopApi.Domain.Services;
 using ShopApi.Infrastructure.Contexts;
 using ShopApi.Infrastructure.Entities;
 using ShopApi.Infrastructure.Entities.CartAggregate;
-using ShopApi.Infrastructure.Interfaces;
-using ShopApi.Infrastructure.Models;
 using ShopApi.Infrastructure.Services;
 
 namespace ShopApi.Presentation.Controllers
@@ -24,13 +24,13 @@ namespace ShopApi.Presentation.Controllers
     public class AccountController : ControllerBase
     {
         private readonly ShopDbContext _context;
-        private readonly ICartRepository _repository;
+        private readonly ICartUseCase _useCase;
 
         public AccountController(ShopDbContext context, 
-                                 ICartRepository repository)
+                                 CartUseCaseFactory factory)
         {
             _context = context;
-            _repository = repository;
+            _useCase = factory.Get();
         }
 
         private IEnumerable<Claim> GenerateUserClaims(User user)
@@ -44,7 +44,7 @@ namespace ShopApi.Presentation.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Sid, user.Id.ToString(), nameof(Guid)),
-                new Claim(ClaimTypes.Sid, _repository.Get().Id.ToString(), nameof(Cart)),
+                new Claim(ClaimTypes.Sid, _useCase.Get().Id.ToString(), nameof(Cart)),
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.MobilePhone, user.PhoneNumber),
@@ -74,8 +74,8 @@ namespace ShopApi.Presentation.Controllers
         [HttpPost("Login")]
         [AllowAnonymous]
         [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> Login([FromForm] Login login, 
-                                               [FromServices] RepositoryMapper mapper)
+        public async Task<IActionResult> Login([FromForm] Login login,
+                                               [FromServices] CartMapper mapper)
         {
             if (!ModelState.IsValid) return CreatedAtAction("Login", login);
             
@@ -83,7 +83,7 @@ namespace ShopApi.Presentation.Controllers
             if (user != null)
             {
                 await Authenticate(GenerateUserClaims(user));
-                // await mapper.Map();
+                await mapper.MapTo(user);
                 return RedirectToAction("Index", "Home");
             }
             ModelState.AddModelError("", "Incorrect login or password.");
@@ -91,7 +91,8 @@ namespace ShopApi.Presentation.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromForm]Register register)
+        public async Task<IActionResult> Register([FromForm] Register register, 
+                                                  [FromServices] CartMapper mapper)
         {
             if (!ModelState.IsValid) return CreatedAtAction("Register", register);
             
@@ -105,6 +106,7 @@ namespace ShopApi.Presentation.Controllers
                 });
                 
                 await Authenticate(GenerateUserClaims(userEntry.Entity));
+                await mapper.MapTo(userEntry.Entity);
                 return RedirectToAction("Index", "Home");
             }
             ModelState.AddModelError("", "User already exists.");

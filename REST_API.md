@@ -66,6 +66,6 @@
 |Изменять существующий товар      |*admin* |**PUT**     |`/{id}`
 |Просматривать товары             |*anon*  |**GET**     |  
 |Просматривать товар              |*anon*  |**GET**     |`{id}`
-|Добавлять товар в корзину        |*anon*  |**POST**    |`/addtocart?id={product_id}&count={product_count}`  
-|Добавлять товар в корзину        |*anon*  |**DELETE**  |`/deletefromcart?id={product_id}&count={product_count}` 
+|Добавлять товар в корзину        |*anon*  |**POST**    |`/addtocart?id={product_id}&?count={product_count}`  
+|Добавлять товар в корзину        |*anon*  |**DELETE**  |`/deletefromcart?id={product_id}&?count={product_count}` 
 

@@ -1,11 +1,9 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ShopApi.Infrastructure.Entities;
 using ShopApi.Infrastructure.Entities.CartAggregate;
-using ShopApi.Infrastructure.Models;
 
-namespace ShopApi.Infrastructure.Config
+namespace ShopApi.Infrastructure.Contexts.Config
 {
     public class CartItemsConfiguration : IEntityTypeConfiguration<CartItem>
     {
@@ -22,7 +20,8 @@ namespace ShopApi.Infrastructure.Config
             { 
                 Id = Guid.NewGuid(),
                 CartId = UserCartsConfiguration.StdUserCartId,
-                ProductId = ProductConfiguration.GammyBearId
+                ProductId = ProductConfiguration.GammyBearId,
+                Count = 1
             });
         }
     }

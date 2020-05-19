@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using ShopApi.Infrastructure.Models;
+using ShopApi.Infrastructure.Entities;
 
 namespace ShopApi.Presentation.Models
 {

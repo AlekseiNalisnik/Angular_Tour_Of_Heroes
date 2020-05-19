@@ -47,5 +47,17 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.1" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.0-preview.3.20214.6" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="wwwroot" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="wwwroot\ProductImages\bear.jpeg" />
+    <None Include="wwwroot\ProductImages\duck.jpeg" />
+    <None Include="wwwroot\ProductImages\hi_duck.jpeg" />
+    <None Include="wwwroot\ProductImages\injure.jpeg" />
+    <None Include="wwwroot\ProductImages\pzduck.jpeg" />
+  </ItemGroup>
 
 </Project>

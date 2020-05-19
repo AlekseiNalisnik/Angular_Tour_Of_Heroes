@@ -1,9 +1,9 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ShopApi.Infrastructure.Models;
+using ShopApi.Infrastructure.Entities;
 
-namespace ShopApi.Infrastructure.Config
+namespace ShopApi.Infrastructure.Contexts.Config
 {
   public class RoleConfiguration : IEntityTypeConfiguration<UserRole>
   {

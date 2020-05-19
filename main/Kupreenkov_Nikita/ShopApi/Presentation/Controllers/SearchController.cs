@@ -6,7 +6,6 @@ using Microsoft.Extensions.Caching.Distributed;
 using ShopApi.Infrastructure.Contexts;
 using ShopApi.Infrastructure.Entities;
 using ShopApi.Infrastructure.Entities.ProductAggregate;
-using ShopApi.Infrastructure.Models;
 
 namespace ShopApi.Presentation.Controllers
 {

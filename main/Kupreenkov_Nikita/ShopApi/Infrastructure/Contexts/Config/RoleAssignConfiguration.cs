@@ -2,6 +2,7 @@ using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using ShopApi.Infrastructure.Contexts.Config;
 
 namespace ShopApi.Infrastructure.Config
 {

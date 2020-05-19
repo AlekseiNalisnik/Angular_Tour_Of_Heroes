@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
 
@@ -24,12 +25,7 @@ namespace ShopApi.Infrastructure.Repositories.CartAggregate
             _cache = cache;
             _accessor = accessor;
         }
-
-        public Task Update(Guid id, CartItem cartItem)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public Cart Get()
         {
             var cart = JsonConvert.DeserializeObject<Dictionary<Guid, long>>(
@@ -43,9 +39,14 @@ namespace ShopApi.Infrastructure.Repositories.CartAggregate
             return res;
         }
 
-        public Cart Get(Expression<Func<Cart, bool>> expression)
+        public Task Delete(Cart cart)
         {
             throw new NotImplementedException();
+        }
+
+        public Cart Where(Expression<Func<Cart, bool>> expression)
+        {
+            return new Cart();
         }
 
         private Dictionary<Guid, long> GetCartData(Product product)
@@ -63,14 +64,19 @@ namespace ShopApi.Infrastructure.Repositories.CartAggregate
             _accessor.HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(cart));
         }
 
-        public Task Add(CartItem cartItem)
+        public async Task Add(CartItem cartItem)
+        {
+            return ;
+        }
+
+        public Task Update(CartItem cartItem)
         {
             throw new NotImplementedException();
         }
 
-        public Task Delete(CartItem cartItem)
+        public async Task Delete(CartItem cartItem)
         {
-            throw new NotImplementedException();
+            return ;
         }
 
         public async Task Add(Product product, long count = 1)
@@ -83,15 +89,6 @@ namespace ShopApi.Infrastructure.Repositories.CartAggregate
             _accessor.HttpContext.Session.SetString("cart", JsonConvert.SerializeObject(cart));
         }
 
-        public async Task Delete(Cart cart)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Update(Cart cart)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task Delete(Product product, long count = 1)
         {

@@ -260,8 +260,8 @@ namespace ShopApi.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("cc832a71-e6e9-4238-ac90-073cdba7aa31"), "55c2b6d5-b32b-40a2-8377-8e3c0b45c4e5", "Admin", "ADMIN" },
-                    { new Guid("4b3d637b-d28d-450e-bbe0-646e435243b2"), "3b5c7d68-dba3-4fdc-aa77-dfc5b0deeb42", "User", "USER" }
+                    { new Guid("39652eb2-4f6f-4009-bfe5-4ac0d228bcc2"), "e66c5a45-510e-4ed5-bac9-ad87f0701cba", "Admin", "ADMIN" },
+                    { new Guid("4d634ced-1c08-4e43-9894-8a42c71b1883"), "ea5ac46e-10b9-4336-b1c5-fdff0b35bf64", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -269,8 +269,8 @@ namespace ShopApi.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "BirthDate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "MiddleName", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("b4d2bec8-4cf5-4c6b-862f-501b298c15bb"), 0, new DateTime(2000, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "0b51fb45-4b4c-489f-ab35-a26d1e152288", "Admin@Admin.com", true, "Master", "Admin", false, null, null, "ADMIN@ADMIN.COM", "MASTERADMIN", "AQAAAAEAACcQAAAAELuWT2X2Y43ajaYVDL87GllrmcbrExgDTXsKLl/6nfvns7gzbFHmoWiWi0wU0V1NPQ==", "XXXXXXXXXXXXX", true, "00000000-0000-0000-0000-000000000000", false, "masteradmin" },
-                    { new Guid("9e40f1e3-b5ca-4957-ae38-dc904f060b3c"), 0, new DateTime(2000, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "ae1fca05-f6dc-478a-8cc9-333577a7c799", "User@User.com", true, "Standart", "User", false, null, null, "USER@USER.COM", "STANDARTUSER", "AQAAAAEAACcQAAAAEMWDFd7yNHAFOZ7myfSzGxwGCQFyJREZ0SeneUA6FsmdcDWYZvFBQDkzAi+M+gQQQA==", "XXXXXXXXXXXXX", true, "00000000-0000-0000-0000-000000000000", false, "standartuser" }
+                    { new Guid("a2180e12-546f-4d87-b2ea-8bd81aef143a"), 0, new DateTime(2000, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "9db98f7c-a007-4938-9875-6fc57ee00043", "Admin@Admin.com", true, "Master", "Admin", false, null, null, "ADMIN@ADMIN.COM", "MASTERADMIN", "AQAAAAEAACcQAAAAEPX5ocfczJ/ubCxbWG3toJ+7vbaORl3V45AkYackezqMglqdzH5Zr0vM+SbSaZR7rA==", "XXXXXXXXXXXXX", true, "00000000-0000-0000-0000-000000000000", false, "masteradmin" },
+                    { new Guid("8931f0a6-c700-42ea-8474-910606ec6a31"), 0, new DateTime(2000, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "40a473cf-13cd-4d9c-9bda-d33b506ce893", "User@User.com", true, "Standart", "User", false, null, null, "USER@USER.COM", "STANDARTUSER", "AQAAAAEAACcQAAAAEMMIkTKlolsDZTbWdkQO0DlvGVPPup4+GQ1v/dFdfLZkxJmTGcrbCpC5yarbosd2UA==", "XXXXXXXXXXXXX", true, "00000000-0000-0000-0000-000000000000", false, "standartuser" }
                 });
 
             migrationBuilder.InsertData(
@@ -278,8 +278,8 @@ namespace ShopApi.Migrations
                 columns: new[] { "Id", "Description", "Name", "Price", "Weight" },
                 values: new object[,]
                 {
-                    { new Guid("58af79df-ddd1-42e4-a9e9-e79ddf96c0f6"), "Holy bear", "Bear", 150.0, 1.0 },
-                    { new Guid("a994c5a8-32e4-40bd-8f9b-8b1a33724203"), "Tasty and cute sugar boys", "GammyBear", 10.5, 10.0 }
+                    { new Guid("a0aa2771-bf1e-450b-b50c-d954366f76c9"), "Holy bear", "Bear", 150.0, 1.0 },
+                    { new Guid("69e8fc72-dfa0-4e2a-9cb4-c88c43e23202"), "Tasty and cute sugar boys", "GammyBear", 10.5, 10.0 }
                 });
 
             migrationBuilder.InsertData(
@@ -287,25 +287,25 @@ namespace ShopApi.Migrations
                 columns: new[] { "UserId", "RoleId" },
                 values: new object[,]
                 {
-                    { new Guid("b4d2bec8-4cf5-4c6b-862f-501b298c15bb"), new Guid("cc832a71-e6e9-4238-ac90-073cdba7aa31") },
-                    { new Guid("9e40f1e3-b5ca-4957-ae38-dc904f060b3c"), new Guid("4b3d637b-d28d-450e-bbe0-646e435243b2") }
+                    { new Guid("a2180e12-546f-4d87-b2ea-8bd81aef143a"), new Guid("39652eb2-4f6f-4009-bfe5-4ac0d228bcc2") },
+                    { new Guid("8931f0a6-c700-42ea-8474-910606ec6a31"), new Guid("4d634ced-1c08-4e43-9894-8a42c71b1883") }
                 });
 
             migrationBuilder.InsertData(
                 table: "Carts",
                 columns: new[] { "Id", "OrderId", "UserId" },
-                values: new object[] { new Guid("742a045b-eba5-4bf2-89c8-fbd07f3ffc23"), null, new Guid("9e40f1e3-b5ca-4957-ae38-dc904f060b3c") });
+                values: new object[] { new Guid("7d7b260f-e47b-41c5-bd27-bad70a08415a"), null, new Guid("8931f0a6-c700-42ea-8474-910606ec6a31") });
 
             migrationBuilder.InsertData(
                 table: "ProductImages",
                 columns: new[] { "Id", "ImagePath", "ProductId" },
                 values: new object[,]
                 {
-                    { new Guid("26dd4048-27f6-4728-a66f-3f506ed80b29"), "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/Assets/bear.jpeg", new Guid("58af79df-ddd1-42e4-a9e9-e79ddf96c0f6") },
-                    { new Guid("ae10d22b-5298-4868-9230-2383a6dd7630"), "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/Assets/duck.jpeg", new Guid("58af79df-ddd1-42e4-a9e9-e79ddf96c0f6") },
-                    { new Guid("2fbf03ca-3a2f-41f2-b09c-86bbf0efcd5b"), "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/Assets/hi_duck.jpeg", new Guid("a994c5a8-32e4-40bd-8f9b-8b1a33724203") },
-                    { new Guid("d3119c1c-db38-4901-b7b0-888309e5f20e"), "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/Assets/injure.jpeg", new Guid("a994c5a8-32e4-40bd-8f9b-8b1a33724203") },
-                    { new Guid("7f10514d-e9b6-4b8a-aa93-618dd8a4b7b2"), "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/Assets/pzduck.jpeg", new Guid("a994c5a8-32e4-40bd-8f9b-8b1a33724203") }
+                    { new Guid("2ec25d0c-19a7-4be2-b292-bffef06f61ca"), "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/wwwroot/ProductImages/bear.jpeg", new Guid("a0aa2771-bf1e-450b-b50c-d954366f76c9") },
+                    { new Guid("ea3833e2-463d-4350-bbdb-c5d34c64bf4d"), "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/wwwroot/ProductImages/duck.jpeg", new Guid("a0aa2771-bf1e-450b-b50c-d954366f76c9") },
+                    { new Guid("ec56134d-ae90-43a9-b148-452a736d7c7c"), "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/wwwroot/ProductImages/hi_duck.jpeg", new Guid("69e8fc72-dfa0-4e2a-9cb4-c88c43e23202") },
+                    { new Guid("af564e6d-8b60-4ec5-a249-ffbdfa74bda0"), "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/wwwroot/ProductImages/injure.jpeg", new Guid("69e8fc72-dfa0-4e2a-9cb4-c88c43e23202") },
+                    { new Guid("e98e9d86-b330-4292-afd4-952fecd37844"), "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/wwwroot/ProductImages/pzduck.jpeg", new Guid("69e8fc72-dfa0-4e2a-9cb4-c88c43e23202") }
                 });
 
             migrationBuilder.InsertData(
@@ -313,8 +313,8 @@ namespace ShopApi.Migrations
                 columns: new[] { "Id", "CartId", "Count", "ProductId" },
                 values: new object[,]
                 {
-                    { new Guid("e3819cae-a628-4ca1-857e-435c96471ca1"), new Guid("742a045b-eba5-4bf2-89c8-fbd07f3ffc23"), 3L, new Guid("58af79df-ddd1-42e4-a9e9-e79ddf96c0f6") },
-                    { new Guid("d4115900-8c4d-4cbd-ba60-92910c973487"), new Guid("742a045b-eba5-4bf2-89c8-fbd07f3ffc23"), 1L, new Guid("a994c5a8-32e4-40bd-8f9b-8b1a33724203") }
+                    { new Guid("00e3ebff-c62d-4bba-832d-a6b66f70b483"), new Guid("7d7b260f-e47b-41c5-bd27-bad70a08415a"), 3L, new Guid("a0aa2771-bf1e-450b-b50c-d954366f76c9") },
+                    { new Guid("ea44853e-efaa-47d4-b031-290c9c5990bb"), new Guid("7d7b260f-e47b-41c5-bd27-bad70a08415a"), 1L, new Guid("69e8fc72-dfa0-4e2a-9cb4-c88c43e23202") }
                 });
 
             migrationBuilder.CreateIndex(

@@ -1,7 +1,10 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using ShopApi.Domain.Interfaces;
+using ShopApi.Domain.Services;
 using ShopApi.Infrastructure.Interfaces;
 using ShopApi.Infrastructure.Services;
 
@@ -13,11 +16,11 @@ namespace ShopApi.Presentation.Controllers
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class HomeController : ControllerBase
     {
-        private readonly ICartRepository _repository;
+        private readonly ICartUseCase _useCase;
 
-        public HomeController(CartRepositoryFactory factory)
+        public HomeController(CartUseCaseFactory factory)
         {
-            _repository = factory.Get();
+            _useCase = factory.Get();
         }
         
         [Route("Index")]
@@ -28,7 +31,7 @@ namespace ShopApi.Presentation.Controllers
                 id = HttpContext.Session.Id, 
                 name = User.Identity.Name,
                 auth = User.Identity.IsAuthenticated,
-                cart =  _repository.Get()
+                cart = _useCase.Get()
             });
         }
     }

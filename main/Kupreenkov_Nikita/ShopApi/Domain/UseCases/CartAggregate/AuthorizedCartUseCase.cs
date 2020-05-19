@@ -4,21 +4,19 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 
-using ShopApi.Domain.Interfaces;
 using ShopApi.Infrastructure.Contexts;
-using ShopApi.Infrastructure.Interfaces;
+using ShopApi.Infrastructure.Services;
 using ShopApi.Infrastructure.Entities.CartAggregate;
 
 namespace ShopApi.Domain.UseCases.CartAggregate
 {
-    public class AuthorizedCartUseCase : AbstractCartUseCase, ICartUseCase
+    public class AuthorizedCartUseCase : AbstractCartUseCase
     {
         public AuthorizedCartUseCase(ShopDbContext context,
                                      IHttpContextAccessor accessor,
-                                     ICartRepository repository)
-            : base(context, accessor, repository)
+                                     CartRepositoryFactory factory)
+            : base(context, accessor, factory)
         { }
 
         protected override Guid UserId => Guid.Parse(Accessor.HttpContext.User.Claims
@@ -33,7 +31,7 @@ namespace ShopApi.Domain.UseCases.CartAggregate
 
         public override Cart Get()
         {
-            return Repository.Get(c => c.OrderId == null && c.UserId == UserId);
+            return Repository.Where(c => c.OrderId == null && c.UserId == UserId);
         }
     }
 }

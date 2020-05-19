@@ -8,16 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using ShopApi.Infrastructure.Contexts;
 using ShopApi.Infrastructure.Interfaces;
 using ShopApi.Infrastructure.Entities.CartAggregate;
-using ShopApi.Infrastructure.Entities.ProductAggregate;
 
 namespace ShopApi.Infrastructure.Repositories.CartAggregate
 {
-   
-    public abstract class DbCartRepository : ICartRepository
+    public class DbCartRepository : ICartRepository
     {
         private readonly ShopDbContext _context;
 
-        protected DbCartRepository(ShopDbContext context)
+        public DbCartRepository(ShopDbContext context)
         {
             _context = context;
         }
@@ -34,42 +32,39 @@ namespace ShopApi.Infrastructure.Repositories.CartAggregate
             await _context.SaveChangesAsync();
         }
 
-        public Task Delete(CartItem cartItem)
+        public async Task Update(CartItem cartItem)
         {
-            throw new NotImplementedException();
+            EntityState state;
+            if (cartItem.Count < 1)
+            {
+               state = EntityState.Deleted;
+            }
+            else if (_context.CartItems.Any(c => c.Id == cartItem.Id))
+            {
+               state = EntityState.Modified;
+            }
+            else
+            {
+               state = EntityState.Added;
+            }
+            
+            _context.Entry(cartItem).State = state;
+            await _context.SaveChangesAsync();
         }
 
-        public Task Update(Guid id, CartItem cartItem)
+        public async Task Delete(Cart cart)
         {
-            throw new NotImplementedException();
+            _context.Carts.Remove(cart);
+            await _context.SaveChangesAsync();
+        }
+        
+        public async Task Delete(CartItem cartItem)
+        {
+            _context.CartItems.Remove(cartItem);
+            await _context.SaveChangesAsync();
         }
 
-        public Task Add(Product product, long count = 1)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task Delete(Cart cart)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task Update(Cart cart)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Delete(Product product, long count = 1)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Cart Get()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Cart Get(Expression<Func<Cart, bool>> expression)
+        public Cart Where(Expression<Func<Cart, bool>> expression)
         {
             return _context.Carts.Where(expression)
                                  .Include("CartItems")

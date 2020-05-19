@@ -10,6 +10,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 using ShopApi.Domain.Interfaces;
+using ShopApi.Domain.Services;
 using ShopApi.Infrastructure.Contexts;
 using ShopApi.Infrastructure.Entities.ProductAggregate;
 
@@ -25,12 +26,15 @@ namespace ShopApi.Presentation.Controllers
 
         public ProductsController(ShopDbContext context, 
                                   IDistributedCache cache, 
-                                  ICartUseCase useCase)
+                                  CartUseCaseFactory factory)
         {
             _context = context;
             _cache = cache;
-            _useCase = useCase;
+            _useCase = factory.Get();
         }
+
+        private bool ProductExists(Guid id) =>
+            _context.Products.Any(e => e.Id == id);
 
         [HttpGet]
         [AllowAnonymous]
@@ -114,7 +118,5 @@ namespace ShopApi.Presentation.Controllers
             return product;
         }
 
-        private bool ProductExists(Guid id) =>
-            _context.Products.Any(e => e.Id == id);
     }
 }

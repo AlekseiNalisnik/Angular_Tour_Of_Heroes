@@ -14,9 +14,9 @@ using ShopApi.Domain.Services;
 using ShopApi.Domain.UseCases;
 using ShopApi.Properties;
 using ShopApi.Domain.UseCases.CartAggregate;
-using ShopApi.Infrastructure.Models;
 using ShopApi.Infrastructure.Services;
 using ShopApi.Infrastructure.Contexts;
+using ShopApi.Infrastructure.Entities;
 using ShopApi.Infrastructure.Interfaces;
 using ShopApi.Infrastructure.Repositories;
 using ShopApi.Infrastructure.Repositories.CartAggregate;
@@ -47,14 +47,15 @@ namespace ShopApi
             services.AddHttpContextAccessor();
             services.Configure<RepositoryConfiguration>(Configuration.GetSection("RepositorySettings"));
 
-            services.AddScoped<UnauthorizedCartUseCase>();
             services.AddScoped<AuthorizedCartUseCase>();
+            services.AddScoped<UnauthorizedCartUseCase>();
             services.AddScoped<CartUseCaseFactory>();
+            
+            services.AddTransient<CartMapper>();
             
             services.AddScoped<InMemoryCartRepository>();
             services.AddScoped<DbCartRepository>();
             services.AddScoped<CartRepositoryFactory>();
-            services.AddTransient<RepositoryMapper>();
         }
 
         private void ConfigureDb(IServiceCollection services)

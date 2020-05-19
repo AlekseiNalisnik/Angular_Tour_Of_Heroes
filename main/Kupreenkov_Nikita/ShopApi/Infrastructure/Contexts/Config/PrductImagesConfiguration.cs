@@ -1,24 +1,29 @@
 using System;
 using System.Drawing.Imaging;
 using System.IO;
+
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ShopApi.Infrastructure.Entities;
-using ShopApi.Infrastructure.Entities.ProductAggregate;
-using ShopApi.Infrastructure.Models;
 
-namespace ShopApi.Infrastructure.Config
+using ShopApi.Infrastructure.Entities.ProductAggregate;
+
+namespace ShopApi.Infrastructure.Contexts.Config
 {
     public class ProductImageConfiguration : IEntityTypeConfiguration<ProductImage>
     {
-        private const string RootPath =
-            "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/Assets/";
+        private const string BearImgPath = "bear.jpeg";
+        private const string DuckImgPath = "duck.jpeg";
+        private const string HiDuckImgPath = "hi_duck.jpeg";
+        private const string InjureImgPath = "injure.jpeg";
+        private const string PzDuckImgPath = "pzduck.jpeg";
+        private const string ImagesPath = "ProductImages";
 
-        private const string BearImgPath = RootPath + "bear.jpeg";
-        private const string DuckImgPath = RootPath + "duck.jpeg";
-        private const string HiDuckImgPath = RootPath + "hi_duck.jpeg";
-        private const string InjureImgPath = RootPath + "injure.jpeg";
-        private const string PzDuckImgPath = RootPath + "pzduck.jpeg";
+        private readonly IWebHostEnvironment _environment;
+        public ProductImageConfiguration(IWebHostEnvironment environment)
+        {
+            _environment = environment;
+        }
 
         public static byte[] ImageToByteArray(System.Drawing.Image i)
         {
@@ -38,33 +43,32 @@ namespace ShopApi.Infrastructure.Config
             {
                 Id = Guid.NewGuid(),
                 ProductId = ProductConfiguration.BearId,
-                ImagePath = BearImgPath
+                ImagePath = Path.Combine(_environment.WebRootPath, ImagesPath, BearImgPath)
             });
             builder.HasData(new ProductImage
             {
                 Id = Guid.NewGuid(),
                 ProductId = ProductConfiguration.BearId,
-                ImagePath = DuckImgPath
-            });
-
-            builder.HasData(new ProductImage
-            {
-                Id = Guid.NewGuid(),
-                ProductId = ProductConfiguration.GammyBearId,
-                ImagePath = HiDuckImgPath
+                ImagePath = Path.Combine(_environment.WebRootPath, ImagesPath, DuckImgPath)
             });
             builder.HasData(new ProductImage
             {
                 Id = Guid.NewGuid(),
                 ProductId = ProductConfiguration.GammyBearId,
-                ImagePath = InjureImgPath
+                ImagePath = Path.Combine(_environment.WebRootPath, ImagesPath, HiDuckImgPath)
             });
             builder.HasData(new ProductImage
             {
                 Id = Guid.NewGuid(),
                 ProductId = ProductConfiguration.GammyBearId,
-                ImagePath = PzDuckImgPath
-            });
+                ImagePath = Path.Combine(_environment.WebRootPath, ImagesPath, InjureImgPath)
+,           });
+            builder.HasData(new ProductImage
+            {
+                Id = Guid.NewGuid(),
+                ProductId = ProductConfiguration.GammyBearId,
+                ImagePath = Path.Combine(_environment.WebRootPath, ImagesPath, PzDuckImgPath)
+,           });
         }
     }
 }

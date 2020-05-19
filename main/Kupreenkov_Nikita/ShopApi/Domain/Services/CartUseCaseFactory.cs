@@ -1,11 +1,10 @@
 using System;
+
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
 using Microsoft.Extensions.DependencyInjection;
+
+using ShopApi.Domain.Interfaces;
 using ShopApi.Domain.UseCases.CartAggregate;
-using ShopApi.Properties;
-using ShopApi.Infrastructure.Interfaces;
-using ShopApi.Infrastructure.Repositories;
 
 namespace ShopApi.Domain.Services
 {
@@ -21,12 +20,12 @@ namespace ShopApi.Domain.Services
             _accessor = accessor;
         }
            
-        public ICartRepository Get()
+        public ICartUseCase Get()
         {
             if(_accessor.HttpContext.User.Identity.IsAuthenticated)
-                return (ICartRepository) _provider.GetRequiredService(typeof(AuthorizedCartUseCase));
+                return (ICartUseCase) _provider.GetRequiredService(typeof(AuthorizedCartUseCase));
         
-            return (ICartRepository) _provider.GetRequiredService(typeof(UnauthorizedCartUseCase));
+            return (ICartUseCase) _provider.GetRequiredService(typeof(UnauthorizedCartUseCase));
         } 
     }
 }

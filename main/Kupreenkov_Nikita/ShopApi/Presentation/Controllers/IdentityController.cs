@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ShopApi.Infrastructure.Models;
+using ShopApi.Infrastructure.Entities;
 using ShopApi.Presentation.Models;
 
 namespace ShopApi.Presentation.Controllers

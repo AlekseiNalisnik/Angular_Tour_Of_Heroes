@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ShopApi.Infrastructure.Contexts;
@@ -10,10 +9,9 @@ using ShopApi.Infrastructure.Contexts;
 namespace ShopApi.Migrations
 {
     [DbContext(typeof(ShopDbContext))]
-    [Migration("20200514102626_init_1")]
-    partial class init_1
+    partial class ShopDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,13 +103,13 @@ namespace ShopApi.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("030f9905-5b4d-4451-b291-c44a255b3a43"),
-                            RoleId = new Guid("fdc61c8f-c3f5-4db6-9a0c-9e9ace9792fd")
+                            UserId = new Guid("a2180e12-546f-4d87-b2ea-8bd81aef143a"),
+                            RoleId = new Guid("39652eb2-4f6f-4009-bfe5-4ac0d228bcc2")
                         },
                         new
                         {
-                            UserId = new Guid("bec869d2-2bc3-42fb-9459-bafc49509a57"),
-                            RoleId = new Guid("0049412f-f2c6-4bd6-b560-dd41402c662c")
+                            UserId = new Guid("8931f0a6-c700-42ea-8474-910606ec6a31"),
+                            RoleId = new Guid("4d634ced-1c08-4e43-9894-8a42c71b1883")
                         });
                 });
 
@@ -134,7 +132,7 @@ namespace ShopApi.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ShopApi.Models.Cart", b =>
+            modelBuilder.Entity("ShopApi.Infrastructure.Entities.CartAggregate.Cart", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -159,12 +157,12 @@ namespace ShopApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1934467a-b607-4004-a58c-f26cd1ccad74"),
-                            UserId = new Guid("bec869d2-2bc3-42fb-9459-bafc49509a57")
+                            Id = new Guid("7d7b260f-e47b-41c5-bd27-bad70a08415a"),
+                            UserId = new Guid("8931f0a6-c700-42ea-8474-910606ec6a31")
                         });
                 });
 
-            modelBuilder.Entity("ShopApi.Models.CartItem", b =>
+            modelBuilder.Entity("ShopApi.Infrastructure.Entities.CartAggregate.CartItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -190,21 +188,21 @@ namespace ShopApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("cd0aa590-a54b-4c3e-b3ac-abae6552c396"),
-                            CartId = new Guid("1934467a-b607-4004-a58c-f26cd1ccad74"),
+                            Id = new Guid("00e3ebff-c62d-4bba-832d-a6b66f70b483"),
+                            CartId = new Guid("7d7b260f-e47b-41c5-bd27-bad70a08415a"),
                             Count = 3L,
-                            ProductId = new Guid("13302a19-82c5-4e53-a623-7273c2555ac3")
+                            ProductId = new Guid("a0aa2771-bf1e-450b-b50c-d954366f76c9")
                         },
                         new
                         {
-                            Id = new Guid("aba48ef1-c87d-46a3-8fd6-9b9fded740cb"),
-                            CartId = new Guid("1934467a-b607-4004-a58c-f26cd1ccad74"),
+                            Id = new Guid("ea44853e-efaa-47d4-b031-290c9c5990bb"),
+                            CartId = new Guid("7d7b260f-e47b-41c5-bd27-bad70a08415a"),
                             Count = 1L,
-                            ProductId = new Guid("3b9102a8-276b-46cc-bfd0-8bcf135ec8c2")
+                            ProductId = new Guid("69e8fc72-dfa0-4e2a-9cb4-c88c43e23202")
                         });
                 });
 
-            modelBuilder.Entity("ShopApi.Models.Order", b =>
+            modelBuilder.Entity("ShopApi.Infrastructure.Entities.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -221,59 +219,7 @@ namespace ShopApi.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("ShopApi.Models.Product.Image", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductImages");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("b6f3c375-6343-401d-ac2b-dc5249520862"),
-                            ImagePath = "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/Assets/bear.jpeg",
-                            ProductId = new Guid("13302a19-82c5-4e53-a623-7273c2555ac3")
-                        },
-                        new
-                        {
-                            Id = new Guid("611e4b75-c798-4191-9bb2-9e0e59c00560"),
-                            ImagePath = "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/Assets/duck.jpeg",
-                            ProductId = new Guid("13302a19-82c5-4e53-a623-7273c2555ac3")
-                        },
-                        new
-                        {
-                            Id = new Guid("b43b952a-1425-4ae7-95d7-fc0c8f9a0596"),
-                            ImagePath = "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/Assets/hi_duck.jpeg",
-                            ProductId = new Guid("3b9102a8-276b-46cc-bfd0-8bcf135ec8c2")
-                        },
-                        new
-                        {
-                            Id = new Guid("76660492-32b0-4404-a992-97aff9179764"),
-                            ImagePath = "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/Assets/injure.jpeg",
-                            ProductId = new Guid("3b9102a8-276b-46cc-bfd0-8bcf135ec8c2")
-                        },
-                        new
-                        {
-                            Id = new Guid("dd5f6823-0055-44d6-88bb-3169d0907381"),
-                            ImagePath = "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/Assets/pzduck.jpeg",
-                            ProductId = new Guid("3b9102a8-276b-46cc-bfd0-8bcf135ec8c2")
-                        });
-                });
-
-            modelBuilder.Entity("ShopApi.Models.Product.Product", b =>
+            modelBuilder.Entity("ShopApi.Infrastructure.Entities.ProductAggregate.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -300,7 +246,7 @@ namespace ShopApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("13302a19-82c5-4e53-a623-7273c2555ac3"),
+                            Id = new Guid("a0aa2771-bf1e-450b-b50c-d954366f76c9"),
                             Description = "Holy bear",
                             Name = "Bear",
                             Price = 150.0,
@@ -308,7 +254,7 @@ namespace ShopApi.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3b9102a8-276b-46cc-bfd0-8bcf135ec8c2"),
+                            Id = new Guid("69e8fc72-dfa0-4e2a-9cb4-c88c43e23202"),
                             Description = "Tasty and cute sugar boys",
                             Name = "GammyBear",
                             Price = 10.5,
@@ -316,7 +262,59 @@ namespace ShopApi.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ShopApi.Models.User.User", b =>
+            modelBuilder.Entity("ShopApi.Infrastructure.Entities.ProductAggregate.ProductImage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductImages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("2ec25d0c-19a7-4be2-b292-bffef06f61ca"),
+                            ImagePath = "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/wwwroot/ProductImages/bear.jpeg",
+                            ProductId = new Guid("a0aa2771-bf1e-450b-b50c-d954366f76c9")
+                        },
+                        new
+                        {
+                            Id = new Guid("ea3833e2-463d-4350-bbdb-c5d34c64bf4d"),
+                            ImagePath = "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/wwwroot/ProductImages/duck.jpeg",
+                            ProductId = new Guid("a0aa2771-bf1e-450b-b50c-d954366f76c9")
+                        },
+                        new
+                        {
+                            Id = new Guid("ec56134d-ae90-43a9-b148-452a736d7c7c"),
+                            ImagePath = "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/wwwroot/ProductImages/hi_duck.jpeg",
+                            ProductId = new Guid("69e8fc72-dfa0-4e2a-9cb4-c88c43e23202")
+                        },
+                        new
+                        {
+                            Id = new Guid("af564e6d-8b60-4ec5-a249-ffbdfa74bda0"),
+                            ImagePath = "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/wwwroot/ProductImages/injure.jpeg",
+                            ProductId = new Guid("69e8fc72-dfa0-4e2a-9cb4-c88c43e23202")
+                        },
+                        new
+                        {
+                            Id = new Guid("e98e9d86-b330-4292-afd4-952fecd37844"),
+                            ImagePath = "/home/kupns/Develop/csharp/Angular_Tour_Of_Heroes/main/Kupreenkov_Nikita/ShopApi/wwwroot/ProductImages/pzduck.jpeg",
+                            ProductId = new Guid("69e8fc72-dfa0-4e2a-9cb4-c88c43e23202")
+                        });
+                });
+
+            modelBuilder.Entity("ShopApi.Infrastructure.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -395,10 +393,10 @@ namespace ShopApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("030f9905-5b4d-4451-b291-c44a255b3a43"),
+                            Id = new Guid("a2180e12-546f-4d87-b2ea-8bd81aef143a"),
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(2000, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "e74bb5c8-014e-48d4-9db8-b1491f32dfe6",
+                            ConcurrencyStamp = "9db98f7c-a007-4938-9875-6fc57ee00043",
                             Email = "Admin@Admin.com",
                             EmailConfirmed = true,
                             FirstName = "Master",
@@ -406,7 +404,7 @@ namespace ShopApi.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "MASTERADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAENI6NcB4m27uYQXsbwUqxqJ0ixnqLPmQVOx2E8+vfLpAC7xt0Prvf/1lJaCPtY8M7g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPX5ocfczJ/ubCxbWG3toJ+7vbaORl3V45AkYackezqMglqdzH5Zr0vM+SbSaZR7rA==",
                             PhoneNumber = "XXXXXXXXXXXXX",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",
@@ -415,10 +413,10 @@ namespace ShopApi.Migrations
                         },
                         new
                         {
-                            Id = new Guid("bec869d2-2bc3-42fb-9459-bafc49509a57"),
+                            Id = new Guid("8931f0a6-c700-42ea-8474-910606ec6a31"),
                             AccessFailedCount = 0,
                             BirthDate = new DateTime(2000, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "8df262c1-62ea-4c01-8c56-0fb7cf27d147",
+                            ConcurrencyStamp = "40a473cf-13cd-4d9c-9bda-d33b506ce893",
                             Email = "User@User.com",
                             EmailConfirmed = true,
                             FirstName = "Standart",
@@ -426,7 +424,7 @@ namespace ShopApi.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@USER.COM",
                             NormalizedUserName = "STANDARTUSER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMrww4KQGV/lv+jKvYHEvk3/kqgd0T41PvAT4rmTOuykxsIU3CYtAeBVQMYgYb4n5Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMMIkTKlolsDZTbWdkQO0DlvGVPPup4+GQ1v/dFdfLZkxJmTGcrbCpC5yarbosd2UA==",
                             PhoneNumber = "XXXXXXXXXXXXX",
                             PhoneNumberConfirmed = true,
                             SecurityStamp = "00000000-0000-0000-0000-000000000000",
@@ -435,7 +433,7 @@ namespace ShopApi.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ShopApi.Models.User.UserRole", b =>
+            modelBuilder.Entity("ShopApi.Infrastructure.Entities.UserRole", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -464,15 +462,15 @@ namespace ShopApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("fdc61c8f-c3f5-4db6-9a0c-9e9ace9792fd"),
-                            ConcurrencyStamp = "88eb4e46-7aba-4f7c-b53d-9fb840b443bf",
+                            Id = new Guid("39652eb2-4f6f-4009-bfe5-4ac0d228bcc2"),
+                            ConcurrencyStamp = "e66c5a45-510e-4ed5-bac9-ad87f0701cba",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("0049412f-f2c6-4bd6-b560-dd41402c662c"),
-                            ConcurrencyStamp = "b23e24d1-d831-465b-b06f-bfdc5e3bf410",
+                            Id = new Guid("4d634ced-1c08-4e43-9894-8a42c71b1883"),
+                            ConcurrencyStamp = "ea5ac46e-10b9-4336-b1c5-fdff0b35bf64",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -480,7 +478,7 @@ namespace ShopApi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("ShopApi.Models.User.UserRole", null)
+                    b.HasOne("ShopApi.Infrastructure.Entities.UserRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -489,7 +487,7 @@ namespace ShopApi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("ShopApi.Models.User.User", null)
+                    b.HasOne("ShopApi.Infrastructure.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -498,7 +496,7 @@ namespace ShopApi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("ShopApi.Models.User.User", null)
+                    b.HasOne("ShopApi.Infrastructure.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -507,13 +505,13 @@ namespace ShopApi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("ShopApi.Models.User.UserRole", null)
+                    b.HasOne("ShopApi.Infrastructure.Entities.UserRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ShopApi.Models.User.User", null)
+                    b.HasOne("ShopApi.Infrastructure.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -522,42 +520,42 @@ namespace ShopApi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("ShopApi.Models.User.User", null)
+                    b.HasOne("ShopApi.Infrastructure.Entities.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ShopApi.Models.Cart", b =>
+            modelBuilder.Entity("ShopApi.Infrastructure.Entities.CartAggregate.Cart", b =>
                 {
-                    b.HasOne("ShopApi.Models.Order", "Order")
+                    b.HasOne("ShopApi.Infrastructure.Entities.Order", "Order")
                         .WithOne("Cart")
-                        .HasForeignKey("ShopApi.Models.Cart", "OrderId");
+                        .HasForeignKey("ShopApi.Infrastructure.Entities.CartAggregate.Cart", "OrderId");
 
-                    b.HasOne("ShopApi.Models.User.User", "User")
+                    b.HasOne("ShopApi.Infrastructure.Entities.User", "User")
                         .WithOne("Cart")
-                        .HasForeignKey("ShopApi.Models.Cart", "UserId");
+                        .HasForeignKey("ShopApi.Infrastructure.Entities.CartAggregate.Cart", "UserId");
                 });
 
-            modelBuilder.Entity("ShopApi.Models.CartItem", b =>
+            modelBuilder.Entity("ShopApi.Infrastructure.Entities.CartAggregate.CartItem", b =>
                 {
-                    b.HasOne("ShopApi.Models.Cart", "Cart")
+                    b.HasOne("ShopApi.Infrastructure.Entities.CartAggregate.Cart", "Cart")
                         .WithMany("CartItems")
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ShopApi.Models.Product.Product", "Product")
+                    b.HasOne("ShopApi.Infrastructure.Entities.ProductAggregate.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ShopApi.Models.Product.Image", b =>
+            modelBuilder.Entity("ShopApi.Infrastructure.Entities.ProductAggregate.ProductImage", b =>
                 {
-                    b.HasOne("ShopApi.Models.Product.Product", "Product")
+                    b.HasOne("ShopApi.Infrastructure.Entities.ProductAggregate.Product", "Product")
                         .WithMany("Images")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
