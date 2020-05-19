@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { UserService } from '../../shared/services/user.service';
-import { User } from '../../shared/interfaces/User';
+import { User } from 'src/app/shared/interfaces/user';
 
 @Component({
   selector: 'app-authorization',
