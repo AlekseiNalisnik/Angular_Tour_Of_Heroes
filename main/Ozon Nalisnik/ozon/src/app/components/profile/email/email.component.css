@@ -1,0 +1,104 @@
+.auth {
+    position: absolute;
+    top: 38.5%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+    width: 393px;
+    height: 450px;
+    background: #FFFFFF;
+    border: 1px solid #e6e6e6;
+}
+
+.auth h3 {
+    margin: 10% 15%;
+    margin-top: 20%;
+    padding: 0;
+    color: #000;
+    font-size: 25px;
+}
+
+
+.auth p {
+    margin-top: 15px;
+    display: inline-block;
+    margin-left: 30%;  
+}
+
+.auth__toReg {
+    margin-top: 15px;
+    margin-left: 2%; 
+    color: #07319D;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.auth__toReg:hover {
+    color: #0fc3f5;
+}
+
+.main_form {
+    text-align: center;
+}
+
+.main_form input, .main_form button {
+    padding: 10px;
+    width: 100%;
+    color: #fff;
+    font-size: 15px;
+    background: none;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #DDE2E8;
+    box-sizing: border-box;
+}
+
+.main_form input {
+    color: #000;
+}
+
+.auth__button {
+    margin-top: 20px;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    background: rgba(56,151,240,1);
+    transition: .3s;
+    width: 70%; 
+    margin: auto;
+}
+
+.auth__button:hover {
+    background: #00329e;
+}
+
+.auth__email, .auth__password  {
+    width: 70%;
+    margin: 10% 15%;
+    height: 10%;
+}
+
+.auth__password input:focus, .auth__email input:focus {
+    border-bottom: 1px solid #0fc3f5;
+}
+
+
+
+
+/* Validation classes */
+input.ng-touched.ng-invalid {
+    /* border:solid red 0.5px; */
+    border-bottom:solid red 1px;
+}
+
+input.ng-touched.ng-valid {
+    /* border:solid green 0.5px; */
+    border-bottom:solid green 1px;
+}
+
+.authorization-validation {
+    font-size: 15px;
+    color: red;
+    /* margin-left: 10px;
+    text-align: left; */
+}

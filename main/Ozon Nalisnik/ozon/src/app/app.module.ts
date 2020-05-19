@@ -31,6 +31,9 @@ import { BasketOrderPanelComponent } from './components/basket/basket-order-pane
 import { InMemoryDataService }  from './shared/services/in-memory-data.service';
 import { SearchProductPipe } from './shared/pipes/search-product.pipe';
 import { ClickOutsideDirective } from './shared/directives/dropdown.directive';
+import { PersonalDataComponent } from './components/profile/personal-data/personal-data.component';
+import { PhoneComponent } from './components/profile/phone/phone.component';
+import { EmailComponent } from './components/profile/email/email.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +50,9 @@ import { ClickOutsideDirective } from './shared/directives/dropdown.directive';
     BasketOrderPanelComponent,
     SearchProductPipe,
     ClickOutsideDirective,
+    PersonalDataComponent,
+    PhoneComponent,
+    EmailComponent,
     // SearchComponent
   ],
   imports: [

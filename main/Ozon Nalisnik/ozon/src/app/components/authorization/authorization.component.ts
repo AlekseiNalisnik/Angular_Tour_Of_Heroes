@@ -11,6 +11,7 @@ import { User } from 'src/app/shared/interfaces/user';
 })
 export class AuthorizationComponent implements OnInit {
   @Output() toggleHeaderFlagFromAuthToReg: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() responseStatusFlag: EventEmitter<boolean> = new EventEmitter<boolean>(); // ENUM
   toggleToReg: boolean = false;
 
   authorizationForm: FormGroup;
@@ -40,7 +41,11 @@ export class AuthorizationComponent implements OnInit {
 
   compareUser(user: Object) {
     this.userService.addUser(user as User)
-      .subscribe(status => console.log('STATUS CODE - ', status))
+      .subscribe(status => {
+        console.log('STATUS CODE - ', status);
+        // this.responseStatusFlag.emit(status);
+        this.responseStatusFlag.emit(true);
+      })
   }
 
   /* При клике на авторизационную форму входа выполняем: */

@@ -7,7 +7,7 @@
             (change)="isAllSelected()"
         />
         <img 
-            src={{basketProduct.path}} 
+            src={{basketProduct.images[0].imagePath}} 
             class="picture" 
             alt={{basketProduct.alt}}
             [routerLink]="['/products', basketProduct.id]"
@@ -30,7 +30,7 @@
     </div>
 
     <div class="basket__list-item__item__cost">
-        {{basketProduct.cost}}
+        {{basketProduct.price}}
     </div>
     <div class="basket__list-item__item__quantity">
         <mat-form-field class="select-wrapper">
@@ -49,7 +49,7 @@
             </mat-select>
         </mat-form-field>
         <div class="basket__list-item__item__sum-cost custom-pipe__cost">
-            {{basketProduct.cost}} P/шт.
+            {{basketProduct.price}} P/шт.
         </div>
     </div>
     <div class="horizontal-line"></div>

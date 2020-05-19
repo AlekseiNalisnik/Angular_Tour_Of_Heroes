@@ -7,20 +7,20 @@
         <input
             (click)="openDropDown()"
             (ngModelChange)="openDropDown()"
-            class="header__search__line" 
-            type="text" 
+            class="header__search__line"
+            type="text"
             placeholder="Искать на Ozon"
             [(ngModel)]="searchProduct"
         />
 
         <div 
             clickOutside (clickOutside)="closeDropDown()"
-            *ngIf="showDropDown" 
+            *ngIf="showDropDown"
             class="header__search__dropdown"
         >
             <div
                 (click)="selectBaskeProduct(basketProduct)"
-                class="header__search__dropdown__state" 
+                class="header__search__dropdown__state"
                 *ngFor="let basketProduct of basketProducts | SearchProduct:searchProduct"
             >
                 {{basketProduct.description}}
@@ -28,7 +28,7 @@
         </div>
 
         <a 
-            class="header__search__button" 
+            class="header__search__button"
             href="#"
             [routerLink]="['products']"
             [queryParams]="{'text': searchProduct}"
@@ -37,8 +37,13 @@
         </a>
     </div>
     <div class="header__links">
-        <!-- <a class="header__links__user" routerLink="/users"> -->
         <a class="header__links__user" (click)="toggleToReg()">
+            <a 
+                *ngIf="responseStatusFlag"
+                class="header__links__user__profile" 
+                routerLink="/userProfile"
+            >
+            </a>
             <img src="../../assets/Face.png" class="header__links__user__img">
             <div class="header__links__user__name">Андрей</div>
         </a>
@@ -63,6 +68,8 @@
     <app-authorization 
         class="header__reg-main"
         (click)="stayOnReg($event)"
-        (toggleHeaderFlagFromAuthToReg)="toggleAuthFlag($event)"> 
+        (toggleHeaderFlagFromAuthToReg)="toggleAuthFlag($event)"
+        (responseStatusFlag)="selectAuthorizationStatus($event)"
+    > 
     </app-authorization>
 </div>
