@@ -16,31 +16,82 @@
                 <div class="profile-main-names">
                     Учетная запись
                 </div>
-                <div class="profile-information-fields">
+                
+
+                    <div class="profile-information-caption">
+                        Телефон
+                    </div>
                     <div class="profile-information-field">
                         +7 885 223 6548
                     </div>
-                    <div class="links">Изменить</div>
-                </div>
-                <div class="profile-information-fields">
+                    <div class="links changePhone">Изменить</div>
+
+
+
+                    <div class="profile-information-caption">
+                        Почта
+                    </div>
                     <div class="profile-information-field">
                         vasya@gmail.com
                     </div>
-                    <div class="links">Изменить</div>
-                </div>
+                    <div class="links changeEmail">Изменить</div>
+
+
             </div>
             <div class="profile-data-block">
                 <div class="profile-main-names">
                     Личные данные
                 </div>
-                <div class="profile-information-field">Воробьев Андрей</div>
-                <div class="profile-information-field">01.01.2000</div>
-                <div class="profile-information-field">Мужской</div>
-                <div class="profile-information-field "><a class="links"> Изменить личные данные</a></div>
+
+
+                    <div class="profile-information-caption">
+                        ФИО
+                    </div>
+                    <div class="profile-information-field info__margin-bottom">
+                        Воробьев Андрей
+                    </div>
+
+
+
+                    <div class="profile-information-caption">
+                        Дата рождения
+                    </div>
+                    <div class="profile-information-field info__margin-bottom">
+                        01.01.2000
+                    </div>
+
+
+
+                    <div class="profile-information-caption">
+                        Пол
+                    </div>
+                    <div class="profile-information-field info__margin-bottom">
+                        Мужской
+                    </div>
+
+
+                <div class="profile-information-field change-personality-data">
+                    <a class="links">
+                        Изменить личные данные
+                    </a>
+                </div>
             </div>
             <div class="profile-data-block">
-                <div class="profile-information-field links"><a class="links">Удалить профиль</a></div>
+                <div class="profile-information-field links">
+                    <a class="links">
+                        Удалить профиль
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+
+<app-email
+    (emailFormOutput)="updateUsersEmail($event)"
+></app-email>
+
+<app-personal-data></app-personal-data>
+
+<app-phone></app-phone>
