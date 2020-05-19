@@ -1,7 +1,7 @@
 <div>
     <div class="reg">
         <p>Уже зарегистрированы?</p>
-        <a class="reg__toAuth" (click)="opeanAuth()">
+        <a class="reg__toAuth" (click)="openAuth()">
             Войдите
         </a>    
         <h3>Регистрация</h3>
@@ -10,26 +10,67 @@
                 <input 
                     class="clear_input"
                     type="text" 
-                    name="fullName" 
-                    placeholder="Полное имя" 
-                    formControlName = "fullName"
+                    name="name"
+                    placeholder="Имя" 
+                    formControlName = "name"
                 />
                 <div 
                     class="singup-validation"
-                *ngIf = "singUpForm.get('fullName').invalid && singUpForm.get('fullName').touched"
+                *ngIf = "singUpForm.get('name').invalid && singUpForm.get('name').touched"
                 >
                     <small
-                    *ngIf = "singUpForm.get('fullName').errors.required"
+                    *ngIf = "singUpForm.get('name').errors.required"
                     >
                         Поле не может быть пустым
                     </small>
                 </div>
             </div>
+
+            <div class="reg__fullName">
+                <input 
+                    class="clear_input"
+                    type="text" 
+                    name="surname"
+                    placeholder="Фамилия" 
+                    formControlName = "surname"
+                />
+                <div 
+                    class="singup-validation"
+                *ngIf = "singUpForm.get('surname').invalid && singUpForm.get('surname').touched"
+                >
+                    <small
+                    *ngIf = "singUpForm.get('surname').errors.required"
+                    >
+                        Поле не может быть пустым
+                    </small>
+                </div>
+            </div>
+
+            <div class="reg__fullName">
+                <input 
+                    class="clear_input"
+                    type="text" 
+                    name="patronimyc"
+                    placeholder="Отчество" 
+                    formControlName = "patronimyc"
+                />
+                <div 
+                    class="singup-validation"
+                *ngIf = "singUpForm.get('patronimyc').invalid && singUpForm.get('patronimyc').touched"
+                >
+                    <small
+                    *ngIf = "singUpForm.get('patronimyc').errors.required"
+                    >
+                        Поле не может быть пустым
+                    </small>
+                </div>
+            </div>
+           
             <div class="reg__name">
                 <input 
                     class="clear_input"
                     type="text" 
-                    name="name" 
+                    name="phoneNumber" 
                     placeholder="Телефон"
                     formControlName = "phoneNumber"
                 />

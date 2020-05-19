@@ -5,7 +5,7 @@ export class User {
     patronymic: string;
     phoneNumber: number;
     sex: string;
-    mail: string;
-    birth: string;
+    email: string;
+    birthdate: string;
     password: string;
 }

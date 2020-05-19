@@ -4,6 +4,7 @@ import { User } from '../../shared/interfaces/user';
 import { AuthService } from '../../shared/services/auth.service';
 import { Route } from '@angular/compiler/src/core';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/shared/services/user.service';
 
 
 @Component({
@@ -14,18 +15,25 @@ import { Router } from '@angular/router';
 export class SingupComponent implements OnInit {
   @Output() toggleHeaderFlag: EventEmitter<boolean> = new EventEmitter<boolean>();
   toggleToAuth = false;
-
+  formData: Object;
   singUpForm: FormGroup;
 
   public id = 0;
 
   constructor(
     private auth: AuthService,
-    private router: Router) { }
+    private router: Router,
+    private userService: UserService) { }
 
   ngOnInit(): void {
     this.singUpForm = new FormGroup({
-      fullName: new FormControl('', [
+      name: new FormControl('', [
+        Validators.required
+       ]),
+      surname: new FormControl('', [
+        Validators.required
+       ]),
+      patronimyc: new FormControl('', [
          Validators.required
         ]),
       phoneNumber: new FormControl(null, [
@@ -44,37 +52,33 @@ export class SingupComponent implements OnInit {
     });
   }
 
-  opeanAuth() {
+  openAuth() {
     this.toggleToAuth = !this.toggleToAuth;
     this.toggleHeaderFlag.emit(this.toggleToAuth);
+    console.log('flag - ', this.toggleToAuth);
   }
 
   stayOnAuth(e) {
-    // tslint:disable-next-line: deprecation
     event.stopPropagation();
   }
 
+  /* Добавление пользователя в БД */
+  addUser(userData: Object): void {
+    if(Object.keys(userData).length === 0) return;  // Проверка на пустоту объекта
+    
+    this.userService.addUser(userData as User)
+      .subscribe(userData => console.log('User - ', userData))
+  }
+
+  /* При клике на регистрационную форму отправки данных выполняем: */
   submit() {
-    console.log(this.singUpForm.value);
-    this.opeanAuth();
+    if(this.singUpForm.valid) {
+      this.formData = { ...this.singUpForm.value };
 
-    this.id += 1;
-    const user: User = {
-      mail: this.singUpForm.value.email,
-      password: this.singUpForm.value.password,
-      id: this.id,
-      surname: this.singUpForm.value.fullName,
-      name: this.singUpForm.value.fullName,
-      patronymic: this.singUpForm.value.fullName,
-      phoneNumber: this.singUpForm.value.phoneNumber,
-      sex: '',
-      birth: ''
-   };
+      this.openAuth();      // Сразу после отправки на форму, переходим к открытию авторизации
 
-    // this.auth.login(user).subscribe(() => {
-    //   this.singUpForm.reset();
-    //   this.router.navigate(['../profile']);
-    // });
+      this.addUser(this.formData);
+    }
   }
 
 }

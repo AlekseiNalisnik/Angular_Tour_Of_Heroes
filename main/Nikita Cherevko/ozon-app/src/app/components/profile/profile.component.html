@@ -1,56 +1,109 @@
 <div class="content-block">
-    <div class="profile-wrapper">
-        <div class="profile-column">
-            <div class="profile-main-names">
-                Личная информация
-            </div>
-            <a href="#" class="links">Профиль</a>
-            <div class="profile-main-names">
-                Заказы
-            </div>
-            <a href="#" class="links">Моя корзина</a>
-            <a href="#" class="links">Мои заказы</a>
-        </div>
-        <div class="profile-column">
-            <div class="profile-data-block">
-                <div class="profile-main-names">
-                    Учетная запись
-                </div>
-
-                <div class="profile-information-caption">Телефон</div>
-                <div class="profile-information-fields">
-                    <div class="profile-information-field">
-                        +7 885 223 6548
-                    </div>
-                    <div class="links">Изменить</div>
-                </div>
-
-                <div class="profile-information-caption">Почта</div>
-                <div class="profile-information-fields">
-                    <div class="profile-information-field">
-                        vasya@gmail.com
-                    </div>
-                    <div class="links">Изменить</div>
-                </div>
-            </div>
-            <div class="profile-data-block">
-                <div class="profile-main-names">
-                    Личные данные
-                </div>
-                <div class="profile-information-caption">ФИО</div>
-                <div class="profile-information-field">Воробьев Андрей</div>
-
-                <div class="profile-information-caption">Дата рождения</div>
-                <div class="profile-information-field">01.01.2000</div>
-
-                <div class="profile-information-caption">Пол</div>
-                <div class="profile-information-field">Мужской</div>
-
-                <div class="profile-information-field "><a href="#" class="links"> Изменить личные данные</a></div>
-            </div>
-            <div class="profile-data-block">
-                <div class="profile-information-field links"><a href="#" class="links">Удалить профиль</a></div>
-            </div>
-        </div>
+  <div class="profile-wrapper">
+    <div class="profile-column">
+      <div class="profile-main-names">
+        Личная информация
+      </div>
+      <a href="#" class="links">Профиль</a>
+      <div class="profile-main-names">
+        Заказы
+      </div>
+      <a href="#" class="links">Моя корзина</a>
+      <a href="#" class="links">Мои заказы</a>
     </div>
+    <div class="profile-column">
+      <div class="profile-data-block">
+        <div class="profile-main-names">
+          Учетная запись
+        </div>
+
+        <div class="profile-information-caption">Телефон</div>
+        <div class="profile-information-fields">
+          <div *ngIf="phoneChangeFlag" class="profile-information-field">
+            {{ user.phoneNumber }}
+          </div>
+          <div *ngIf="!phoneChangeFlag" class="profile-information-field">
+            <form
+              [formGroup]="changePhoneForm"
+              (ngSubmit)="phoneChangesubmit()"
+            >
+              <input
+                class="input-field"
+                type="text"
+                name="phone"
+                placeholder="Телефон"
+                formControlName="phone"
+              />
+              <!-- <div
+                class="validation"
+                *ngIf="
+                  changePhoneForm.get('phone').invalid &&
+                  changePhoneForm.get('phone').touched"
+              >
+                <small *ngIf="changePhoneForm.get('phone').errors">
+                  Введите корректный номер телефона
+                </small>
+
+                <small
+                  *ngIf="changePhoneForm.get('phone').errors.required"
+                >
+                  Поле не может быть пустым
+                </small>
+              </div> -->
+
+              <button
+                class="phoneChange__submit"
+                type="submit"
+              >
+                Сохранить
+              </button>
+            </form>
+          </div>
+
+          <div class="links" (click)="changePhone()" *ngIf="phoneChangeFlag">
+            Изменить
+          </div>
+        </div>
+
+        <div class="profile-information-caption">Почта</div>
+        <div class="profile-information-fields">
+          <div class="profile-information-field">
+            {{ user.email }}
+          </div>
+          <div class="links" (onClick)="changeEmail()">Изменить</div>
+        </div>
+      </div>
+      <div class="profile-data-block">
+        <div class="profile-main-names">
+          Личные данные
+        </div>
+        <div class="profile-information-caption">Имя</div>
+        <div class="profile-information-field">{{ user.name }}</div>
+
+        <div class="profile-information-caption">Фамилия</div>
+        <div class="profile-information-field">{{ user.surname }}</div>
+
+        <div class="profile-information-caption">Отчество</div>
+        <div class="profile-information-field">{{ user.patronymic }}</div>
+
+        <div class="profile-information-caption">Дата рождения</div>
+        <div class="profile-information-field">{{ user.birthdate }}</div>
+
+        <div class="profile-information-caption">Пол</div>
+        <div class="profile-information-field">{{ user.sex }}</div>
+
+        <div class="profile-information-field" (onClick)="changePersonalData()">
+          <a href="#" class="links"> Изменить личные данные</a>
+        </div>
+      </div>
+      <div class="profile-data-block">
+        <div
+          class="profile-information-field links"
+          (onClick)="deleteProfile()"
+        >
+          <a href="#" class="links">Удалить профиль</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -66,7 +66,7 @@
     background: none;
     outline: none;
     border: none;
-    border-bottom: 1px solid #DDE2E8;
+    border: 1px solid #DDE2E8;
     box-sizing: border-box;
 }
 
@@ -78,7 +78,6 @@
     margin-top: 20px;
     color: #fff;
     font-weight: bold;
-    text-transform: uppercase;
     border: none;
     background: rgba(56,151,240,1);
     transition: .3s;
@@ -105,5 +104,27 @@
 .auth__password input:focus, .auth__email input:focus, 
 .reg__password input:focus, .reg__name input:focus, 
 .reg__fullName input:focus, .reg__email input:focus {
-    border-bottom: 1px solid #0fc3f5;
+    border: 1px solid #0fc3f5;
 }
+
+
+
+/* Validation classes */
+input.ng-touched.ng-invalid {
+    /* border:solid red 0.5px; */
+    border:solid red 1px;
+}
+
+input.ng-touched.ng-valid {
+    /* border:solid green 0.5px; */
+    border:solid green 1px;
+}
+
+.login-validation {
+    font-size: 15px;
+    color: red;
+    line-height: 13px;
+    /* margin-left: 10px;
+    text-align: left; */
+}
+

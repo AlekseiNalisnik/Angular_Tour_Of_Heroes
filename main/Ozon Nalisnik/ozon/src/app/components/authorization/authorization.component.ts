@@ -13,7 +13,7 @@ export class AuthorizationComponent implements OnInit {
   @Output() toggleHeaderFlagFromAuthToReg: EventEmitter<boolean> = new EventEmitter<boolean>();
   toggleToReg: boolean = false;
 
-  authorizationForm: FormGroup;
+  loginForm: FormGroup;
   comparisonStatus: boolean = false;
   formData: Object;
   users: User[];
@@ -21,7 +21,7 @@ export class AuthorizationComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    this.authorizationForm = new FormGroup({
+    this.loginForm = new FormGroup({
       email: new FormControl('', [
         Validators.email, 
         Validators.required
@@ -45,8 +45,8 @@ export class AuthorizationComponent implements OnInit {
 
   /* При клике на авторизационную форму входа выполняем: */
   authorizationSubmit() {
-    if(this.authorizationForm.valid) {
-      this.formData = { ...this.authorizationForm.value }
+    if(this.loginForm.valid) {
+      this.formData = { ...this.loginForm.value }
 
       this.compareUser(this.formData);  // Post request
     }

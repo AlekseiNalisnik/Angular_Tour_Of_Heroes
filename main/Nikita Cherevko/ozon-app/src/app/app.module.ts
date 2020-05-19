@@ -24,7 +24,6 @@ import { SearchProductComponent } from './components/search-product/search-produ
 
 import { SearchProductPipe } from './shared/pipes/search-product.pipe';
 import { ClickOutsideDirective } from './shared/directives/dropdown.directive';
-// import { SearchListComponent } from './components/search-list/search-list.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { CartComponent } from './components/cart/cart.component';
 import { ProductComponent } from './components/product-list/product/product.component';
@@ -48,7 +47,6 @@ import { OrderPanelComponent } from './components/cart/order-panel/order-panel.c
     SearchProductComponent,
     SearchProductPipe,
     ClickOutsideDirective,
-    // SearchListComponent
   ],
   imports: [
     BrowserModule,

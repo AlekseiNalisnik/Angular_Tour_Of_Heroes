@@ -31,6 +31,7 @@
     font-size: 15px;
     margin-bottom: 15px;
     font-weight: 700;   
+    cursor: pointer;
 }
 .profile-information-fields {
     display: flex;
@@ -61,5 +62,37 @@
 }
 
 
+.input-field {
+    padding: 10px;
+    border: 1px solid #777272;
+    border-radius: 5px;
+    /* width: 500px; */
+}   
+.phoneChange__submit {
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+    background-color: #0000FF;
+    border: none;
+    border-radius: 5px;
+    margin: 20px;
+}
 
+/* Validation classes */
+input.ng-touched.ng-invalid {
+    /* border:solid red 0.5px; */
+    border:solid red 1px;
+}
 
+input.ng-touched.ng-valid {
+    /* border:solid green 0.5px; */
+    border:solid green 1px;
+}
+
+.validation {
+    font-size: 15px;
+    color: red;
+    line-height: 13px;
+    /* margin-left: 10px;
+    text-align: left; */
+}

@@ -33,9 +33,9 @@ export class MaindbService implements InMemoryWebApiModule{
     const products = [
       {
         id: 11,
-        path: '../../assets/duck.jpg',
+        images: [{imagePath: '../../assets/duck.jpg'}, {},{}],
         alt: 'Duck-punk',
-        value: 100,
+        price: 100,
         description: 'Вутан, Один и многие другие',
         name: 'Уточка один.',
         weight: 100,
@@ -45,9 +45,9 @@ export class MaindbService implements InMemoryWebApiModule{
       },
       {
         id: 12,
-        path: '../../assets/duck.jpg',
+        images: [{imagePath: '../../assets/duck.jpg'}, {},{}],
         alt: 'Duck-punk',
-        value: 150,
+        price: 150,
         description: 'Нам будет хорошо.',
         name: 'Уточка два.',
         weight: 50,
@@ -57,9 +57,9 @@ export class MaindbService implements InMemoryWebApiModule{
       },
       {
         id: 13,
-        path: '../../assets/duck.jpg',
+        images: [{imagePath: '../../assets/duck.jpg'}, {},{}],
         alt: 'Duck-punk',
-        value: 2000,
+        price: 2000,
         description: 'Уточка три. Набор игрушек для ванной.',
         name: 'Уточка три.',
         weight: 70,

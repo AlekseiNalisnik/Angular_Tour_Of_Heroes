@@ -5,21 +5,20 @@
     left: 50%;
     transform: translate(-50%, -40%);
     width: 393px;
-    height: 560px;
+    height: 600px;
     background: #FFFFFF;
     border: 1px solid #e6e6e6;
 }
 
 .reg h3 {
-    margin: 10% 15%;
-    margin-top: 10%;
+    margin: 8% 15%;
     padding: 0;
     color: #000;
     font-size: 25px;    
 }
 
 .reg p {
-    margin-top: 15px;
+    margin-top: 10px;
     display: inline-block;
     margin-left: 30%;  
 }
@@ -66,7 +65,7 @@
 
 .reg__password, .reg__name, .reg__fullName, .reg__email {
     width: 70%;
-    margin: 10% 15%;
+    margin: 5% 15%;
     height: 50px;
 }
 
@@ -102,6 +101,7 @@ input.ng-touched.ng-valid {
 .singup-validation {
     font-size: 15px;
     color: red;
+    line-height: 13px;
     /* margin-left: 10px;
     text-align: left; */
 }

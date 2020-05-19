@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../../shared/interfaces/product';
 import { EventBusService } from '../../shared/services/event-bus.service';
+import { Product } from 'src/app/shared/interfaces/product';
 
 @Component({
   selector: 'app-header',
@@ -24,23 +24,17 @@ export class HeaderComponent implements OnInit {
     // console.log('ngDoCheck - ', this.products);
  }
 
-  toggleToReg() {
-    this.toggleFlag = !this.toggleFlag;
-    // console.log('this.authFlag - ', this.authFlag);
-    // this.authFlag = flagAuthFromReg;
-  }
+ toggleToReg() {
+  this.toggleFlag = !this.toggleFlag;
+}
 
-  stayOnReg(e) {
-    event.stopPropagation();
-  }
+ stayOnReg(e) {
+  event.stopPropagation();
+ }
 
-  toggleAuthFlag(flagAuthFromReg?) {
-    if (flagAuthFromReg) {
-       this.toggleToReg(); 
-      }
-    // this.authFlag = !this.authFlag;
-    // console.log('this.authFlag 2 - ', this.authFlag);
-    // console.log('flagAuthFromReg', flagAuthFromReg);
-  }
+ toggleAuthFlag(flagAuthFromReg?) {
+  if(flagAuthFromReg) this.toggleToReg();
+  this.authFlag = !this.authFlag;
+ }
 
 }

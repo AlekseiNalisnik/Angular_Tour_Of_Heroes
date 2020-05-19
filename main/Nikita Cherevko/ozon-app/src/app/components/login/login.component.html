@@ -5,26 +5,65 @@
           Зарегистрируйтесь
       </a>
       <h3>Вход</h3>
-      <form class="main_form">
-          <div class="auth__email">
-              <input 
-                  class="clear_input"
-                  type="text" 
-                  name="login" 
-                  placeholder="Email" 
-              />
-          </div>
-          <div class="auth__password">
-              <input 
-                  class="clear_input"
-                  type="password" 
-                  name="password" 
-                  placeholder="Пароль" 
-              />
-          </div>
+      <form class="main_form" [formGroup] = "loginForm" (ngSubmit)="submit()">
+
+        <div class="auth__email">
+            <input 
+                class="clear_input"
+                type="email" 
+                name="email" 
+                placeholder="Email" 
+                formControlName = "email"
+            />
+            <div 
+                class="login-validation"
+                *ngIf = "loginForm.get('email').invalid && loginForm.get('email').touched"
+            >
+                <small *ngIf = "loginForm.get('email').errors.email">
+                    Введите корректный Email
+                </small>
+
+                <small *ngIf = "loginForm.get('email').errors.required">
+                    Поле не может быть пустым
+                </small>
+            </div>
+        </div>
+
+        <div class="auth__password">
+            <input 
+                class="clear_input"
+                type="password" 
+                name="password" 
+                placeholder="Пароль"
+                formControlName = "password"
+            />
+            <div 
+                class="login-validation"
+                *ngIf = "loginForm.get('password').invalid && loginForm.get('password').touched"
+            >
+                <small *ngIf = "loginForm.get('password').errors.required">
+                    Поле не может быть пустым
+                </small>
+
+                <small *ngIf = "loginForm.get('password').errors.minlength">
+                    Длина должна быть не менее {{loginForm.get('password').errors.minlength.requiredLength}}
+                    символов
+                </small>
+            </div>
+        </div>
+
+
           <div class="auth__button">
-              <button class="auth__button">Войти</button>
+            <button 
+              class="auth__button" 
+              type="submit" 
+              [disabled] = "loginForm.invalid"
+              routerLink="/profile/{{this.user.id}}"
+              >
+              Войти
+           </button>
           </div>
+
       </form>
   </div>
 </div>

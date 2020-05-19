@@ -13,6 +13,7 @@
 .basket__list-item__item__picture {
     display: flex;
     margin-left: 2%;
+    width: 600px
 }
 
 .picture {

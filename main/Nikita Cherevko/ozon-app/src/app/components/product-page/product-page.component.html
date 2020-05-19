@@ -14,15 +14,21 @@
             class="product__main__side__column__box__value"
             [class.background-color]="buttonColor"
           >
-            {{ product?.value }}
+            {{ product?.price }}
           </div>
           <div class="button-wrapper">
-            <button class="go-cart" routerLink="/cart" >
-              В корзине {{this.cartProduct?.quantity}} шт.
-              <br>
+            <button class="go-cart" routerLink="/cart">
+              В корзине {{ this.cartProduct?.quantity }} шт.
+              <br />
               Перейти
             </button>
-            <button class="add-to-cart" (click)="addProductToCart()" [style.background-color] = "backgroundSwitch == true ? 'green' : 'blue' ">
+            <button
+              class="add-to-cart"
+              (click)="addProductToCart()"
+              [style.background-color]="
+                backgroundSwitch == true ? 'green' : 'blue'
+              "
+            >
               +1 шт.
             </button>
           </div>
