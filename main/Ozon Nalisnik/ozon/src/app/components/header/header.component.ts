@@ -3,6 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 // import { Product } from '../interfaces/product';
 import { BasketProduct } from '../../shared/interfaces/basketProduct';
 import { EventBusService } from '../../shared/services/event-bus.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -13,11 +14,15 @@ export class HeaderComponent implements OnInit {
   basketProducts: BasketProduct[] = [];
   toggleFlag: boolean = false;
   authFlag: boolean = false;
+  responseStatusFlag: boolean = false;
 
   searchProduct: string = '';
   showDropDown: boolean = false;
 
-  constructor(private eventBusService: EventBusService) { }
+  constructor(
+    private eventBusService: EventBusService,
+    private router: Router
+    ) { }
 
   ngOnInit(): void {
 
@@ -25,10 +30,24 @@ export class HeaderComponent implements OnInit {
 
   ngDoCheck(): void {
     this.eventBusService.currentData.subscribe(p => this.basketProducts = p);
+    console.log('Это флаг со статусом от POST запроса при авторизации - ', this.responseStatusFlag);
+  }
+
+  selectAuthorizationStatus(authorizationStatusFlag) {
+    this.responseStatusFlag = authorizationStatusFlag;
+    // console.log('Это флаг со статусом от POST запроса при авторизации - ', this.responseStatusFlag);
+    if(this.responseStatusFlag == true) {
+      this.authFlag = !this.authFlag;
+      this.router.navigate(['userProfile']);
+      // this.router.navigate(['profile', 3], {queryParams: {id: 3}, fragment: 'address'});
+    }
   }
 
   toggleToReg() {
-    this.toggleFlag = false;
+    if(this.responseStatusFlag == true) {
+      return;
+    }
+    this.toggleFlag = !this.toggleFlag;
   }
 
   stayOnReg(e) {
@@ -36,6 +55,9 @@ export class HeaderComponent implements OnInit {
   }
 
   toggleAuthFlag(flagAuthFromReg?) {
+    if(this.responseStatusFlag == true) {
+      return;
+    }
     if(flagAuthFromReg) this.toggleToReg();
     this.authFlag = !this.authFlag;
   }

@@ -1,8 +1,8 @@
 <div class="product-block">
     <a class="product-block-img" [routerLink]="['/products', basketProduct.id]">
-        <img src={{basketProduct.path}} alt={{basketProduct.alt}}>
+        <img src={{basketProduct.images[0].imagePath}} alt={{basketProduct.alt}}>
     </a>
-    <div class="product-cost">{{basketProduct.cost}} Р</div>
+    <div class="product-cost">{{basketProduct.price}} Р</div>
     <div class="product-description">
         {{basketProduct.description}}
     </div>

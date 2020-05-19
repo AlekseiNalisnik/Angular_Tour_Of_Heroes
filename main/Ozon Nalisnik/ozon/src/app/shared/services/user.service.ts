@@ -31,6 +31,13 @@ export class UserService {
       )
   }
 
+  updateUser(user: User): Observable<User> {
+    return this.http.put<User>(this.usersUrl, user, this.httpOptions)
+      .pipe(
+        catchError(this.handleError<User>())
+      )
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);

@@ -81,7 +81,7 @@ export class BasketOrderPanelComponent implements OnInit {
     this.totalCost = 0;
     this.finalCost = 0;
     for(let i = 0; i < this.selectedProducts.length; i++) {
-      this.totalCost += this.selectedProducts[i].cost * this.selectedProducts[i].quantity;
+      this.totalCost += this.selectedProducts[i].price * this.selectedProducts[i].quantity;
     }
     this.finalCost = this.totalCost * (1 - this.percent / 100);
   }

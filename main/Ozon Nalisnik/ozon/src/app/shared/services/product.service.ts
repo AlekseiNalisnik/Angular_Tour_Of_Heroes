@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { Product } from '../interfaces/product';
 import { BasketProduct } from '../interfaces/basketProduct';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { map, filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,12 @@ export class ProductService {
   getProductById(id: string){
     return this.http.get(this.productsUrl, {
       params: new HttpParams().set(`id`, id)
+    });
+  }
+
+  getProductByName(name?: string): Observable<Product[]> {
+    return this.http.get<Product[]>(this.productsUrl, {
+      params: new HttpParams().set(`description`, name)
     });
   }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../shared/services/user.service';
 import { User } from '../../shared/interfaces/user';
-import { MaindbService } from '../../shared/services/maindb.service';
+
 import { ActivatedRoute, Params } from '@angular/router';
 import { EventBusService } from 'src/app/shared/services/event-bus.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
