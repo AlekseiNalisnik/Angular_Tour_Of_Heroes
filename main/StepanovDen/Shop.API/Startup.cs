@@ -1,29 +1,15 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Shop.API.Data;
-using Shop.API.Models;
-using Shop.API.Services;
+using Shop.API.Infrastructure.Data;
+using Shop.API.Infrastructure.Models;
+using Shop.API.Infrastructure.Services;
 
 namespace Shop.API
 {
