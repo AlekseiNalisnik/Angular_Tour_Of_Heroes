@@ -1,6 +1,8 @@
 using System.Linq;
 using System.Threading.Tasks;
+
 using Microsoft.EntityFrameworkCore;
+
 using ShopApi.Domain.Interfaces;
 using ShopApi.Domain.UseCases.CartAggregate;
 using ShopApi.Infrastructure.Contexts;

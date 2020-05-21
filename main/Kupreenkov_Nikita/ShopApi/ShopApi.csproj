@@ -3,38 +3,23 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-  
-<!--  <Target Name="RunServices" BeforeTargets="Build">-->
-<!--    <Exec Command="sudo systemctl status redis-server | grep Active">-->
-<!--      <Output TaskParameter="Outputs" ItemName="RedisServiceStatus" />-->
-<!--    </Exec>-->
-
-<!--    <Message Importance="high" Text="$(!(RedisServiceStatus.Contains('active')))"/>-->
-<!--    <Exec Command="sudo systemctl status postgresql | grep Active">-->
-<!--      <Output TaskParameter="Outputs" ItemName="PostgresqlServerInfo" />-->
-<!--    </Exec>-->
-<!--      -->
-<!--    <Exec Command="sudo service postgresql start"-->
-<!--          Condition="$(RedisServiceStatus.Contains('active'))!=true"/>-->
-<!--    <Exec Command="sudo service redis-server start"-->
-<!--          Condition="$(PostgresqlServerInfo.Contains('active'))"/>-->
-<!--  </Target>-->
-  
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="3.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.4" />
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="5.0.0-preview.3.20215.14" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational.Design" Version="1.1.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3">
@@ -47,17 +32,4 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.1" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.0-preview.3.20214.6" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="wwwroot" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <None Include="wwwroot\ProductImages\bear.jpeg" />
-    <None Include="wwwroot\ProductImages\duck.jpeg" />
-    <None Include="wwwroot\ProductImages\hi_duck.jpeg" />
-    <None Include="wwwroot\ProductImages\injure.jpeg" />
-    <None Include="wwwroot\ProductImages\pzduck.jpeg" />
-  </ItemGroup>
-
 </Project>

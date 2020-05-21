@@ -1,9 +1,14 @@
 using System;
-
+using System.Threading.Tasks;
+using IdentityServer4.EntityFramework.Entities;
+using IdentityServer4.EntityFramework.Extensions;
+using IdentityServer4.EntityFramework.Interfaces;
+using IdentityServer4.EntityFramework.Options;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-
+using Microsoft.Extensions.Options;
 using ShopApi.Infrastructure.Config;
 using ShopApi.Infrastructure.Entities;
 using ShopApi.Infrastructure.Contexts.Config;

@@ -5,20 +5,18 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
-using ShopApi.Domain.Interfaces;
-using ShopApi.Domain.Services;
-using ShopApi.Domain.UseCases;
+
 using ShopApi.Properties;
-using ShopApi.Domain.UseCases.CartAggregate;
+using ShopApi.Domain.Services;
 using ShopApi.Infrastructure.Services;
 using ShopApi.Infrastructure.Contexts;
 using ShopApi.Infrastructure.Entities;
-using ShopApi.Infrastructure.Interfaces;
-using ShopApi.Infrastructure.Repositories;
+using ShopApi.Domain.UseCases.CartAggregate;
 using ShopApi.Infrastructure.Repositories.CartAggregate;
 
 namespace ShopApi
@@ -67,8 +65,13 @@ namespace ShopApi
                     .AddRoles<UserRole>()
                     .AddUserManager<UserManager<User>>()
                     .AddRoleManager<RoleManager<UserRole>>()
-                    .AddEntityFrameworkStores<ShopDbContext>()
+                    .AddEntityFrameworkStores<ShopApiAuthorizationDbContext>()
                     .AddDefaultTokenProviders();
+            
+            services.AddIdentityServer()
+                    .AddInMemoryApiResources(Config.Apis)
+                    .AddInMemoryClients(Config.Clients)
+                    .AddApiAuthorization<User, ShopApiAuthorizationDbContext>();
         }
 
         private void ConfigureControllers(IServiceCollection services)
@@ -86,13 +89,9 @@ namespace ShopApi
             {
                 options.AddPolicy(Origins, builder =>
                 {
-                    builder.WithOrigins("http://shop",
-                            "http://localhost:5000",
-                            "https://localhost:5001",
-                            "https://172.23.113.139:5001",
-                            "http://172.23.113.139:5000").AllowAnyHeader()
-                                                         .AllowAnyMethod()                        
-                                                         .AllowCredentials();
+                    builder.AllowAnyOrigin()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
                 });
             });
         }
@@ -106,6 +105,7 @@ namespace ShopApi
         private void ConfigureSessions(IServiceCollection services)
         {
             services.AddAuthentication()
+                    .AddIdentityServerJwt()
                     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                         Configuration.Bind("CookieSettings:AuthorizationCookie", options));
 
@@ -141,6 +141,7 @@ namespace ShopApi
                 app.UseHsts();
             }
 
+            app.UseIdentityServer(); 
             app.UseHttpsRedirection();
             app.UseCookiePolicy(new CookiePolicyOptions
             {
@@ -149,12 +150,10 @@ namespace ShopApi
             });
 
             app.UseRouting();
-            
             app.UseCors(Origins); 
             
             app.UseAuthentication();
             app.UseAuthorization();
-            
             app.UseSession(); 
             
             app.UseEndpoints(endpoints =>

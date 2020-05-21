@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using ShopApi.Infrastructure.Contexts;
-using ShopApi.Infrastructure.Entities;
 using ShopApi.Infrastructure.Entities.CartAggregate;
 
 namespace ShopApi.Presentation.Controllers
